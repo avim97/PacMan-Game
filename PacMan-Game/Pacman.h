@@ -3,20 +3,34 @@
 
 #include <iostream>
 using namespace std;
+
 #include "Position.h"
+#include "eColor.h"
 
 class Pacman
 {
-private:
-	int lives = 3;
-	enum color{WHITE, YELLOW, BROWN, RED, BLUE}; // check later if should convert to enum class in a seperate header
-	const char figure = '@';
-	position position;
 public:
-	void initPosition(); //check
-	void setColor(); //check
-	bool updateLife(); 
+	const Position initialPos = { 50,50 } ;
 
+private:
+
+	const char m_figure;
+	eColor m_color;
+	Position m_position;
+
+	
+public:
+	Pacman() :  m_figure('@'), m_color(eColor::Yellow), m_position(initialPos) {};
+	void setColor() {}; //check
+	int getXcoord() const { return m_position.getXcoord() ; };
+	int getYcoord() const { return m_position.getYcoord() ; };
+	void setPosition(int x, int y) 
+	{
+		m_position.setXcoord(x);
+		m_position.setYcoord(y);
+	}
+
+	
 };
 
 

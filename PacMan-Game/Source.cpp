@@ -1,8 +1,14 @@
 #include <iostream>
-#include "Game.h"
+#include "GameController.h"
 using namespace std;
 
-void main()
+int main()
 {
-	boardCreate();
+
+	GameController Game;
+
+	Game.Run();
+
+	return 0;
+
 }

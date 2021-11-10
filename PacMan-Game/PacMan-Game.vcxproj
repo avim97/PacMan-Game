@@ -139,15 +139,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Board.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameController.cpp" />
     <ClCompile Include="Ghost.cpp" />
+    <ClCompile Include="io_utils.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Pacman.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="eColor.h" />
+    <ClInclude Include="eUserChoice.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameController.h" />
     <ClInclude Include="Ghost.h" />
+    <ClInclude Include="io_utils.h" />
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="Position.h" />
   </ItemGroup>
