@@ -16,7 +16,7 @@ private:
 	Position m_position;
 
 public:
-	Ghost(const int x, const int y) : initialPos({x, y}), m_figure((const char)234), m_color(eColor::Yellow), m_position(initialPos) {};
+	Ghost(const int x, const int y, eColor color) : initialPos({x, y}), m_figure((const char)234), m_color(color), m_position(initialPos) {};
 	void setPoint(int x, int y);
 	void setColor();
 	int getXcoord() const { return m_position.getXcoord(); };

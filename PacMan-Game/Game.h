@@ -17,7 +17,7 @@ private:
 	int m_life;
 
 public:
-	Game() : m_Pacman(), m_Speedy(0, 0), m_Bashful(0, 0) , m_score(0), m_life(3){};
+	Game() : m_Pacman(), m_Speedy(0, 0, eColor::Blue), m_Bashful(0, 0, eColor::Red), m_score(0), m_life(3) {};
 	bool updateLife() {};
 	void printBoard() {m_Board.printBoard();};
 	void initView()
@@ -28,11 +28,14 @@ public:
 		xCoord = m_Pacman.initialPos.getXcoord();
 		yCoord = m_Pacman.initialPos.getYcoord();
 		gotoxy(xCoord,yCoord);
+	//	cout << "here we need to make a method that prints pacman's and ghost's figure". 
 		m_Pacman.setPosition(xCoord, yCoord);
 
 		// check on the board for the ghost if there was breadcrumb from initializing their position to the initial positioin and then init their position.
 
 	};
+
+	//.....
 };	
 
 

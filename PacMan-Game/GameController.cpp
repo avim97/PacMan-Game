@@ -22,7 +22,7 @@ void GameController::Run()
 
 	//case eUserChoice::Exit:	make a function here that says goodbye;		break;
 
-	default:	/*print wrong choice message;*/						break;
+	default:	/*print wrong choice message (and show the menu again) ;*/						break;
 
 
 	}
@@ -35,4 +35,9 @@ void GameController::startNewGame()
 	newGame.printBoard();
 	// add a method in class Game to print lives left below the maze (also foor the score) and update them accordinly
 	newGame.initView();
+
+	//........
 }
+
+
+// make a method for "printInstruction()"
