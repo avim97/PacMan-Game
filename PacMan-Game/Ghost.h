@@ -3,6 +3,7 @@
 
 #include "Position.h"
 #include "eColor.h"
+#include "Direction.h"
 #include <iostream>
 
 class Ghost 
@@ -26,7 +27,7 @@ public:
 	{
 		m_position.setXcoord(x);
 		m_position.setYcoord(y);
-	}
+	}//transfer to cpp.
 };
 
 

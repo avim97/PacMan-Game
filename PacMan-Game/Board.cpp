@@ -16,30 +16,33 @@ Board::Board()
 		{
 			//tunnel + top & bottom walls
 			if ((i == 1 || i == HEIGHT - 2) && ((j < 34 && j>29) || (j > 39 && j < 44)) || ((i == 0 || i == HEIGHT - 1) && (j < 34 || j>39)))
-				board[i][j] = '#';
+				board[i][j] = (char)BoardObjects::WALL;
 
 			// dont forget to add Width tunnel !
 
 			//central wall
 			else if (((j > 26 && j < 34 || j>39 && j < 47) && i > 9 && i < 13) || ((j > 26 && j < 34 || j>39 && j < 47) && i > 15 && i < 19) || (i < 16 && i>12 && (j < 34 || j>39)))
-				board[i][j] = '#';
+				board[i][j] = (char)BoardObjects::WALL;
 
 			//external walls
 			else if (j <= 1 || j >= WIDTH - 2)
-				board[i][j] = '#';
+				board[i][j] = (char)BoardObjects::WALL;
 
 			//finger walls
 			else if (((i < 7 || i>18) && j > 10 && j < 18) || ((i < 7 || i>18) && j < 63 && j>55))
-				board[i][j] = '#';
+				board[i][j] = (char)BoardObjects::WALL;
 
 			//the rest are breadcrumbs
 			else
-				board[i][j] = (char)249;
+			{
+				board[i][j] = (char)BoardObjects::FOOD;
+
+			}
 
 		}
 	}
-
 }
+
 void Board::printBoard()
 {
 	for (int i = 0; i < HEIGHT; i++)
@@ -50,5 +53,4 @@ void Board::printBoard()
 		}
 		cout << '\n';
 	}
-
 }
