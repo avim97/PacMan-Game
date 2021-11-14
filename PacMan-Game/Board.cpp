@@ -9,6 +9,7 @@ Board::Board()
 	//fruits
 	//tunnels - might be a seperate function to handle
 
+	//Dont forget to insert SPACE in the pacman's initial positing in the matrix !!
 	for (int i = 0; i < HEIGHT; i++)
 	{
 		for (int j = 0; j < WIDTH; j++)
@@ -16,6 +17,8 @@ Board::Board()
 			//tunnel + top & bottom walls
 			if ((i == 1 || i == HEIGHT - 2) && ((j < 34 && j>29) || (j > 39 && j < 44)) || ((i == 0 || i == HEIGHT - 1) && (j < 34 || j>39)))
 				board[i][j] = '#';
+
+			// dont forget to add Width tunnel !
 
 			//central wall
 			else if (((j > 26 && j < 34 || j>39 && j < 47) && i > 9 && i < 13) || ((j > 26 && j < 34 || j>39 && j < 47) && i > 15 && i < 19) || (i < 16 && i>12 && (j < 34 || j>39)))
@@ -31,7 +34,7 @@ Board::Board()
 
 			//the rest are breadcrumbs
 			else
-				board[i][j] = 249;
+				board[i][j] = (char)249;
 
 		}
 	}

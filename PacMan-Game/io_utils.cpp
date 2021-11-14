@@ -35,22 +35,10 @@ using namespace std;
 //	CURSOR.bVisible = FALSE;
 //	SetConsoleCursorInfo(myconsole, &CURSOR);//second argument need pointer
 //}
-//
-//void clear_screen()
-//{
-//	system("cls");
-//}
-//
-//#endif 
-
-// the code above is about implementing colors
 
 
-#include <windows.h>
-#include <process.h>
-#include <stdio.h>
-#include <iostream>
-#include "conio.h"
+
+
 
 using namespace std;
 
@@ -66,7 +54,6 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(hConsoleOutput, dwCursorPosition);
 }
 
-// function definition -- requires process.h
 void clrscr()
 {
 	system("cls");
