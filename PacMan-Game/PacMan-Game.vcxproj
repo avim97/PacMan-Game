@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Direction.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="Ghost.cpp" />
@@ -151,6 +152,8 @@
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="eColor.h" />
+    <ClInclude Include="eBoardObjects.h" />
+    <ClInclude Include="Direction.h" />
     <ClInclude Include="eUserChoice.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameController.h" />
