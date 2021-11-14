@@ -5,41 +5,36 @@
 #include "Ghost.h"
 #include "Board.h"
 #include "io_utils.h"
-
+#include <iostream>
 
 class Game
 {
 private:
+	enum BoardObjects
+	{
+		FOOD = 249, SPACE = ' '
+	};
 	Ghost m_Speedy, m_Bashful;
 	Pacman m_Pacman;
 	Board m_Board;
 	int m_score;
+	int m_maxScore;
 	int m_life;
 
+
 public:
-	Game() : m_Pacman(), m_Speedy(0, 0, eColor::Blue), m_Bashful(0, 0, eColor::Red), m_score(0), m_life(3) {};
-	bool updateLife() {};
-	void printBoard() {m_Board.printBoard();};
-	void initView()
-	{
-		int xCoord, yCoord;
-		gotoxy(m_Pacman.getXcoord(), m_Pacman.getYcoord());
-		cout << " ";
-		xCoord = m_Pacman.initialPos.getXcoord();
-		yCoord = m_Pacman.initialPos.getYcoord();
-		gotoxy(xCoord,yCoord);
-	//	cout << "here we need to make a method that prints pacman's and ghost's figure". 
-		m_Pacman.setPosition(xCoord, yCoord);
+	Game() : m_Pacman(), m_Speedy(0, 0, eColor::Blue), m_Bashful(0, 0, eColor::Red), m_score(0), m_maxScore(0), m_life(3) {};
+	bool updateLife();
+	void updateScore();
+	void calcMaxScore();
+	void printBoard() {
+		m_Board.printBoard();
+		void initView();
 
-		// check on the board for the ghost if there was breadcrumb from initializing their position to the initial positioin and then init their position.
+	}
+	void initView();
 
-	};
-
-	//.....
-};	
-
-
-
+};
 
 #endif /*GAME_H*/
 
