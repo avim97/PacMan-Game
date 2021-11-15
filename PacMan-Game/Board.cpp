@@ -18,14 +18,13 @@ Board::Board()
 			if ((i == 1 || i == HEIGHT - 2) && ((j < 34 && j>29) || (j > 39 && j < 44)) || ((i == 0 || i == HEIGHT - 1) && (j < 34 || j>39)))
 				board[i][j] = (char)BoardObjects::WALL;
 
-			// dont forget to add Width tunnel !
 
 			//central wall
 			else if (((j > 26 && j < 34 || j>39 && j < 47) && i > 9 && i < 13) || ((j > 26 && j < 34 || j>39 && j < 47) && i > 15 && i < 19) || (i < 16 && i>12 && (j < 34 || j>39)))
 				board[i][j] = (char)BoardObjects::WALL;
 
-			//external walls
-			else if (j <= 1 || j >= WIDTH - 2)
+			//external walls & side tunnel
+			else if ((j <= 1 || j >= WIDTH - 2) &&i<10||i>15)
 				board[i][j] = (char)BoardObjects::WALL;
 
 			//finger walls

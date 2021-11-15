@@ -4,22 +4,36 @@
 void Pacman::Move(char nextDir)
 {
 	Direction::eDirection direction = Direction::Convert(nextDir);
+	int newYcoord = m_position.getYcoord();
+	int newXcoord = m_position.getXcoord();
 	// here we need to check if there's a ghost in the next step, or not and then check if there's food or space
 	switch (direction)
 	{
 	case Direction::UP:
-		//fill
+		stepCheck(newYcoord-1,newXcoord);
+		break;
+
 	case Direction::DOWN:
-		//fill
+		stepCheck(newYcoord + 1, newXcoord);
+		break;
+
 	case Direction::LEFT:
-		//fill
+		stepCheck(newYcoord, newXcoord - 1);
+		break;
+		
 	case Direction::RIGHT:
-		//fill
+		stepCheck(newYcoord, newXcoord + 1);
+		break;
+
 	case Direction::STAY:
-		//fill
+		setPosition(newXcoord, newYcoord);
+		break;
+
 	default:
-
-
+		setPosition(newXcoord, newYcoord);
+		//check if other cases occur
 	}
 }
+
+
 

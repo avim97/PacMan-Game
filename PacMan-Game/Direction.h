@@ -6,7 +6,7 @@ class Direction
 {
 public:
 	enum eDirection { UP = 'W', DOWN = 'X', LEFT = 'A', RIGHT = 'D', STAY = 'S', UNDEFINED };
-	static eDirection Convert(char c);
+	 eDirection Convert(char c);
 };
 
 

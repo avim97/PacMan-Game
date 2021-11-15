@@ -8,6 +8,7 @@ using namespace std;
 #include "eColor.h"
 #include "Direction.h"
 
+
 class Pacman
 {
 public:
@@ -32,7 +33,7 @@ public:
 		m_position.setYcoord(y);
 	} // transfer to cpp.
 	void Move(char nextDir);
-
+	
 
 	
 };
