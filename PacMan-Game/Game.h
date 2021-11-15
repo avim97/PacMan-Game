@@ -28,7 +28,9 @@ public:
 		initView();
 	} //transfer to cpp.
 	void initView();
-	void stepCheck(const int Ycoord, const int Xcoord);
+	void checkTunnel(const int Ycoord, const int Xcoord);
+	void PacmanStepCheck(const int Ycoord, const int Xcoord);//checks the next step cell
+	
 
 
 };

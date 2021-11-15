@@ -14,7 +14,7 @@ Board::Board()
 	{
 		for (int j = 0; j < WIDTH; j++)
 		{
-			//tunnel + top & bottom walls
+			//top and bottom tunnels & top & bottom walls - tunnel is between cols 29 - 34
 			if ((i == 1 || i == HEIGHT - 2) && ((j < 34 && j>29) || (j > 39 && j < 44)) || ((i == 0 || i == HEIGHT - 1) && (j < 34 || j>39)))
 				board[i][j] = (char)BoardObjects::WALL;
 
@@ -23,7 +23,7 @@ Board::Board()
 			else if (((j > 26 && j < 34 || j>39 && j < 47) && i > 9 && i < 13) || ((j > 26 && j < 34 || j>39 && j < 47) && i > 15 && i < 19) || (i < 16 && i>12 && (j < 34 || j>39)))
 				board[i][j] = (char)BoardObjects::WALL;
 
-			//external walls & side tunnel
+			//external walls & side tunnel - tunnel is between 10-15 rows
 			else if ((j <= 1 || j >= WIDTH - 2) &&i<10||i>15)
 				board[i][j] = (char)BoardObjects::WALL;
 

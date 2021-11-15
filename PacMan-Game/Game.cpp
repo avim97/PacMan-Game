@@ -53,25 +53,41 @@ void Game::initView()
 
 	// make a function that does that in a modular way
 }
-void Game::stepCheck(const int Ycoord, const int Xcoord)
+void Game::PacmanStepCheck(const int Ycoord, const int Xcoord)
 {
-	const char nextPos=m_Board.getPosition(Xcoord, Ycoord);
+	const char nextPos = m_Board.getPosition(Xcoord, Ycoord);
 	switch (nextPos) {
-//wall
+		//wall
 	case 35:
-		break;
-//empty space - check if tunnel
+		break;//stay
+
+		//empty space - check if tunnel
 	case 32:
-		break;
-//ghost
+		checkTunnel(Ycoord, Xcoord); break;//nothing to change
+
+			//ghost
 	case 234:
 		break;
-//food - check if tunnel
+
+		//food - check if tunnel & score++
 	case 249:
 		break;
 	default:
-		//check other possible cases
+		//out of board borders - ignore (stay)
 	}
+
+}
+void Game::checkTunnel(const int Ycoord, const int Xcoord)
+{
+	if (Xcoord > 34 && Xcoord < 39 && Ycoord == 0)//checking if within top tunnel
+		m_Pacman.setPosition(Xcoord, m_Board.getHeight() - 1);//if in tunnel - pacman is sent to the other side
+	else if (Xcoord > 34 && Xcoord < 39 && Ycoord == m_Board.getHeight() - 1)//check if within botoom tunnel
+		m_Pacman.setPosition(Xcoord, 0);
+
+	else if (Ycoord > 10 && Ycoord < 15 && Xcoord == 0)//same test for width tunnel
+		m_Pacman.setPosition(m_Board.getWidth() - 1, Ycoord);
+	else if (Ycoord > 10 && Ycoord < 15 && Xcoord == m_Board.getWidth() - 1)
+		m_Pacman.setPosition(0, Ycoord);
 
 }
 

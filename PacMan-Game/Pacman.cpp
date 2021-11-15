@@ -11,19 +11,19 @@ void Pacman::Move(char nextDir)
 	switch (direction)
 	{
 	case Direction::UP:
-		Game::stepCheck(newYcoord - 1, newXcoord);
+		Game::PacmanStepCheck(newYcoord - 1, newXcoord);
 		break;
 
 	case Direction::DOWN:
-		Game::stepCheck(newYcoord + 1, newXcoord);
+		Game::PacmanStepCheck(newYcoord + 1, newXcoord);
 		break;
 
 	case Direction::LEFT:
-		Game::stepCheck(newYcoord, newXcoord - 1);
+		Game::PacmanStepCheck(newYcoord, newXcoord - 1);
 		break;
 
 	case Direction::RIGHT:
-		Game::stepCheck(newYcoord, newXcoord + 1);
+		Game::PacmanStepCheck(newYcoord, newXcoord + 1);
 		break;
 
 	case Direction::STAY:
