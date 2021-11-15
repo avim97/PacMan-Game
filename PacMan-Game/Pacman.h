@@ -7,12 +7,13 @@ using namespace std;
 #include "Position.h"
 #include "eColor.h"
 #include "Direction.h"
+#include "Game.h"
 
 
 class Pacman
 {
 public:
-	const Position initialPos = { 50,50 } ;
+	const Position initialPos = { 50,50 };
 
 private:
 
@@ -20,22 +21,22 @@ private:
 	eColor m_color;
 	Position m_position;
 
-	
+
 public:
-	Pacman() :  m_figure('@'), m_color(eColor::Yellow), m_position(initialPos) {};
+	Pacman() : m_figure('@'), m_color(eColor::Yellow), m_position(initialPos) {};
 	//void setColor() {}; //check
-	int getXcoord() const { return m_position.getXcoord() ; };
-	int getYcoord() const { return m_position.getYcoord() ; };
+	int getXcoord() const { return m_position.getXcoord(); };
+	int getYcoord() const { return m_position.getYcoord(); };
 	const char getFigure() { return m_figure; };
-	void setPosition(int x, int y) 
+	void setPosition(int x, int y)
 	{
 		m_position.setXcoord(x);
 		m_position.setYcoord(y);
 	} // transfer to cpp.
 	void Move(char nextDir);
-	
 
-	
+
+
 };
 
 

@@ -11,7 +11,7 @@
 class Game
 {
 private:
-	
+
 	Ghost m_Speedy, m_Bashful;
 	Pacman m_Pacman;
 	Board m_Board;
@@ -27,7 +27,9 @@ public:
 		m_Board.printBoard();
 		initView();
 	} //transfer to cpp.
-	void initView(); 
+	void initView();
+	void stepCheck(const int Ycoord, const int Xcoord);
+
 
 };
 

@@ -11,7 +11,7 @@ int main()
 	//Game.Run();
 	Board b;
 	b.printBoard();
-	
+
 	return 0;
 
 }

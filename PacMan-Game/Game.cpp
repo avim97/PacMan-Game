@@ -53,6 +53,27 @@ void Game::initView()
 
 	// make a function that does that in a modular way
 }
+void Game::stepCheck(const int Ycoord, const int Xcoord)
+{
+	const char nextPos=m_Board.getPosition(Xcoord, Ycoord);
+	switch (nextPos) {
+//wall
+	case 35:
+		break;
+//empty space - check if tunnel
+	case 32:
+		break;
+//ghost
+	case 234:
+		break;
+//food - check if tunnel
+	case 249:
+		break;
+	default:
+		//check other possible cases
+	}
+
+}
 
 bool Game::updateLife()
 {

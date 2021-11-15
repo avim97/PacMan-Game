@@ -1,6 +1,8 @@
 #ifndef POSITION_H
 #define POSITION_H
 
+#include "io_utils.h"
+#include "Board.h"
 class Position
 {
 private:
@@ -14,7 +16,7 @@ public:
 	int getYcoord() const { return yCoord; };
 	void setXcoord(int x) { xCoord = x; };
 	void setYcoord(int y) { yCoord = y; };
-	void stepCheck(int Ycoord, int Xcoord);
+
 };
 
 

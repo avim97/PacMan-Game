@@ -1,6 +1,7 @@
 #include "Pacman.h"
 
 
+
 void Pacman::Move(char nextDir)
 {
 	Direction::eDirection direction = Direction::Convert(nextDir);
@@ -10,24 +11,25 @@ void Pacman::Move(char nextDir)
 	switch (direction)
 	{
 	case Direction::UP:
-		stepCheck(newYcoord-1,newXcoord);
+		Game::stepCheck(newYcoord - 1, newXcoord);
 		break;
 
 	case Direction::DOWN:
-		stepCheck(newYcoord + 1, newXcoord);
+		Game::stepCheck(newYcoord + 1, newXcoord);
 		break;
 
 	case Direction::LEFT:
-		stepCheck(newYcoord, newXcoord - 1);
+		Game::stepCheck(newYcoord, newXcoord - 1);
 		break;
-		
+
 	case Direction::RIGHT:
-		stepCheck(newYcoord, newXcoord + 1);
+		Game::stepCheck(newYcoord, newXcoord + 1);
 		break;
 
 	case Direction::STAY:
 		setPosition(newXcoord, newYcoord);
 		break;
+		//check if other cases occur
 
 	default:
 		setPosition(newXcoord, newYcoord);
