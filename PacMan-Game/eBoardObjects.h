@@ -3,7 +3,7 @@
 
 enum class BoardObjects
 {
-	FOOD = 249, SPACE = ' ', WALL = '#'
+	FOOD = 249, SPACE = ' ', WALL = '#', GHOST = 234
 };
 
 

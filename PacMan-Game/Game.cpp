@@ -57,26 +57,34 @@ void Game::PacmanStepCheck(const int Ycoord, const int Xcoord)
 {
 	const char nextPos = m_Board.getPosition(Xcoord, Ycoord);
 	switch (nextPos) {
-		//wall
-	case 35:
-		break;//stay
+		     //wall
+		case (char)BoardObjects::WALL :
+			break;//stay
 
-		//empty space - check if tunnel
-	case 32:
-		checkTunnel(Ycoord, Xcoord); break;//nothing to change
+			//empty space - check if tunnel
+		case (char)BoardObjects::SPACE :
+			checkTunnel(Ycoord, Xcoord);
+			m_Pacman.setPosition(Xcoord, Ycoord);
+			break;//nothing to change
 
-			//ghost
-	case 234:
-		break;
-
-		//food - check if tunnel & score++
-	case 249:
-		break;
-	default:
-		//out of board borders - ignore (stay)
+		    //ghost
+		case (char)BoardObjects::GHOST :
+			updateLife();//what if he loses?
+			//initView();
+			break;
+			
+			//food - check if tunnel & score++
+		case (char)BoardObjects::FOOD :
+			checkTunnel(Ycoord, Xcoord);
+			updateScore();
+			break;
+	
+		default://out of board borders - ignore (stay)
+			break;
 	}
 
 }
+
 void Game::checkTunnel(const int Ycoord, const int Xcoord)
 {
 	if (Xcoord > 34 && Xcoord < 39 && Ycoord == 0)//checking if within top tunnel
@@ -106,3 +114,4 @@ void Game::updateScore()
 {
 	m_score++;
 }
+

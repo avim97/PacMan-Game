@@ -30,8 +30,7 @@ public:
 	void initView();
 	void checkTunnel(const int Ycoord, const int Xcoord);
 	void PacmanStepCheck(const int Ycoord, const int Xcoord);//checks the next step cell
-	
-
+	void pacmanMove(int Xcoord, int Ycoord);
 
 };
 
