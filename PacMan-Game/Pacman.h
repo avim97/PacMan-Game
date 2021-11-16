@@ -13,7 +13,7 @@ using namespace std;
 class Pacman
 {
 public:
-	const Position initialPos = { 50,50 };
+	const Position initialPos = {50, 50};
 
 private:
 
@@ -33,7 +33,7 @@ public:
 		m_position.setXcoord(x);
 		m_position.setYcoord(y);
 	} // transfer to cpp.
-	void Move(char nextDir);
+
 
 
 

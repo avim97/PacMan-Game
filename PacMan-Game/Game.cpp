@@ -53,6 +53,41 @@ void Game::initView()
 
 	// make a function that does that in a modular way
 }
+void Game::movePacman(char nextDir)
+{
+	Direction::eDirection direction = Direction::Convert(nextDir);
+	int newYcoord = m_Pacman.getYcoord();
+	int newXcoord = m_Pacman.getXcoord();
+	// here we need to check if there's a ghost in the next step, or not and then check if there's food or space
+	switch (direction)
+	{
+	case Direction::UP:
+		PacmanStepCheck(newYcoord - 1, newXcoord);
+		break;
+
+	case Direction::DOWN:
+		PacmanStepCheck(newYcoord + 1, newXcoord);
+		break;
+
+	case Direction::LEFT:
+		PacmanStepCheck(newYcoord, newXcoord - 1);
+		break;
+
+	case Direction::RIGHT:
+		PacmanStepCheck(newYcoord, newXcoord + 1);
+		break;
+
+	case Direction::STAY:
+		m_Pacman.setPosition(newXcoord, newYcoord);
+		break;
+		//check if other cases occur
+
+	default:
+		m_Pacman.setPosition(newXcoord, newYcoord);
+		//check if other cases occur
+	}
+}
+
 void Game::PacmanStepCheck(const int Ycoord, const int Xcoord)
 {
 	const char nextPos = m_Board.getPosition(Xcoord, Ycoord);
