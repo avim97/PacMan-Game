@@ -28,11 +28,7 @@ public:
 	int getXcoord() const { return m_position.getXcoord(); };
 	int getYcoord() const { return m_position.getYcoord(); };
 	const char getFigure() { return m_figure; };
-	void setPosition(int x, int y)
-	{
-		m_position.setXcoord(x);
-		m_position.setYcoord(y);
-	} // transfer to cpp.
+	void setPosition(int x, int y);
 
 
 

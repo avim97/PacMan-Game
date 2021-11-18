@@ -134,6 +134,8 @@ void Game::checkTunnel(const int Ycoord, const int Xcoord)
 
 }
 
+
+
 bool Game::updateLife()
 {
 	m_life--;
