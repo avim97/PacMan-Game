@@ -1,6 +1,6 @@
 #include <iostream>
 #include "GameController.h"
-#include "Board.h"
+
 using namespace std;
 
 int main()

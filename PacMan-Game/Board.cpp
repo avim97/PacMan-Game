@@ -2,12 +2,9 @@
 #include <iostream>
 using namespace std;
 
+
 Board::Board()
 {
-	//boarders
-	//breadcrumbs
-	//tunnels - might be a seperate function to handle
-
 	//Dont forget to insert SPACE in the pacman's initial positing in the matrix !!
 	for (int i = 0; i < HEIGHT; i++)
 	{
@@ -32,8 +29,10 @@ Board::Board()
 
 			//the rest are breadcrumbs
 			else
+
 			{
-				board[i][j] = (char)BoardObjects::FOOD;
+				board[i][j] = (char)BoardObjects::FOOD; 
+				totalBreadcrumbs++;
 			}
 		}
 	}
@@ -58,7 +57,7 @@ void Board::printBoard()
 	{
 		for (int j = 0; j < WIDTH; j++)
 		{
-			cout << board[i][j];
+			cout <<  board[i][j];
 		}
 		cout << '\n';
 	}

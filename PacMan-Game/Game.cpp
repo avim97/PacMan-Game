@@ -1,4 +1,6 @@
 #include "Game.h"
+
+
 void Game::initView()
 {
 	int xCoord, yCoord;
@@ -56,168 +58,249 @@ void Game::initView()
 void Game::moveObject(char nextDir)
 {
 	Direction::eDirection direction = Direction::Convert(nextDir);
-	int newYcoord = m_Pacman.getYcoord();
-	int newXcoord = m_Pacman.getXcoord();
+	int yCoord = m_Pacman.getYcoord();
+	int xCoord = m_Pacman.getXcoord();
 	
 	switch (direction)
 	{
 	case Direction::eDirection::UP:
-		PacmanStepCheck(newYcoord - 1, newXcoord);
+		if (PacmanStepCheck(yCoord - 1, xCoord))
+		{
+			erasePacman(yCoord, xCoord);
+			printPacman(m_Pacman.getYcoord(), m_Pacman.getXcoord());
+		}
+		
+		else
+		{
+			if (m_life == 0)
+				gameOn = false;
+		}
 		break;
 
 	case Direction::eDirection::DOWN:
-		PacmanStepCheck(newYcoord + 1, newXcoord);
+		if (PacmanStepCheck(yCoord + 1, xCoord))
+		{
+			erasePacman(yCoord, xCoord);
+			printPacman(m_Pacman.getYcoord(), m_Pacman.getXcoord());
+		}
+
+		else
+		{
+			if (m_life == 0)
+				gameOn = false;
+		}
 		break;
 
 	case Direction::eDirection::LEFT:
-		PacmanStepCheck(newYcoord, newXcoord - 1);
+		if (PacmanStepCheck(yCoord, xCoord - 1))
+		{
+			erasePacman(yCoord, xCoord);
+			printPacman(m_Pacman.getYcoord(), m_Pacman.getXcoord());
+		}
+
+		else
+		{
+			if (m_life == 0)
+				gameOn = false;
+		}
 		break;
 
 	case Direction::eDirection::RIGHT:
-		PacmanStepCheck(newYcoord, newXcoord + 1);
+		if (PacmanStepCheck(yCoord, xCoord + 1))
+		{
+			erasePacman(yCoord, xCoord);
+			printPacman(m_Pacman.getYcoord(), m_Pacman.getXcoord());
+		}
+
+		else
+		{
+			if (m_life == 0)
+				gameOn = false;
+		}
 		break;
 
-	case Direction::eDirection::STAY:
-		m_Pacman.setPosition(newXcoord, newYcoord);
+	default: //User pressed STAY or an UNDEFINED key
 		break;
-		//check if other cases occur
-
-	default:
-		m_Pacman.setPosition(newXcoord, newYcoord);
-		//check if other cases occur
 	}
 }
 void Game::moveObject(int ghost)
 {
 
 	Direction::eDirection ghostDir = Direction::getRandDir();
-	int newYcoord = m_Ghost[ghost].getYcoord();
-	int newXcoord = m_Ghost[ghost].getXcoord();
+	int yCoord = m_Ghost[ghost].getYcoord();
+	int xCoord = m_Ghost[ghost].getXcoord();
 	// here we need to check if there's a ghost in the next step, or not and then check if there's food or space
 	switch (ghostDir)
 	{
 	case Direction::eDirection::UP:
-		
+		GhostStepCheck(yCoord - 1, xCoord, ghost);
+		//print ghost and erase ghost
 		break;
 
 	case Direction::eDirection::DOWN:
-		
+		GhostStepCheck(yCoord + 1, xCoord, ghost);
 		break;
 
 	case Direction::eDirection::LEFT:
-		
+		GhostStepCheck(yCoord, xCoord - 1, ghost);
 		break;
 
 	case Direction::eDirection::RIGHT:
-		
+		GhostStepCheck(yCoord, xCoord + 1, ghost);
 		break;
-		//check if other cases occur
+
+	default: 
+		break;
+	}
+
+	
+	
+}
+void Game::crossTunnel(const int yCoord, const int xCoord)
+{
+	if (xCoord == 0)
+	{
+		m_Pacman.setPosition(m_Board.getHeight() - 1, yCoord);
+	}
+
+	else if (xCoord == m_Board.getHeight() - 1)
+	{
+		m_Pacman.setPosition(0, yCoord);
+	}
+
+	if (yCoord == 0)
+	{
+		m_Pacman.setPosition(xCoord, m_Board.getWidth() -1);
+	}
+
+	else if (yCoord == m_Board.getWidth() - 1)
+	{
+		m_Pacman.setPosition(xCoord, 0);
+	}
+}
+void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
+{
+	int moved = true;
+	const char nextPos = m_Board.getPosition(xCoord, yCoord);
+	switch (nextPos) {
+	case (char)BoardObjects::WALL:
+		moveObject(ghost);
+		break;
+
+	case (char)BoardObjects::SPACE:
+		if (!checkTunnel(yCoord, xCoord))
+			m_Ghost[ghost].setPosition(xCoord, yCoord);
+		else
+		{
+			moveObject(ghost);
+		}
+		break;
+
+	case (char)BoardObjects::GHOST:
+		moveObject(ghost);
+		break;
+
+	case (char)BoardObjects::PACMAN:
+		if (!updateLife())
+		{
+			gameOn = false;
+		}
+		else {
+			initView(); //going back to the initial view
+		}
+		break;
+
 
 	default:
-		m_Pacman.setPosition(newXcoord, newYcoord);
-		//check if other cases occur
-	}
-
-
-	
-	
-}
-
-void Game::GhostStepCheck(const int Ycoord, const int Xcoord)
-{
-	const char nextPos = m_Board.getPosition(Xcoord, Ycoord);
-	switch (nextPos) {
-		//wall
-	case (char)BoardObjects::WALL:
-		break;//stay
-
-		//empty space - check if tunnel
-	case (char)BoardObjects::SPACE:
-		checkTunnel(Ycoord, Xcoord);
-		m_Pacman.setPosition(Xcoord, Ycoord);
-		break;//nothing to change
-
-		//ghost
-	case (char)BoardObjects::GHOST:
-		updateLife();//what if he loses?
-		//initView();
 		break;
 
-		//food - check if tunnel & score++
-	case (char)BoardObjects::FOOD:
-		checkTunnel(Ycoord, Xcoord);
-		updateScore();
-		break;
-
-	default://out of board borders - ignore (stay)
-		break;
 	}
 }
-void Game::PacmanStepCheck(const int Ycoord, const int Xcoord)
+bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 {
-	const char nextPos = m_Board.getPosition(Xcoord, Ycoord);
+	bool moved = true;
+	const char nextPos = m_Board.getPosition(xCoord, yCoord);
 	switch (nextPos) {
 
-		//wall
 	case (char)BoardObjects::WALL:
+		moved = false;
 		break;
 
-		//empty space
+		
 	case (char)BoardObjects::SPACE:
-		if (!checkTunnel(Ycoord, Xcoord))
-			m_Pacman.setPosition(Xcoord, Ycoord);
+		if (!checkTunnel(yCoord, xCoord))
+			m_Pacman.setPosition(xCoord, yCoord);
+		else
+			crossTunnel(yCoord, xCoord);
+		moved = true;
 		break;
 
-		//ghost
+		
 	case (char)BoardObjects::GHOST:
 		if (!updateLife())
 		{
-			//pacman lost
-			break;
+			moved = false;
+			gameOn = false;
 		}
 		else {
-			initView();//check the cases he loses
-			break;
+			initView(); //check the cases he loses
 		}
 
-		//food 
+		break;
+
+		
 	case (char)BoardObjects::FOOD:
-		if (!checkTunnel(Ycoord, Xcoord))
-			m_Pacman.setPosition(Xcoord, Ycoord);
-		updateScore();
+		if (updateScore())
+		{
+			moved = true;
+			eraseFood(yCoord, xCoord);
+		}
+			
+		else
+			gameOn = false; //pacman ate all of the breadcrums - the user won
 		break;
 
-	default://out of board borders
+	default:
 		break;
 	}
 
-}
+	return moved;
 
-bool Game::checkTunnel(const int Ycoord, const int Xcoord)
+}
+bool Game::checkTunnel(const int yCoord, const int xCoord)
 {
-	if (Xcoord >= 34 && Xcoord <= 39 && Ycoord == 0 || Ycoord == 1) {//checking if within top tunnel
-		m_Pacman.setPosition(Xcoord, m_Board.getHeight() - 1);//if in tunnel - pacman is sent to the other side
+	if ((xCoord == 0 || xCoord == m_Board.getWidth() - 1) && m_Board.getPosition(0, yCoord) != (char)BoardObjects::WALL)
 		return true;
-	}
-	else if (Xcoord >= 34 && Xcoord <= 39 && Ycoord == m_Board.getHeight() - 1)//check if within botoom tunnel
-	{
-		m_Pacman.setPosition(Xcoord, 0);
-		return true;
-	}
 
-	else if (Ycoord == 11 || Ycoord == 12 || Ycoord == 16 || Ycoord == 17 && Xcoord == 1) {//same test for width tunnel
-		m_Pacman.setPosition(m_Board.getWidth() - 1, Ycoord);
+	else if ((yCoord == 0 || yCoord == m_Board.getHeight() - 1) && m_Board.getPosition(xCoord, 0) != (char)BoardObjects::WALL)
 		return true;
-	}
-	else if (Ycoord > 10 && Ycoord < 15 && Xcoord == m_Board.getWidth() - 1)
-	{
-		m_Pacman.setPosition(0, Ycoord);
-		return true;
-	}
-	return false;
+
+	else
+		return false;
+	
+
+	//if (xCoord >= 34 && xCoord <= 39 && yCoord == 0 || yCoord == 1) {//checking if within top tunnel
+	//	//m_Pacman.setPosition(xCoord, m_Board.getHeight() - 1);//if in tunnel - pacman is sent to the other side
+	//	return true;
+	//}
+	//else if (xCoord >= 34 && xCoord <= 39 && yCoord == m_Board.getHeight() - 1)//check if within botoom tunnel
+	//{
+	//	//m_Pacman.setPosition(xCoord, 0);
+	//	return true;
+	//}
+
+	//else if (yCoord == 11 || yCoord == 12 || yCoord == 16 || yCoord == 17 && xCoord == 1) {//same test for width tunnel
+	//	//m_Pacman.setPosition(m_Board.getWidth() - 1, yCoord);
+	//	return true;
+	//}
+	//else if (yCoord > 10 && yCoord < 15 && xCoord == m_Board.getWidth() - 1)
+	//{
+	//	//m_Pacman.setPosition(0, yCoord);
+	//	return true;
+	//}
+	//return false;
 
 }
-
 bool Game::updateLife()
 {
 	m_life--;
@@ -228,9 +311,37 @@ bool Game::updateLife()
 	else
 		return true; //lives are not zero, can continue to play
 }
-
-void Game::updateScore()
+bool Game::updateScore()
 {
 	m_score++;
+	if (m_score == m_Board.getMaxScore())
+		return false;
+
+	return true;
+}
+void Game::erasePacman(const int yCoord, const int xCoord)
+{
+	m_Board.setChar(xCoord, yCoord, (char)BoardObjects::SPACE);
+}
+void Game::printPacman(const int yCoord, const int xCoord)
+{
+	gotoxy(xCoord, yCoord);
+	cout << "\033[33m" << m_Pacman.getFigure();
 }
 
+void Game::eraseGhost(const int yCoord, const int xCoord)
+{
+	gotoxy(yCoord, xCoord);
+	cout << m_Board.getPosition(xCoord, yCoord);
+}
+
+void Game::printGhost(const int yCoord, const int xCoord, int ghost)
+{
+	gotoxy(yCoord, xCoord);
+	cout << m_Ghost[ghost].getFigure();
+}
+void Game::erasePacman(const int yCoord, const int xCoord)
+{
+	gotoxy(yCoord, xCoord);
+	cout << (char)BoardObjects::SPACE;
+}

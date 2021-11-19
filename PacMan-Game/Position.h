@@ -2,7 +2,7 @@
 #define POSITION_H
 
 #include "io_utils.h"
-#include "Board.h"
+
 class Position
 {
 private:
