@@ -122,12 +122,12 @@ void Game::PacmanStepCheck(const int Ycoord, const int Xcoord)
 
 void Game::checkTunnel(const int Ycoord, const int Xcoord)
 {
-	if (Xcoord > 34 && Xcoord < 39 && Ycoord == 0)//checking if within top tunnel
+	if (Xcoord >= 34 && Xcoord <= 39 && Ycoord == 0 || Ycoord == 1)//checking if within top tunnel
 		m_Pacman.setPosition(Xcoord, m_Board.getHeight() - 1);//if in tunnel - pacman is sent to the other side
-	else if (Xcoord > 34 && Xcoord < 39 && Ycoord == m_Board.getHeight() - 1)//check if within botoom tunnel
+	else if (Xcoord >= 34 && Xcoord <= 39 && Ycoord == m_Board.getHeight() - 1)//check if within botoom tunnel
 		m_Pacman.setPosition(Xcoord, 0);
 
-	else if (Ycoord > 10 && Ycoord < 15 && Xcoord == 0)//same test for width tunnel
+	else if (Ycoord == 11 || Ycoord == 12 || Ycoord == 16 || Ycoord == 17 && Xcoord == 1)//same test for width tunnel
 		m_Pacman.setPosition(m_Board.getWidth() - 1, Ycoord);
 	else if (Ycoord > 10 && Ycoord < 15 && Xcoord == m_Board.getWidth() - 1)
 		m_Pacman.setPosition(0, Ycoord);

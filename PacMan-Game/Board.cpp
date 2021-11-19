@@ -49,6 +49,7 @@ Board::Board()
 	board[HEIGHT - 2][34] = board[HEIGHT - 2][35] = board[HEIGHT - 2][36] = board[HEIGHT - 2][37] = board[HEIGHT - 2][38] = board[HEIGHT - 2][39] = (char)BoardObjects::SPACE;
 	//four lines above create length tunnel
 
+	//make two methods for creating tunnels (width and height)
 	
 }
 
