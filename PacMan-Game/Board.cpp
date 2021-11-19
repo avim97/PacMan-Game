@@ -24,7 +24,7 @@ Board::Board()
 				board[i][j] = (char)BoardObjects::WALL;
 
 			//external walls & side tunnel - tunnel is between 10-15 rows
-			else if ((j <= 1 || j >= WIDTH - 2) &&i<10||i>15)
+			else if (j <= 1 || j >= WIDTH - 2)
 				board[i][j] = (char)BoardObjects::WALL;
 
 			//finger walls
@@ -35,11 +35,21 @@ Board::Board()
 			else
 			{
 				board[i][j] = (char)BoardObjects::FOOD;
-
 			}
-
 		}
 	}
+
+	board[11][0] = board[11][1] = board[12][0] = board[12][1] = board[16][0] = board[16][1] = board[17][0] = board[17][1] = (char)BoardObjects::SPACE;
+	board[11][WIDTH - 2] = board[11][WIDTH - 1] = board[12][WIDTH - 2] = board[12][WIDTH - 1] = board[16][WIDTH - 2] = board[16][WIDTH - 1] = board[17][WIDTH - 2] = board[17][WIDTH - 1] = (char)BoardObjects::SPACE;
+	// two lines above create width tunnel
+
+	board[0][34] = board[0][35] = board[0][36] = board[0][37] = board[0][38] = board[0][39]  = (char)BoardObjects::SPACE;
+	board[1][34] = board[1][35] = board[1][36] = board[1][37] = board[1][38] = board[1][39] = (char)BoardObjects::SPACE;
+	board[HEIGHT - 1][34] = board[HEIGHT - 1][35] = board[HEIGHT - 1][36] = board[HEIGHT - 1][37] = board[HEIGHT - 1][38] = board[HEIGHT - 1][39] = (char)BoardObjects::SPACE;
+	board[HEIGHT - 2][34] = board[HEIGHT - 2][35] = board[HEIGHT - 2][36] = board[HEIGHT - 2][37] = board[HEIGHT - 2][38] = board[HEIGHT - 2][39] = (char)BoardObjects::SPACE;
+	//four lines above create length tunnel
+
+	
 }
 
 void Board::printBoard()
