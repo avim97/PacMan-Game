@@ -22,13 +22,11 @@ private:
 public:
 	Game() : m_Pacman(), m_Speedy(0, 0, eColor::Blue), m_Bashful(0, 0, eColor::Red), m_score(0), m_life(3) {};
 	bool updateLife();
+	int getLives() {return m_life;};
 	void updateScore();
-	void printBoard() {
-		m_Board.printBoard();
-		initView();
-	} //transfer to cpp.
+	void printBoard() {m_Board.printBoard();}
 	void initView();
-	void checkTunnel(const int Ycoord, const int Xcoord);
+	bool checkTunnel(const int Ycoord, const int Xcoord);
 	void PacmanStepCheck(const int Ycoord, const int Xcoord);//checks the next step cell
 	void movePacman(char nextDir);
 
