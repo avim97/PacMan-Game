@@ -6,7 +6,6 @@ Board::Board()
 {
 	//boarders
 	//breadcrumbs
-	//fruits
 	//tunnels - might be a seperate function to handle
 
 	//Dont forget to insert SPACE in the pacman's initial positing in the matrix !!
