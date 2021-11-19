@@ -1,5 +1,6 @@
 #include "Direction.h"
 
+
 Direction::eDirection Direction::Convert(char c)
 {
 	{
@@ -36,3 +37,23 @@ Direction::eDirection Direction::Convert(char c)
 	}
 }
 
+Direction::eDirection Direction::getRandDir()
+{
+	int dir = 1 + rand() % 2;
+
+	switch (dir)
+	{
+	case 1:
+		return Direction::eDirection::LEFT;
+
+	case 2:
+		return Direction::eDirection::RIGHT;
+		
+	case 3:
+		return Direction::eDirection::UP;
+
+	default:
+		return Direction::eDirection::DOWN;
+
+	}
+}

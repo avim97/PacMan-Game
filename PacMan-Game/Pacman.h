@@ -12,7 +12,7 @@ using namespace std;
 class Pacman
 {
 public:
-	const Position initialPos = {50, 50};
+	const Position initialPos = {36, 14};
 
 private:
 
@@ -27,7 +27,7 @@ public:
 	int getXcoord() const { return m_position.getXcoord(); };
 	int getYcoord() const { return m_position.getYcoord(); };
 	const char getFigure() { return m_figure; };
-	void setPosition(int x, int y);
+	void setPosition(int x, int y) { m_position.setXcoord(x); m_position.setYcoord(y); }
 
 
 

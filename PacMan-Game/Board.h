@@ -18,5 +18,6 @@ public:
 	int getWidth() { return WIDTH; };
 	int getHeight() { return HEIGHT; };
 	int getMaxScore() { return totalBreadcrumbs; };
+
 };
 #endif /* Board_h */

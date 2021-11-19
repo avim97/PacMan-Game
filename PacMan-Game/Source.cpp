@@ -5,13 +5,13 @@ using namespace std;
 
 int main()
 {
-
-	//GameController Game;
+	
+	GameController Game;
 
 	//Game.Run();
-	Board b;
-	b.printBoard();
+	Game.Run();
 
+	while (1) {};
 	return 0;
 
 }

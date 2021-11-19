@@ -11,7 +11,7 @@ void Game::initView()
 	cout << m_Pacman.getFigure();
 	m_Pacman.setPosition(xCoord, yCoord);
 
-	lastPos = m_Board.getPosition(m_Bashful.getXcoord(), m_Bashful.getYcoord());
+	lastPos = m_Board.getPosition(m_Ghost[0].getXcoord(), m_Ghost[0].getYcoord());
 	switch (lastPos)
 	{
 	case (char)BoardObjects::FOOD:
@@ -25,13 +25,13 @@ void Game::initView()
 	default:
 		break;
 	}
-	xCoord = m_Bashful.initialPos.getXcoord();
-	yCoord = m_Bashful.initialPos.getYcoord();
+	xCoord = m_Ghost[0].initialPos.getXcoord();
+	yCoord = m_Ghost[0].initialPos.getYcoord();
 	gotoxy(xCoord, yCoord);
-	cout << m_Bashful.getFigure();
-	m_Bashful.setPosition(xCoord, yCoord);
+	cout << m_Ghost[0].getFigure();
+	m_Ghost[0].setPosition(xCoord, yCoord);
 
-	lastPos = m_Board.getPosition(m_Speedy.getXcoord(), m_Speedy.getYcoord());
+	lastPos = m_Board.getPosition(m_Ghost[1].getXcoord(), m_Ghost[1].getYcoord());
 	switch (lastPos)
 	{
 	case (char)BoardObjects::FOOD:
@@ -45,15 +45,15 @@ void Game::initView()
 	default:
 		break;
 	}
-	xCoord = m_Speedy.initialPos.getXcoord();
-	yCoord = m_Speedy.initialPos.getYcoord();
+	xCoord = m_Ghost[1].initialPos.getXcoord();
+	yCoord = m_Ghost[1].initialPos.getYcoord();
 	gotoxy(xCoord, yCoord);
-	cout << m_Speedy.getFigure();
-	m_Speedy.setPosition(xCoord, yCoord);
+	cout << m_Ghost[1].getFigure();
+	m_Ghost[1].setPosition(xCoord, yCoord);
 
 	// make a function that does that in a modular way
 }
-void Game::movePacman(char nextDir)
+void Game::moveObject(char nextDir)
 {
 	Direction::eDirection direction = Direction::Convert(nextDir);
 	int newYcoord = m_Pacman.getYcoord();
@@ -87,7 +87,72 @@ void Game::movePacman(char nextDir)
 		//check if other cases occur
 	}
 }
+void Game::moveObject(int ghost)
+{
 
+	Direction::eDirection ghostDir = Direction::getRandDir();
+	int newYcoord = m_Ghost[ghost].getYcoord();
+	int newXcoord = m_Ghost[ghost].getXcoord();
+	// here we need to check if there's a ghost in the next step, or not and then check if there's food or space
+	switch (ghostDir)
+	{
+	case Direction::eDirection::UP:
+		
+		break;
+
+	case Direction::eDirection::DOWN:
+		
+		break;
+
+	case Direction::eDirection::LEFT:
+		
+		break;
+
+	case Direction::eDirection::RIGHT:
+		
+		break;
+		//check if other cases occur
+
+	default:
+		m_Pacman.setPosition(newXcoord, newYcoord);
+		//check if other cases occur
+	}
+
+
+	
+	
+}
+
+void Game::GhostStepCheck(const int Ycoord, const int Xcoord)
+{
+	const char nextPos = m_Board.getPosition(Xcoord, Ycoord);
+	switch (nextPos) {
+		//wall
+	case (char)BoardObjects::WALL:
+		break;//stay
+
+		//empty space - check if tunnel
+	case (char)BoardObjects::SPACE:
+		checkTunnel(Ycoord, Xcoord);
+		m_Pacman.setPosition(Xcoord, Ycoord);
+		break;//nothing to change
+
+		//ghost
+	case (char)BoardObjects::GHOST:
+		updateLife();//what if he loses?
+		//initView();
+		break;
+
+		//food - check if tunnel & score++
+	case (char)BoardObjects::FOOD:
+		checkTunnel(Ycoord, Xcoord);
+		updateScore();
+		break;
+
+	default://out of board borders - ignore (stay)
+		break;
+	}
+}
 void Game::PacmanStepCheck(const int Ycoord, const int Xcoord)
 {
 	const char nextPos = m_Board.getPosition(Xcoord, Ycoord);
@@ -133,8 +198,6 @@ void Game::checkTunnel(const int Ycoord, const int Xcoord)
 		m_Pacman.setPosition(0, Ycoord);
 
 }
-
-
 
 bool Game::updateLife()
 {

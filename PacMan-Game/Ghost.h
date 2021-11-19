@@ -19,7 +19,7 @@ private:
 public:
 	Ghost(const int x, const int y, eColor color) : initialPos({x, y}), m_figure((const char)234), m_color(color), m_position(initialPos) {};
 	void setPoint(int x, int y);
-	void setColor();
+	//void setColor();
 	int getXcoord() const { return m_position.getXcoord(); };
 	int getYcoord() const { return m_position.getYcoord(); };
 	const char getFigure() { return m_figure; };

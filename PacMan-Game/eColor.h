@@ -3,7 +3,7 @@
 
 enum class eColor
 {
-	White, Yellow, Blue, Red
+	White , Yellow, Blue, Red
 };
 #endif /* eColor.h*/
 
