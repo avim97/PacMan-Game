@@ -1,6 +1,6 @@
 #include "Direction.h"
 
-Direction::eDirection Convert(char c)
+Direction::eDirection Direction::Convert(char c)
 {
 	{
 		c = toupper(c);
@@ -35,3 +35,4 @@ Direction::eDirection Convert(char c)
 		return value;
 	}
 }
+

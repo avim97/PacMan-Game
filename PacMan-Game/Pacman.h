@@ -7,7 +7,6 @@ using namespace std;
 #include "Position.h"
 #include "eColor.h"
 #include "Direction.h"
-#include "Game.h"
 
 
 class Pacman

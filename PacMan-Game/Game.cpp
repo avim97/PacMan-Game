@@ -61,23 +61,23 @@ void Game::movePacman(char nextDir)
 	// here we need to check if there's a ghost in the next step, or not and then check if there's food or space
 	switch (direction)
 	{
-	case Direction::UP:
+	case Direction::eDirection::UP:
 		PacmanStepCheck(newYcoord - 1, newXcoord);
 		break;
 
-	case Direction::DOWN:
+	case Direction::eDirection::DOWN:
 		PacmanStepCheck(newYcoord + 1, newXcoord);
 		break;
 
-	case Direction::LEFT:
+	case Direction::eDirection::LEFT:
 		PacmanStepCheck(newYcoord, newXcoord - 1);
 		break;
 
-	case Direction::RIGHT:
+	case Direction::eDirection::RIGHT:
 		PacmanStepCheck(newYcoord, newXcoord + 1);
 		break;
 
-	case Direction::STAY:
+	case Direction::eDirection::STAY:
 		m_Pacman.setPosition(newXcoord, newYcoord);
 		break;
 		//check if other cases occur
