@@ -38,6 +38,7 @@ public:
 	void erasePacman(const int yCoord, const int xCoord);
 	void printPacman(const int yCoord, const int xCoord);
 	bool isValidMove(char move);
+	bool checkGhostIntersection();
 
 	// --------------GHOST ----------
 	void GhostStepCheck(const int yCoord, const int xCoord, int ghost); //checks ghost's next step
