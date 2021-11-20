@@ -1,10 +1,12 @@
-#ifndef Board_h
-#define Board_h
+#pragma once
 #include "eBoardObjects.h"
+
+
 
 
 class Board
 {
+
 private:
 	static const int HEIGHT = 25;
 	static const int WIDTH = 80;
@@ -13,14 +15,13 @@ private:
 
 
 public:
-	Board(); // build a function to init the board with the maze and the breadcrumbs
+	Board();
 	void printBoard();
 	char getPosition(const int x, const int y) { return board[x][y]; };
 	int getWidth() { return WIDTH; };
 	int getHeight() { return HEIGHT; };
 	int getMaxScore() { return totalBreadcrumbs; };
 	void setChar(const int xCoord, const int yCoord, char ch) { board[xCoord][yCoord] = ch; };
-
 };
 
-#endif /* Board_h */
+

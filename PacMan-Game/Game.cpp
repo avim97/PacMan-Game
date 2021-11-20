@@ -9,8 +9,7 @@ void Game::initView()
 	cout << (char)BoardObjects::FOOD;
 	xCoord = m_Pacman.initialPos.getXcoord();
 	yCoord = m_Pacman.initialPos.getYcoord();
-	gotoxy(xCoord, yCoord);
-	cout << m_Pacman.getFigure();
+	printPacman(yCoord, xCoord);
 	m_Pacman.setPosition(xCoord, yCoord);
 
 	lastPos = m_Board.getPosition(m_Ghost[0].getXcoord(), m_Ghost[0].getYcoord());
@@ -29,8 +28,7 @@ void Game::initView()
 	}
 	xCoord = m_Ghost[0].initialPos.getXcoord();
 	yCoord = m_Ghost[0].initialPos.getYcoord();
-	gotoxy(xCoord, yCoord);
-	cout << m_Ghost[0].getFigure();
+	printGhost(yCoord, xCoord, 0);
 	m_Ghost[0].setPosition(xCoord, yCoord);
 
 	lastPos = m_Board.getPosition(m_Ghost[1].getXcoord(), m_Ghost[1].getYcoord());
@@ -49,8 +47,7 @@ void Game::initView()
 	}
 	xCoord = m_Ghost[1].initialPos.getXcoord();
 	yCoord = m_Ghost[1].initialPos.getYcoord();
-	gotoxy(xCoord, yCoord);
-	cout << m_Ghost[1].getFigure();
+	printGhost(yCoord, xCoord, 1);
 	m_Ghost[1].setPosition(xCoord, yCoord);
 
 	// make a function that does that in a modular way
@@ -220,7 +217,8 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 {
 	bool moved = true;
 	const char nextPos = m_Board.getPosition(xCoord, yCoord);
-	switch (nextPos) {
+	switch (nextPos) 
+	{
 
 	case (char)BoardObjects::WALL:
 		moved = false;
@@ -314,12 +312,13 @@ bool Game::updateLife()
 bool Game::updateScore()
 {
 	m_score++;
+
 	if (m_score == m_Board.getMaxScore())
 		return false;
 
 	return true;
 }
-void Game::erasePacman(const int yCoord, const int xCoord)
+void Game::eraseFood(const int yCoord, const int xCoord)
 {
 	m_Board.setChar(xCoord, yCoord, (char)BoardObjects::SPACE);
 }
@@ -328,13 +327,11 @@ void Game::printPacman(const int yCoord, const int xCoord)
 	gotoxy(xCoord, yCoord);
 	cout << "\033[33m" << m_Pacman.getFigure();
 }
-
 void Game::eraseGhost(const int yCoord, const int xCoord)
 {
 	gotoxy(yCoord, xCoord);
 	cout << m_Board.getPosition(xCoord, yCoord);
 }
-
 void Game::printGhost(const int yCoord, const int xCoord, int ghost)
 {
 	gotoxy(yCoord, xCoord);
@@ -343,5 +340,5 @@ void Game::printGhost(const int yCoord, const int xCoord, int ghost)
 void Game::erasePacman(const int yCoord, const int xCoord)
 {
 	gotoxy(yCoord, xCoord);
-	cout << (char)BoardObjects::SPACE;
+	cout << (char)BoardObjects::SPACE; 
 }

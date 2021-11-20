@@ -1,3 +1,4 @@
+
 #include "Board.h"
 #include <iostream>
 using namespace std;
@@ -31,7 +32,7 @@ Board::Board()
 			else
 
 			{
-				board[i][j] = (char)BoardObjects::FOOD; 
+				board[i][j] = (char)BoardObjects::FOOD;
 				totalBreadcrumbs++;
 			}
 		}
@@ -41,14 +42,14 @@ Board::Board()
 	board[11][WIDTH - 2] = board[11][WIDTH - 1] = board[12][WIDTH - 2] = board[12][WIDTH - 1] = board[16][WIDTH - 2] = board[16][WIDTH - 1] = board[17][WIDTH - 2] = board[17][WIDTH - 1] = (char)BoardObjects::SPACE;
 	// two lines above create width tunnel
 
-	board[0][34] = board[0][35] = board[0][36] = board[0][37] = board[0][38] = board[0][39]  = (char)BoardObjects::SPACE;
+	board[0][34] = board[0][35] = board[0][36] = board[0][37] = board[0][38] = board[0][39] = (char)BoardObjects::SPACE;
 	board[1][34] = board[1][35] = board[1][36] = board[1][37] = board[1][38] = board[1][39] = (char)BoardObjects::SPACE;
 	board[HEIGHT - 1][34] = board[HEIGHT - 1][35] = board[HEIGHT - 1][36] = board[HEIGHT - 1][37] = board[HEIGHT - 1][38] = board[HEIGHT - 1][39] = (char)BoardObjects::SPACE;
 	board[HEIGHT - 2][34] = board[HEIGHT - 2][35] = board[HEIGHT - 2][36] = board[HEIGHT - 2][37] = board[HEIGHT - 2][38] = board[HEIGHT - 2][39] = (char)BoardObjects::SPACE;
 	//four lines above create length tunnel
 
 	//make two methods for creating tunnels (width and height)
-	
+
 }
 
 void Board::printBoard()
@@ -57,7 +58,7 @@ void Board::printBoard()
 	{
 		for (int j = 0; j < WIDTH; j++)
 		{
-			cout <<  board[i][j];
+			cout << board[i][j];
 		}
 		cout << '\n';
 	}

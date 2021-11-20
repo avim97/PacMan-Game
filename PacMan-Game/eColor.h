@@ -1,9 +1,9 @@
-#ifndef eColor_h
-#define eColor_h
+#pragma once
+
 
 enum class eColor
 {
 	White , Yellow, Blue, Red
 };
-#endif /* eColor.h*/
+
 

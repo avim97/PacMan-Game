@@ -1,5 +1,5 @@
-#ifndef POSITION_H
-#define POSITION_H
+#pragma once
+
 
 #include "io_utils.h"
 
@@ -11,14 +11,14 @@ private:
  
 public:
 	Position(const int x, const int y) : xCoord(x), yCoord(y) {}; //c'tor
-	void setPosition(const int xCoord, const int yCoord) {};
+	void setPosition(const int _xCoord, const int _yCoord) { xCoord = _xCoord; yCoord = _yCoord; };
 	int getXcoord() const { return xCoord; } ;
 	int getYcoord() const { return yCoord; };
-	void setXcoord(int x) { xCoord = x; };
-	void setYcoord(int y) { yCoord = y; };
+	void setXcoord(int _xCoord) { xCoord = _xCoord; };
+	void setYcoord(int _yCoord) { yCoord = _yCoord; };
 
 };
 
 
 
-#endif /* POSITION_H */
+

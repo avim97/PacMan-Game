@@ -1,9 +1,8 @@
-#ifndef eUserChoice_h
-#define eUserChoice_h
+#pragma once
+
 
 enum class eUserChoice
 {
 	NewGame = 1, Instructions = 8, Exit = 9
 };
 
-#endif /* eUserChoice_h */

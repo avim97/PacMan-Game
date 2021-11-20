@@ -1,5 +1,6 @@
-#ifndef GameController_h
-#define GameController_h
+#pragma once
+#include "eUserChoice.h"
+#include "Game.h"
 
 
 
@@ -18,5 +19,4 @@ public:
 };
 
 
-#endif /* GameController_h */
 

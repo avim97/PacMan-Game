@@ -1,5 +1,5 @@
-#ifndef Direction_h
-#define Direction_h
+#pragma once
+
 #include <cctype>
 #include <stdlib.h>
 #include <time.h>
@@ -12,4 +12,3 @@ public:
 	static eDirection getRandDir();
 };
 
-#endif // !Directions_h

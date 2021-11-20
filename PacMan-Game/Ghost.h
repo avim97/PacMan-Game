@@ -1,10 +1,10 @@
-#ifndef GHOST_H
-#define GHOST_H
+#pragma once
 
 #include "Position.h"
 #include "eColor.h"
 #include "Direction.h"
 #include <iostream>
+
 
 class Ghost 
 {
@@ -22,12 +22,7 @@ public:
 	int getXcoord() const { return m_position.getXcoord(); };
 	int getYcoord() const { return m_position.getYcoord(); };
 	const char getFigure() { return m_figure; };
-	void setPosition(int x, int y)
-	{
-		m_position.setXcoord(x);
-		m_position.setYcoord(y);
-	}//transfer to cpp.
+	void setPosition(int x, int y) { m_position.setXcoord(x); m_position.setYcoord(y); };
 };
 
 
-#endif /* GHOST_H */

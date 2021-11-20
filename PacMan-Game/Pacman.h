@@ -1,12 +1,12 @@
-#ifndef PACMAN_H
-#define PACMAN_H
+#pragma once
+
 
 #include <iostream>
-using namespace std;
-
+#include "Direction.h"
 #include "Position.h"
 #include "eColor.h"
-#include "Direction.h"
+
+using namespace std;
 
 
 class Pacman
@@ -27,7 +27,7 @@ public:
 	int getXcoord() const { return m_position.getXcoord(); };
 	int getYcoord() const { return m_position.getYcoord(); };
 	const char getFigure() { return m_figure; };
-	void setPosition(int x, int y) { m_position.setXcoord(x); m_position.setYcoord(y); }
+	void setPosition(int x, int y) { m_position.setXcoord(x); m_position.setYcoord(y); };
 
 
 
@@ -36,5 +36,3 @@ public:
 
 
 
-
-#endif /* PACMAN_H */
