@@ -13,7 +13,9 @@ private:
 	
 public:
 	void Run();
-
+	void startNewGame();
+	void printMenu() const;
+	void printInstructions();
 };
 
 

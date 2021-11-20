@@ -20,7 +20,7 @@ private:
 	int m_life;
 
 public:
-	Game() : m_Board(), m_Ghost{{36, 20, eColor::Blue},{36, 9, eColor::Red}}, m_Pacman(), m_gameStatus(eGameStatus::RUNNING), m_score(0), m_life(3) {srand(time(NULL));};
+	Game() : m_Board(), m_Ghost{{36, 20, eColor::Blue},{36, 9, eColor::Red}}, m_Pacman(), m_gameStatus(eGameStatus::RUNNING), m_score(0), m_life(3) {srand((unsigned int)time(NULL));};
 	bool updateLife();
 	int getLives() {return m_life;}
 	int getScore() {return m_score;}
