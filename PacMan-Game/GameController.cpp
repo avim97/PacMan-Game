@@ -1,6 +1,5 @@
 #include "GameController.h"
 
-
 #include <iostream>
 using namespace std;
 
@@ -32,6 +31,8 @@ void GameController::Run()
 void GameController::startNewGame()
 {
 	Game newGame;
+
+	clrscr();
 
 	newGame.printBoard();
 	

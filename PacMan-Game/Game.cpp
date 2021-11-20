@@ -168,17 +168,17 @@ void Game::crossTunnel(const int yCoord, const int xCoord)
 		m_Pacman.setPosition(m_Board.getWidth() - 1, yCoord);
 	}
 
-	else if (xCoord == m_Board.getHeight() - 1) //right tunnel
+	else if (xCoord == m_Board.getWidth() - 1) //right tunnel
 	{
 		m_Pacman.setPosition(0, yCoord);
 	}
 
-	if (yCoord == 0) // top tunnel
+	else if (yCoord == 0) // top tunnel
 	{
 		m_Pacman.setPosition(xCoord, m_Board.getHeight() - 1);
 	}
 
-	else if (yCoord == m_Board.getWidth() - 1) // bottom tunnel
+	else if(yCoord == m_Board.getHeight() - 1) // bottom tunnel
 	{
 		m_Pacman.setPosition(xCoord, 0);
 	}
@@ -322,10 +322,10 @@ bool Game::checkGhostIntersection()
 }
 bool Game::checkTunnel(const int yCoord, const int xCoord)
 {
-	if ((xCoord == 0 || xCoord == m_Board.getWidth() - 1) && m_Board.getPosition(xCoord, yCoord) != (char)BoardObjects::WALL)
+	if ((xCoord == 0 || xCoord == m_Board.getWidth() - 1) && m_Board.getPosition(xCoord, yCoord) != (char)BoardObjects::WALL) //left or right tunnels
 		return true;
 
-	else if ((yCoord == 0 || yCoord == m_Board.getHeight() - 1) && m_Board.getPosition(xCoord, yCoord) != (char)BoardObjects::WALL)
+	else if ((yCoord == 0 || yCoord == m_Board.getHeight() - 1) && m_Board.getPosition(xCoord, yCoord) != (char)BoardObjects::WALL) //top or bottom tunnels
 		return true;
 
 	else
