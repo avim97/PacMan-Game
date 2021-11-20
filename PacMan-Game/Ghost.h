@@ -23,6 +23,8 @@ public:
 	int getYcoord() const { return m_position.getYcoord(); };
 	const char getFigure() { return m_figure; };
 	void setPosition(int x, int y) { m_position.setXcoord(x); m_position.setYcoord(y); };
+	void setXcoord(int x) { m_position.setXcoord(x); };
+	void setYcoord(int y) { m_position.setYcoord(y); };
 };
 
 

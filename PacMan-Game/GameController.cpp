@@ -4,6 +4,7 @@
 #include <iostream>
 using std::cout;
 
+
 void GameController::Run()
 {
 	int userChoice;
@@ -33,10 +34,16 @@ void GameController::startNewGame()
 	Game newGame;
 
 	newGame.printBoard();
-	// add a method in class Game to print lives left below the maze (also foor the score) and update them accordinly
+	
 	newGame.initView();
 
-	//........
+	while (newGame.getGameStatus() == eGameStatus::RUNNING)
+	{
+		newGame.PlayGame();
+	}
+
+
+
 }
 
 void GameController::printMenu() const {
