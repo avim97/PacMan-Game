@@ -2,7 +2,7 @@
 
 
 #include <iostream>
-using namespace std;
+using std::cout;
 
 void GameController::Run()
 {
@@ -39,5 +39,11 @@ void GameController::startNewGame()
 	//........
 }
 
+void GameController::printMenu() const {
+
+	cout << "Hello and welcome to PACMAN!";
+	cout << "";
+
+}
 
 // make a method for "printInstruction()"

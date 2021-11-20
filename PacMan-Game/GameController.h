@@ -8,9 +8,7 @@ class GameController
 {
 
 private:
-	void printMenu() const {}; //implementation later
-	void printInstructions() const {}; //implementation later
-	void startNewGame(); 
+	
 
 	
 public:
