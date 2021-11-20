@@ -17,11 +17,11 @@ private:
 public:
 	Board();
 	void printBoard();
-	char getPosition(const int x, const int y) { return board[x][y]; };
+	char getPosition(const int x, const int y) { return board[y][x]; };
 	int getWidth() { return WIDTH; };
 	int getHeight() { return HEIGHT; };
 	int getMaxScore() { return totalBreadcrumbs; };
-	void setChar(const int xCoord, const int yCoord, char ch) { board[xCoord][yCoord] = ch; };
+	void setChar(const int xCoord, const int yCoord, char ch) { board[yCoord][xCoord] = ch; };
 };
 
 

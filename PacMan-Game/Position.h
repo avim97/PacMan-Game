@@ -10,7 +10,7 @@ private:
 	int yCoord;
  
 public:
-	Position(const int x, const int y) : xCoord(x), yCoord(y) {}; //c'tor
+	Position(const int x, const int y) : xCoord(x), yCoord(y) {}; 
 	void setPosition(const int _xCoord, const int _yCoord) { xCoord = _xCoord; yCoord = _yCoord; };
 	int getXcoord() const { return xCoord; } ;
 	int getYcoord() const { return yCoord; };

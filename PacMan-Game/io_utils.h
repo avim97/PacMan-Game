@@ -7,5 +7,6 @@
 #include <iostream>
 #include "eColor.h"
 
+void hideCursor();
 void gotoxy(int, int); 
 void clrscr(); 
