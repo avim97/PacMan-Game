@@ -1,6 +1,5 @@
 #include "GameController.h"
 
-
 #include <iostream>
 using std::cout;
 
@@ -33,6 +32,8 @@ using std::cout;
 void GameController::startNewGame()
 {
 	Game newGame;
+
+	clrscr();
 
 	newGame.printBoard();
 	

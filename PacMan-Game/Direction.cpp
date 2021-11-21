@@ -39,7 +39,7 @@ Direction::eDirection Direction::Convert(char c)
 
 Direction::eDirection Direction::getRandDir()
 {
-	int dir = 1 + rand() % 2;
+	int dir = 1 + rand() % 4;
 
 	switch (dir)
 	{

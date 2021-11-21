@@ -23,7 +23,7 @@ private:
 
 
 public:
-	Pacman() : m_figure('@'), m_color(eColor::Yellow), m_position(initialPos), m_currDir((char)Direction::eDirection::STAY) {};
+	Pacman() : m_figure(233), m_color(eColor::Yellow), m_position(initialPos), m_currDir((char)Direction::eDirection::STAY) {};
 	//void setColor() {}; //check
 	int getXcoord() const { return m_position.getXcoord(); };
 	int getYcoord() const { return m_position.getYcoord(); };
@@ -31,6 +31,7 @@ public:
 	void setPosition(int x, int y) { m_position.setXcoord(x); m_position.setYcoord(y); };
 	void setXcoord(int x) { m_position.setXcoord(x); };
 	void setYcoord(int y) { m_position.setYcoord(y); };
+	Position getPosition() { return m_position;};
 	char getDirection() { return m_currDir; };
 	void setDirection(char newDir) { m_currDir = newDir; };
 
