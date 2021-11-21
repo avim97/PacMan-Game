@@ -92,3 +92,9 @@ void GameController::printLogo(int logo)
 
 	}
 }
+
+eUserChoice GameController::activateMenu()
+{
+	Menu menu;
+
+}

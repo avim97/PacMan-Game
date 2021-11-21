@@ -9,24 +9,22 @@ void Menu::printMenu()
 	cout << " (1) Start a new game                            " << endl;
 	cout << " (8) Present instructions and keys               " << endl;
 	cout << " (9) EXIT                                        " << endl;
-	char choice;
 	do {
-		choice = requestInput();
-		/*checkInput(choice);*/
-	} while (choice != (char)eUserChoice::Exit);
+		setInput();
+	} while (userChoice != eUserChoice::Exit);
 }
 
-char Menu::requestInput()
+void Menu::setInput()
 {
-	cout << "Please choose:" << endl;
-	return _getch();
+	cout << " Please choose:" << endl;
+	checkInput(_getch());
 }
 
 eUserChoice Menu::checkInput(const char choice)
 {
 	eUserChoice userChoice;
 
-	switch ((char)choice)
+	switch (choice)
 	{
 	case (char)eUserChoice::NewGame:
 		userChoice = eUserChoice::NewGame;
@@ -42,6 +40,7 @@ eUserChoice Menu::checkInput(const char choice)
 
 	default:
 		userChoice = eUserChoice::UNDEFINED;
+		cout << " Invalid Choice, please try again!" << endl;
 		break;
 	}
 
