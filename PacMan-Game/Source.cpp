@@ -1,16 +1,19 @@
-﻿
-#include "GameController.h"
-
+﻿//
+//#include "GameController.h"
+#include "Menu.h"
 
 
 int main()
 {
-	GameController Game;
+	Menu menu1;
+	menu1.menuPrint();
+	//GameController Game;
 
 
-	Game.Run();
+	//Game.Run();
 
-	while (1) {};
+	////while (1) {};
 	return 0;
+	
 
 }
