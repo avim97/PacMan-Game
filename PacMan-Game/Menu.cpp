@@ -9,6 +9,7 @@ void Menu::menuPrint()
 	cout << "(1) Start a new game" << endl;
 	cout << "(8) Present instructions and keys" << endl;
 	cout << "(9) EXIT" << endl;
+	
 	char choice;
 	do {
 		

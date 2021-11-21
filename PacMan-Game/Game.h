@@ -49,6 +49,7 @@ public:
 	//---------- Playing the game ---------
 	void PlayGame();
 	void PauseGame();
+	void showPlayerStatus();
 
 };
 

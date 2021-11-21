@@ -60,8 +60,8 @@ void Game::movePacman(char nextDir)
 {
 	int yCoord = m_Pacman.getYcoord();
 	int xCoord = m_Pacman.getXcoord();
-
-
+	
+	
 	if (isValidMove(nextDir)) { m_Pacman.setDirection(nextDir); }
 
 	else { nextDir = m_Pacman.getDirection(); };
@@ -254,6 +254,7 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 
 	if (checkGhostIntersection())
 	{
+		
 		if (!updateLife())
 		{
 			moved = false;
@@ -261,6 +262,7 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 		}
 		else
 		{
+			
 			initView(); //check the cases he loses
 		}
 	}
@@ -316,8 +318,9 @@ bool Game::checkGhostIntersection()
 	if (m_Pacman.getXcoord() == m_Ghost[0].getXcoord() && m_Pacman.getYcoord() == m_Ghost[0].getYcoord() || m_Pacman.getXcoord() == m_Ghost[1].getXcoord() && m_Pacman.getYcoord() == m_Ghost[1].getYcoord())
 	{
 		isIntersecting = true;
+		
 	}
-
+	
 	return isIntersecting;
 }
 bool Game::checkTunnel(const int yCoord, const int xCoord)
@@ -430,7 +433,29 @@ void Game::PlayGame()
 			moveGhost(0);
 			moveGhost(1);
 		}
-		Sleep(200);
-
+		Sleep(300);
+		showPlayerStatus();
 	} while (m_gameStatus == eGameStatus::RUNNING);
+	
+}
+void Game::showPlayerStatus()
+{
+	int lives = getLives();
+	int score = getScore();
+	gotoxy(0, this->m_Board.getHeight()+1);
+	cout<< "Current score: "<<"\033[36m"<< ("%d ", score);
+	gotoxy(this->m_Board.getWidth() - 20, this->m_Board.getHeight() + 1);
+	cout << "Lives Left:";
+	for (int i = 0 ; i < 3; i++)
+	{
+		if (lives > 0)
+		{
+			cout <<"\033[31m"<<" <3";
+			lives--;
+		}
+		else
+			cout << "   ";
+	}
+	
+
 }
