@@ -52,13 +52,22 @@ Board::Board()
 
 }
 
-void Board::printBoard()
+void Board::printBoard() //tranfer to function here that gets a char (a board object) and print the specific object with the specific color
 {
 	for (int i = 0; i < HEIGHT; i++)
 	{
 		for (int j = 0; j < WIDTH; j++)
 		{
-			cout << board[i][j];
+			if (board[i][j] == (char)BoardObjects::FOOD)
+			{
+				cout << "\033[35m" << board[i][j];
+			}
+
+			else
+			{
+				cout << "\033[37m" << board[i][j];
+			}
+			
 		}
 		cout << '\n';
 	}
