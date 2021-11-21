@@ -30,6 +30,7 @@ void Game::initialPacmanPos()
 	printPacman(yCoord, xCoord);
 	m_Pacman.setPosition(xCoord, yCoord);
 }
+
 void Game::movePacman(char nextDir)
 {
 	int yCoord = m_Pacman.getYcoord();
