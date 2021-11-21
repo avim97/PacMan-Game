@@ -413,7 +413,9 @@ void Game::PlayGame()
 {
 	char key = 'S';
 	int pacmanMoves = 0, ghostsMoves = 0;
+
 	hideCursor();
+
 	do
 	{
 		if (_kbhit())
@@ -423,6 +425,7 @@ void Game::PlayGame()
 			{
 				PauseGame();
 			}
+
 			movePacman(key);
 		}
 		else
@@ -436,6 +439,11 @@ void Game::PlayGame()
 		Sleep(300);
 		showPlayerStatus();
 	} while (m_gameStatus == eGameStatus::RUNNING);
+
+	if (m_gameStatus == eGameStatus::WON)
+		userWon();
+	else
+		userLost();
 
 }
 void Game::PauseGame()
@@ -469,21 +477,23 @@ void Game::showPlayerStatus()
 
 
 }
-void userWon()
+void Game::userWon()
 {
 	clrscr();
 	gotoxy(15, 15);
 	cout << "You're a Winner!" << endl;
 	gotoxy(15, 16);
-	while (!_kbhit)
-	cout << "Press any key to go back to the menu..." << endl;
+	cout << "Press any key to go back to the main menu..." << endl;
+	while (!_kbhit()) {};
+	clrscr();
 }
-void userLost()
+void Game::userLost()
 {
 	clrscr();
 	gotoxy(15, 15);
 	cout << "You're a Loser!" << endl;
 	gotoxy(15, 16);
-	while(!_kbhit)
-	cout << "Press any key to go back to the menu..." << endl;
+	cout << "Press any key to go back to the main menu..." << endl;
+	while (!_kbhit()) {};
+	clrscr();
 }

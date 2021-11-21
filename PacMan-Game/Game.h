@@ -50,6 +50,8 @@ public:
 	void PlayGame();
 	void PauseGame();
 	void showPlayerStatus();
+	void userWon();
+	void userLost();
 
 };
 
