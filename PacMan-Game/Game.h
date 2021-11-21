@@ -27,6 +27,8 @@ public:
 	bool updateScore();
 	void printBoard() { m_Board.printBoard(); initView();}
 	void initView();
+	void initialGhostPos(int ghostInd);
+	void initialPacmanPos();
 	eGameStatus getGameStatus() { return m_gameStatus; };
 
 	// ----------- PACMAN---------
