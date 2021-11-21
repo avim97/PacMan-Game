@@ -6,13 +6,14 @@
 int main()
 {
 
-	GameController Game;
+	GameController game;
 
 
-	Game.Run();
+	game.Run();
 
 	while (1) {};
 	return 0;
+	
 	
 
 }

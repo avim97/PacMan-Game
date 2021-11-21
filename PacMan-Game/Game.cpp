@@ -26,7 +26,7 @@ void Game::initView()
 	default:
 		break;
 	}*/
-	gotoxy(m_Ghost[0].getXcoord(),m_Ghost[0].getYcoord());
+	gotoxy(m_Ghost[0].getXcoord(), m_Ghost[0].getYcoord());
 	cout << m_Board.getPosition(m_Ghost[0].getXcoord(), m_Ghost[0].getYcoord());
 	xCoord = m_Ghost[0].initialPos.getXcoord();
 	yCoord = m_Ghost[0].initialPos.getYcoord();
@@ -60,8 +60,8 @@ void Game::movePacman(char nextDir)
 {
 	int yCoord = m_Pacman.getYcoord();
 	int xCoord = m_Pacman.getXcoord();
-	
-	
+
+
 	if (isValidMove(nextDir)) { m_Pacman.setDirection(nextDir); }
 
 	else { nextDir = m_Pacman.getDirection(); };
@@ -178,7 +178,7 @@ void Game::crossTunnel(const int yCoord, const int xCoord)
 		m_Pacman.setPosition(xCoord, m_Board.getHeight() - 1);
 	}
 
-	else if(yCoord == m_Board.getHeight() - 1) // bottom tunnel
+	else if (yCoord == m_Board.getHeight() - 1) // bottom tunnel
 	{
 		m_Pacman.setPosition(xCoord, 0);
 	}
@@ -254,7 +254,7 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 
 	if (checkGhostIntersection())
 	{
-		
+
 		if (!updateLife())
 		{
 			moved = false;
@@ -262,7 +262,7 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 		}
 		else
 		{
-			
+
 			initView(); //check the cases he loses
 		}
 	}
@@ -318,9 +318,9 @@ bool Game::checkGhostIntersection()
 	if (m_Pacman.getXcoord() == m_Ghost[0].getXcoord() && m_Pacman.getYcoord() == m_Ghost[0].getYcoord() || m_Pacman.getXcoord() == m_Ghost[1].getXcoord() && m_Pacman.getYcoord() == m_Ghost[1].getYcoord())
 	{
 		isIntersecting = true;
-		
+
 	}
-	
+
 	return isIntersecting;
 }
 bool Game::checkTunnel(const int yCoord, const int xCoord)
@@ -421,7 +421,7 @@ void Game::PlayGame()
 			key = _getch();
 			if (key == 27)
 			{
-				//clear pause message
+				PauseGame();
 			}
 			movePacman(key);
 		}
@@ -436,26 +436,54 @@ void Game::PlayGame()
 		Sleep(300);
 		showPlayerStatus();
 	} while (m_gameStatus == eGameStatus::RUNNING);
-	
+
+}
+void Game::PauseGame()
+{
+	do {
+		gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
+		cout << "\033[37m" << " Game Paused, press ESC to continue.";
+
+	} while (!_kbhit || _getch() != 27);
+	gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
+	cout << "                                       " << endl;
 }
 void Game::showPlayerStatus()
 {
 	int lives = getLives();
 	int score = getScore();
-	gotoxy(0, this->m_Board.getHeight()+1);
-	cout<< "Current score: "<<"\033[36m"<< ("%d ", score);
+	gotoxy(0, this->m_Board.getHeight() + 1);
+	cout << "Current score: " << "\033[36m" << ("%d ", score);
 	gotoxy(this->m_Board.getWidth() - 20, this->m_Board.getHeight() + 1);
 	cout << "Lives Left:";
-	for (int i = 0 ; i < 3; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		if (lives > 0)
 		{
-			cout <<"\033[31m"<<" <3";
+			cout << "\033[31m" << " <3";
 			lives--;
 		}
 		else
 			cout << "   ";
 	}
-	
 
+
+}
+void userWon()
+{
+	clrscr();
+	gotoxy(15, 15);
+	cout << "You're a Winner!" << endl;
+	gotoxy(15, 16);
+	while (!_kbhit)
+	cout << "Press any key to go back to the menu..." << endl;
+}
+void userLost()
+{
+	clrscr();
+	gotoxy(15, 15);
+	cout << "You're a Loser!" << endl;
+	gotoxy(15, 16);
+	while(!_kbhit)
+	cout << "Press any key to go back to the menu..." << endl;
 }
