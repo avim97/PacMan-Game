@@ -19,6 +19,8 @@ private:
 public:
 	Board() :m_wallColor(Color::eColor::White), m_breadcrumbColor(Color::eColor::Green) { initBoard(); };
 	void initBoard();
+	void createTopTunnel();
+	void createBottomtunnel();
 	void printBoard();
 	char getPosition(const int x, const int y) { return board[y][x]; };
 	int getWidth() { return WIDTH; };

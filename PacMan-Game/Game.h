@@ -28,6 +28,8 @@ public:
 	bool updateScore();
 	void printBoard() { m_Board.printBoard(); initView();}
 	void initView();
+	void initialGhostPos(int ghostInd);
+	void initialPacmanPos();
 	eGameStatus getGameStatus() { return m_gameStatus; };
 	void setColorStyle(bool isColorful) { m_isColorful = isColorful; };
 	bool getColorStyle() { return m_isColorful; };
@@ -35,7 +37,7 @@ public:
 
 	// ----------- PACMAN---------
 	bool checkTunnel(const int yCoord, const int xCoord);
-	bool PacmanStepCheck(const int yCoord, const int xCoord);//checks pacman's next step
+	bool PacmanStepCheck(const int yCoord, const int xCoord);
 	void crossTunnel(const int yCoord, const int xCoord);
 	void movePacman(char nextDir);
 	void eraseFood(const int yCoord, const int xCoord);
@@ -45,7 +47,7 @@ public:
 	bool checkGhostIntersection();
 
 	// --------------GHOST ----------
-	void GhostStepCheck(const int yCoord, const int xCoord, int ghost); //checks ghost's next step
+	void GhostStepCheck(const int yCoord, const int xCoord, int ghost); 
 	void moveGhost(int ghost);
 	void eraseGhost(const int yCoord, const int xCoord);
 	void printGhost(const int yCoord, const int xCoord, int ghost);
