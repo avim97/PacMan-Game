@@ -3,6 +3,23 @@
 
 void Game::initView()
 {
+	initialPacmanPos();
+	for (int i = 0; i < sizeof(m_Ghost) / sizeof(m_Ghost[0]); i++)
+		initialGhostPos(i);
+}
+void Game::initialGhostPos(int ghostInd)
+{
+	int xCoord, yCoord;
+	char lastPos;
+	gotoxy(m_Ghost[ghostInd].getXcoord(), m_Ghost[0].getYcoord());
+	cout << m_Board.getPosition(m_Ghost[ghostInd].getXcoord(), m_Ghost[0].getYcoord());
+	xCoord = m_Ghost[ghostInd].initialPos.getXcoord();
+	yCoord = m_Ghost[ghostInd].initialPos.getYcoord();
+	printGhost(yCoord, xCoord, ghostInd);
+	m_Ghost[ghostInd].setPosition(xCoord, yCoord);
+}
+void Game::initialPacmanPos()
+{
 	int xCoord, yCoord;
 	char lastPos;
 	gotoxy(m_Pacman.getXcoord(), m_Pacman.getYcoord());
@@ -11,21 +28,8 @@ void Game::initView()
 	yCoord = m_Pacman.initialPos.getYcoord();
 	printPacman(yCoord, xCoord);
 	m_Pacman.setPosition(xCoord, yCoord);
-	gotoxy(m_Ghost[0].getXcoord(), m_Ghost[0].getYcoord());
-	cout << m_Board.getPosition(m_Ghost[0].getXcoord(), m_Ghost[0].getYcoord());
-	xCoord = m_Ghost[0].initialPos.getXcoord();
-	yCoord = m_Ghost[0].initialPos.getYcoord();
-	printGhost(yCoord, xCoord, 0);
-	m_Ghost[0].setPosition(xCoord, yCoord);
-	gotoxy(m_Ghost[1].getXcoord(), m_Ghost[1].getYcoord());
-	cout << m_Board.getPosition(m_Ghost[1].getXcoord(), m_Ghost[1].getYcoord());
-	xCoord = m_Ghost[1].initialPos.getXcoord();
-	yCoord = m_Ghost[1].initialPos.getYcoord();
-	printGhost(yCoord, xCoord, 1);
-	m_Ghost[1].setPosition(xCoord, yCoord);
-
-
 }
+
 void Game::movePacman(char nextDir)
 {
 	int yCoord = m_Pacman.getYcoord();

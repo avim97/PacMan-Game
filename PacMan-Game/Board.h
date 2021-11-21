@@ -16,6 +16,8 @@ private:
 
 public:
 	Board();
+	void createWidthTunnel();
+	void createHeightTunnel();
 	void printBoard();
 	char getPosition(const int x, const int y) { return board[y][x]; };
 	int getWidth() { return WIDTH; };
