@@ -23,7 +23,7 @@ private:
 
 
 public:
-	Pacman() : m_figure('@'), m_color(eColor::Yellow), m_position(initialPos), m_currDir((char)Direction::eDirection::STAY) {};
+	Pacman() : m_figure(233), m_color(eColor::Yellow), m_position(initialPos), m_currDir((char)Direction::eDirection::STAY) {};
 	//void setColor() {}; //check
 	int getXcoord() const { return m_position.getXcoord(); };
 	int getYcoord() const { return m_position.getYcoord(); };
