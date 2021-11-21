@@ -6,25 +6,22 @@ using std::cout;
  
 void GameController::Run()
 {
-	
+	eUserChoice userChoice = eUserChoice::UNDEFINED;
+	printLogo(1);
+	printLogo(2);
+	do
+	{
+		userChoice = activateMenu();
+		switch (userChoice)
+		{
+		case eUserChoice::NewGame:			startNewGame();				break;
 
-	//int userChoice;
+		case eUserChoice::Instructions:		printInstructions();		break;
 
+		default:							printGoodbyeMessage();		break; // The user chose to exit the game
 
-	//cin >> userChoice;
-
-	//switch (static_cast<eUserChoice>(userChoice))
-	//{
-	//case eUserChoice::NewGame:			startNewGame();				break;
-
-	//case eUserChoice::Instructions:		printInstructions();		break;
-
-	//case eUserChoice::Exit:	make a function here that says goodbye;		break;
-
-	//default:	/*print wrong choice message (and show the menu again) ;*/						break;
-
-
-	//}
+		}
+	} while (userChoice != eUserChoice::Exit);
 
 
 };
@@ -43,8 +40,6 @@ void GameController::startNewGame()
 	{
 		newGame.PlayGame();
 	}
-
-
 
 }
 
@@ -95,6 +90,17 @@ void GameController::printLogo(int logo)
 
 eUserChoice GameController::activateMenu()
 {
-	Menu menu;
+	Menu gameMenu;
 
+	while (gameMenu.getUserChoice() == eUserChoice::UNDEFINED)
+	{
+		gameMenu.requestInput();
+	}
+
+	return gameMenu.getUserChoice();
+}
+
+void GameController::printGoodbyeMessage()
+{
+	cout << " Goodbye!" << endl;
 }

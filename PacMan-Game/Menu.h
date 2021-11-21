@@ -11,8 +11,10 @@ private:
 
 
 public:
+	Menu() : userChoice(eUserChoice::UNDEFINED) { printMenu(); };
 	void printMenu();
-	void setInput();
-	eUserChoice checkInput(const char choice);
-
+	void requestInput();
+	void checkInput(const char choice);
+	eUserChoice getUserChoice() { return userChoice; };
+	void setUserChoice(eUserChoice choice) { userChoice = choice; };
 };

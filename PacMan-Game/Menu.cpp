@@ -1,7 +1,6 @@
 ﻿#include "Menu.h"
 
 
-
 void Menu::printMenu()
 {
 	cout << "               Welcome to PACMAN                 " << endl;
@@ -9,42 +8,44 @@ void Menu::printMenu()
 	cout << " (1) Start a new game                            " << endl;
 	cout << " (8) Present instructions and keys               " << endl;
 	cout << " (9) EXIT                                        " << endl;
-	do {
-		setInput();
-	} while (userChoice != eUserChoice::Exit);
+
+	 while (userChoice != eUserChoice::UNDEFINED)
+	{
+		requestInput();
+	}
 }
 
-void Menu::setInput()
+void Menu::requestInput()
 {
+	char userChoice;
 	cout << " Please choose:" << endl;
-	checkInput(_getch());
+	userChoice = _getch();
+	checkInput(userChoice);
 }
 
-eUserChoice Menu::checkInput(const char choice)
+void Menu::checkInput(const char choice)
 {
 	eUserChoice userChoice;
 
 	switch (choice)
 	{
 	case (char)eUserChoice::NewGame:
-		userChoice = eUserChoice::NewGame;
+		setUserChoice(eUserChoice::NewGame);
 		break;
 
 	case (char)eUserChoice::Instructions:
-		userChoice = eUserChoice::Instructions;
+		setUserChoice(eUserChoice::Instructions);
 		break;
 
 	case (char)eUserChoice::Exit:
-		userChoice = eUserChoice::Exit;
+		setUserChoice(eUserChoice::Exit);
 		break;
 
 	default:
-		userChoice = eUserChoice::UNDEFINED;
+		setUserChoice(eUserChoice::UNDEFINED);
 		cout << " Invalid Choice, please try again!" << endl;
 		break;
 	}
-
-	return userChoice;
 }
 
 

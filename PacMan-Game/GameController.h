@@ -14,7 +14,7 @@ private:
 	void printLogo(int logo);
 	void startNewGame();
 	void printInstructions();
-	
+	void printGoodbyeMessage();
 
 	
 public:
