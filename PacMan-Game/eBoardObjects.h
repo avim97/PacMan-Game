@@ -10,7 +10,7 @@ enum class BoardObjects
 * class BoardObject
 * {
 * public:
-*   enum eBoardObject {FOOD = 249, SPACE = 32, WALL = 178, GHOST = 234, PACMAN = 64}
+*   enum eBoardObject {FOOD = 249, SPACE = 32, WALL = 178, GHOST = 234, PACMAN = 233}
 *   static void printObject(char obj)
 *   {
 *     switch(obj):
