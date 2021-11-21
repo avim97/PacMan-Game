@@ -11,9 +11,8 @@ void Game::initView()
 void Game::initialGhostPos(int ghostInd)
 {
 	int xCoord, yCoord;
-	char lastPos;
-	gotoxy(m_Ghost[ghostInd].getXcoord(), m_Ghost[0].getYcoord());
-	cout << m_Board.getPosition(m_Ghost[ghostInd].getXcoord(), m_Ghost[0].getYcoord());
+	gotoxy(m_Ghost[ghostInd].getXcoord(), m_Ghost[ghostInd].getYcoord());
+	cout << m_Board.getPosition(m_Ghost[ghostInd].getXcoord(), m_Ghost[ghostInd].getYcoord());
 	xCoord = m_Ghost[ghostInd].initialPos.getXcoord();
 	yCoord = m_Ghost[ghostInd].initialPos.getYcoord();
 	printGhost(yCoord, xCoord, ghostInd);
@@ -22,7 +21,6 @@ void Game::initialGhostPos(int ghostInd)
 void Game::initialPacmanPos()
 {
 	int xCoord, yCoord;
-	char lastPos;
 	gotoxy(m_Pacman.getXcoord(), m_Pacman.getYcoord());
 	cout << m_Board.getPosition(m_Pacman.getXcoord(), m_Pacman.getYcoord());
 	xCoord = m_Pacman.initialPos.getXcoord();
@@ -459,9 +457,16 @@ void Game::showPlayerStatus()
 void Game::userWon()
 {
 	clrscr();
-	gotoxy(15, 15);
-	cout << "You're a Winner!" << endl;
-	gotoxy(15, 16);
+	cout << R"(
+ __     __          __          __         _ 
+ \ \   / /          \ \        / /        | |
+  \ \_/ /__  _   _   \ \  /\  / /__  _ __ | |
+   \   / _ \| | | |   \ \/  \/ / _ \| '_ \| |
+    | | (_) | |_| |    \  /\  / (_) | | | |_|
+    |_|\___/ \__,_|     \/  \/ \___/|_| |_(_)
+                                             
+                                             
+)";
 	cout << "Press any key to go back to the main menu..." << endl;
 	while (!_kbhit()) {};
 	clrscr();
@@ -469,14 +474,17 @@ void Game::userWon()
 void Game::userLost()
 {
 	clrscr();
-	cout << "  __     __           _               _   _ " << endl;
-	cout << "  \\ \\   / /          | |             | | | | " << endl;
-	cout << "   \\ \\_/ /__  _   _  | |     ___  ___| |_| | " << endl;
-	cout << "    \   / _ \| | | | | |    / _ \/ __| __| |   " << endl;
-	cout << "      | | (_) | |_| | | |___| (_) \__ \ |_|_|  " << endl;
-	cout << "     |_|\___/ \__,_| |______\___/|___/\__(_)  " << endl;
+	cout<< R"(
+ __     __           _               _   _ 
+ \ \   / /          | |             | | | |
+  \ \_/ /__  _   _  | |     ___  ___| |_| |
+   \   / _ \| | | | | |    / _ \/ __| __| |
+    | | (_) | |_| | | |___| (_) \__ \ |_|_|
+    |_|\___/ \__,_| |______\___/|___/\__(_)
+                                           
+                                           
+)";
 
-	gotoxy(15, 16);
 	cout << endl <<  "  Press any key to go back to the main menu..." << endl;
 	while (!_kbhit()) {};
 	clrscr();
