@@ -20,6 +20,7 @@ void GameController::Run()
 		default:							printGoodbyeMessage();		break;
 
 		}
+
 		_getch();
 
 	} while (userChoice != eUserChoice::Exit);
@@ -39,7 +40,7 @@ void GameController::startNewGame()
 	{
 		colorStyle = _getch();
 
-		if (colorStyle == '1')
+		if (colorStyle == '1') 
 		{
 			newGame.setColorStyle(true);
 		}
@@ -47,6 +48,7 @@ void GameController::startNewGame()
 		else if (colorStyle == '2')
 		{
 			newGame.setColorStyle(false);
+			newGame.setDefaultColor();
 		}
 
 		else //wrong input- not 1 or 2
@@ -56,7 +58,7 @@ void GameController::startNewGame()
 	}
 
 	clrscr();
-
+	
 	newGame.printBoard();
 
 	newGame.initView();
@@ -88,7 +90,7 @@ void GameController::printInstructions()
 void GameController::printLogo(int logo)
 {
 	switch (logo) {
-	case 1:
+	case GameLogo:
 		cout << "  _ __   __ _  ___ _ __ ___   __ _ _ __  " << endl;
 		Sleep(200);
 		cout << " | '_ \\ / _` |/ __| '_ ` _ \\ / _` | '_ \\ " << endl;
@@ -113,7 +115,7 @@ void GameController::printLogo(int logo)
 
 		break;
 
-	case 2:
+	case GoodbyeLogo:
 		cout << "  _____                 _ _                _   " << endl;
 		cout << " / ____|               | | |              | |  " << endl;
 		cout << "| |  __  ___   ___   __| | |__  _   _  ___| |  " << endl;
@@ -122,8 +124,12 @@ void GameController::printLogo(int logo)
 		cout << " \\_____|\\___/ \\___/ \\__,_|_.__/ \\__, |\\___(_)   " << endl;
 		cout << "                                  _/ |               " << endl;
 		cout << "                                 |___/               " << endl;
+		break;
 
 	}
+	
+
+
 
 
 }

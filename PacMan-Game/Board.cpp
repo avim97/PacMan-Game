@@ -101,12 +101,12 @@ void Board::printBoard()
 		{
 			if (board[i][j] == (char)BoardObjects::FOOD)
 			{
-				cout << m_breadcrumbColor.getColorCode(m_breadcrumbColor.getColor()) << board[i][j];
+				cout << m_breadcrumbColor.getColorCode(m_breadcrumbColor.getColor()) << board[i][j] << "\033[0m";
 			}
 
 			else
 			{
-				cout << m_wallColor.getColorCode(m_wallColor.getColor()) << board[i][j];
+				cout << m_wallColor.getColorCode(m_wallColor.getColor()) << board[i][j] << "\033[0m";
 			}
 			
 		}

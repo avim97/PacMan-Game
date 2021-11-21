@@ -27,8 +27,8 @@ public:
 	int getHeight() { return HEIGHT; };
 	int getMaxScore() { return totalBreadcrumbs; };
 	void setChar(const int xCoord, const int yCoord, char ch) { board[yCoord][xCoord] = ch; };
-	void setWallColor(Color::eColor color) { m_wallColor = color; };
-	void setBreadcrumColor(Color::eColor color) { m_breadcrumbColor = color; };
+	void setWallColor(Color::eColor color) { m_wallColor.setColor(color); };
+	void setBreadcrumColor(Color::eColor color) { m_breadcrumbColor.setColor(color); };
 	Color  getWallColor() { return m_wallColor; };
 	Color  getBreadcrumbColor(){ return m_breadcrumbColor; };
 };

@@ -11,9 +11,5 @@ int main()
 
 	game.Run();
 
-	while (1) {};
-	return 0;
 	
-	
-
 }

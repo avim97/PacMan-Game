@@ -352,7 +352,7 @@ void Game::eraseGhost(const int yCoord, const int xCoord)
 	if (m_Board.getPosition(xCoord, yCoord) == (char)BoardObjects::FOOD)
 	{
 		color = m_Board.getBreadcrumbColor().getColor();
-		cout << m_Board.getBreadcrumbColor().getColorCode(color) << (char)BoardObjects::FOOD << "\033[0m";
+		cout << m_Board.getBreadcrumbColor().getColorCode(color) << (char)BoardObjects::FOOD ;
 	}
 	else // there was a space before
 	{
@@ -364,10 +364,6 @@ void Game::eraseGhost(const int yCoord, const int xCoord)
 void Game::printGhost(const int yCoord, const int xCoord, int ghost)
 {
 	gotoxy(xCoord, yCoord);
-
-	//if (m_isColorful)
-
-	//	cout << m_Ghost[ghost].getFigure();
 
 	Color::eColor color;
 
@@ -473,10 +469,15 @@ void Game::userWon()
 void Game::userLost()
 {
 	clrscr();
-	gotoxy(15, 15);
-	cout << "You're a Loser!" << endl;
+	cout << "  __     __           _               _   _ " << endl;
+	cout << "  \\ \\   / /          | |             | | | | " << endl;
+	cout << "   \\ \\_/ /__  _   _  | |     ___  ___| |_| | " << endl;
+	cout << "    \   / _ \| | | | | |    / _ \/ __| __| |   " << endl;
+	cout << "      | | (_) | |_| | | |___| (_) \__ \ |_|_|  " << endl;
+	cout << "     |_|\___/ \__,_| |______\___/|___/\__(_)  " << endl;
+
 	gotoxy(15, 16);
-	cout << "Press any key to go back to the main menu..." << endl;
+	cout << endl <<  "  Press any key to go back to the main menu..." << endl;
 	while (!_kbhit()) {};
 	clrscr();
 }
