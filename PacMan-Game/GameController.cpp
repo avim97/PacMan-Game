@@ -18,7 +18,7 @@ void GameController::Run()
 
 		case eUserChoice::Instructions:		printInstructions();		break;
 
-		default:							printGoodbyeMessage();		break; // The user chose to exit the game
+		default:							printGoodbyeMessage();		break;
 
 		}
 
