@@ -1,6 +1,6 @@
 #pragma once
 #include "eBoardObjects.h"
-
+#include "Color.h"
 
 
 
@@ -10,18 +10,25 @@ class Board
 private:
 	static const int HEIGHT = 25;
 	static const int WIDTH = 80;
-	int totalBreadcrumbs = 0;
+	unsigned int totalBreadcrumbs = 0;
 	char board[HEIGHT][WIDTH];
+	Color m_wallColor ;
+	Color m_breadcrumbColor ;
 
 
 public:
-	Board();
+	Board() :m_wallColor(Color::eColor::White), m_breadcrumbColor(Color::eColor::Green) { initBoard(); };
+	void initBoard();
 	void printBoard();
 	char getPosition(const int x, const int y) { return board[y][x]; };
 	int getWidth() { return WIDTH; };
 	int getHeight() { return HEIGHT; };
 	int getMaxScore() { return totalBreadcrumbs; };
 	void setChar(const int xCoord, const int yCoord, char ch) { board[yCoord][xCoord] = ch; };
+	void setWallColor(Color::eColor color) { m_wallColor = color; };
+	void setBreadcrumColor(Color::eColor color) { m_breadcrumbColor = color; };
+	Color  getWallColor() { return m_wallColor; };
+	Color  getBreadcrumbColor(){ return m_breadcrumbColor; };
 };
 
 

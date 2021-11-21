@@ -48,6 +48,9 @@
     <ClCompile Include="eGameStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pacman.h">
@@ -62,7 +65,7 @@
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="eColor.h">
+    <ClInclude Include="Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameController.h">

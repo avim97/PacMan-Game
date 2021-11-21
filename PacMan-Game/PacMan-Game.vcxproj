@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="eGameStatus.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -153,7 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
-    <ClInclude Include="eColor.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="eBoardObjects.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="eGameStatus.h" />

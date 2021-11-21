@@ -4,7 +4,8 @@
 #include <iostream>
 #include "Direction.h"
 #include "Position.h"
-#include "eColor.h"
+#include "Color.h"
+#include "eBoardObjects.h"
 
 using namespace std;
 
@@ -17,14 +18,15 @@ public:
 private:
 
 	const char m_figure;
-	eColor m_color;
+	Color m_color;
 	Position m_position;
 	char m_currDir;
 
 
 public:
-	Pacman() : m_figure(233), m_color(eColor::Yellow), m_position(initialPos), m_currDir((char)Direction::eDirection::STAY) {};
-	//void setColor() {}; //check
+	Pacman() : m_figure((int)BoardObjects::PACMAN), m_color(Color::eColor::Yellow), m_position(initialPos), m_currDir((char)Direction::eDirection::STAY) {};
+	void setColor(Color::eColor color) { m_color = color; };
+	Color getColor() { return m_color; };
 	int getXcoord() const { return m_position.getXcoord(); };
 	int getYcoord() const { return m_position.getYcoord(); };
 	const char getFigure() { return m_figure; };

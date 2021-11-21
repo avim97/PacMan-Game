@@ -3,8 +3,10 @@
 
 void Game::initView()
 {
+
 	int xCoord, yCoord;
-	char lastPos;
+
+	//intializing pacman's position
 	gotoxy(m_Pacman.getXcoord(), m_Pacman.getYcoord());
 	cout << m_Board.getPosition(m_Pacman.getXcoord(), m_Pacman.getYcoord());
 	xCoord = m_Pacman.initialPos.getXcoord();
@@ -12,20 +14,7 @@ void Game::initView()
 	printPacman(yCoord, xCoord);
 	m_Pacman.setPosition(xCoord, yCoord);
 
-	/*lastPos = m_Board.getPosition(m_Ghost[0].getXcoord(), m_Ghost[0].getYcoord());*/
-	/*switch (lastPos)
-	{
-	case (char)BoardObjects::FOOD:
-		cout << (char)BoardObjects::FOOD;
-		break;
-
-	case (char)BoardObjects::SPACE:
-		cout << (char)BoardObjects::SPACE;
-		break;
-
-	default:
-		break;
-	}*/
+	//intializing first ghost's position
 	gotoxy(m_Ghost[0].getXcoord(), m_Ghost[0].getYcoord());
 	cout << m_Board.getPosition(m_Ghost[0].getXcoord(), m_Ghost[0].getYcoord());
 	xCoord = m_Ghost[0].initialPos.getXcoord();
@@ -33,20 +22,7 @@ void Game::initView()
 	printGhost(yCoord, xCoord, 0);
 	m_Ghost[0].setPosition(xCoord, yCoord);
 
-	//lastPos = m_Board.getPosition(m_Ghost[1].getXcoord(), m_Ghost[1].getYcoord());
-	//switch (lastPos)
-	//{
-	//case (char)BoardObjects::FOOD:
-	//	cout << (char)BoardObjects::FOOD;
-	//	break;
-
-	//case (char)BoardObjects::SPACE:
-	//	cout << (char)BoardObjects::SPACE;
-	//	break;
-
-	//default:
-	//	break;
-	//}
+	//intializing secnond ghost's position
 	gotoxy(m_Ghost[1].getXcoord(), m_Ghost[1].getYcoord());
 	cout << m_Board.getPosition(m_Ghost[1].getXcoord(), m_Ghost[1].getYcoord());
 	xCoord = m_Ghost[1].initialPos.getXcoord();
@@ -54,7 +30,7 @@ void Game::initView()
 	printGhost(yCoord, xCoord, 1);
 	m_Ghost[1].setPosition(xCoord, yCoord);
 
-	// make a function that does that in a modular way
+
 }
 void Game::movePacman(char nextDir)
 {
@@ -383,17 +359,45 @@ void Game::eraseFood(const int yCoord, const int xCoord)
 void Game::printPacman(const int yCoord, const int xCoord)
 {
 	gotoxy(xCoord, yCoord);
-	cout << "\033[33m" << m_Pacman.getFigure();
+	Color::eColor color;
+
+	color = m_Pacman.getColor().getColor();
+
+	cout << m_Pacman.getColor().getColorCode(color) << m_Pacman.getFigure() << "\033[0m";
+
+
+
+
 }
 void Game::eraseGhost(const int yCoord, const int xCoord)
 {
 	gotoxy(xCoord, yCoord);
-	cout << m_Board.getPosition(xCoord, yCoord);
+	Color::eColor color;
+	if (m_Board.getPosition(xCoord, yCoord) == (char)BoardObjects::FOOD)
+	{
+		color = m_Board.getBreadcrumbColor().getColor();
+		cout << m_Board.getBreadcrumbColor().getColorCode(color) << (char)BoardObjects::FOOD << "\033[0m";
+	}
+	else // there was a space before
+	{
+		cout << (char)BoardObjects::SPACE;
+	}
+
+	
 }
 void Game::printGhost(const int yCoord, const int xCoord, int ghost)
 {
 	gotoxy(xCoord, yCoord);
-	cout << m_Ghost[ghost].getFigure();
+
+	//if (m_isColorful)
+
+	//	cout << m_Ghost[ghost].getFigure();
+
+	Color::eColor color;
+
+	color = m_Ghost[ghost].getColor().getColor();
+
+	cout << m_Ghost[ghost].getColor().getColorCode(color) << m_Ghost[ghost].getFigure() << "\033[0m";
 }
 void Game::erasePacman(const int yCoord, const int xCoord)
 {
@@ -413,6 +417,9 @@ void Game::PlayGame()
 {
 	char key = 'S';
 	int pacmanMoves = 0, ghostsMoves = 0;
+
+	if (!getColorStyle())
+		setDefaultColor();
 
 	hideCursor();
 
@@ -452,7 +459,7 @@ void Game::PauseGame()
 		gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
 		cout << "\033[37m" << " Game Paused, press ESC to continue.";
 
-	} while (!_kbhit || _getch() != 27);
+	} while (!_kbhit() || _getch() != 27);
 	gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
 	cout << "                                       " << endl;
 }
@@ -461,9 +468,9 @@ void Game::showPlayerStatus()
 	int lives = getLives();
 	int score = getScore();
 	gotoxy(0, this->m_Board.getHeight() + 1);
-	cout << "Current score: " << "\033[36m" << ("%d ", score);
+	cout << "\033[1m\033[37m" << "Current score: " << "\033[1m\033[32m" << score << "\033[0m";
 	gotoxy(this->m_Board.getWidth() - 20, this->m_Board.getHeight() + 1);
-	cout << "Lives Left:";
+	cout << "\033[1m\033[37m" << "Lives Left:" << "\033[0m";
 	for (int i = 0; i < 3; i++)
 	{
 		if (lives > 0)
@@ -496,4 +503,12 @@ void Game::userLost()
 	cout << "Press any key to go back to the main menu..." << endl;
 	while (!_kbhit()) {};
 	clrscr();
+}
+void Game::setDefaultColor() //this function sets the default color (white) to all of the game and board objects.
+{
+	m_Board.setBreadcrumColor(Color::eColor::White);
+	m_Board.setWallColor(Color::eColor::White);
+	m_Pacman.setColor(Color::eColor::White);
+	m_Ghost[0].setColor(Color::eColor::White);
+	m_Ghost[1].setColor(Color::eColor::White);
 }

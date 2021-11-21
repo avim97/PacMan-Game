@@ -18,9 +18,10 @@ private:
 	eGameStatus m_gameStatus;
 	int m_score;
 	int m_life;
+	bool m_isColorful;
 
 public:
-	Game() : m_Board(), m_Ghost{{36, 20, eColor::Blue},{36, 9, eColor::Red}}, m_Pacman(), m_gameStatus(eGameStatus::RUNNING), m_score(0), m_life(3) {srand((unsigned int)time(NULL));};
+	Game() : m_Board(), m_Ghost{{36, 20, Color::eColor::Blue},{36, 9, Color::eColor::Red}}, m_Pacman(), m_gameStatus(eGameStatus::RUNNING), m_score(0), m_life(3) ,m_isColorful(true){srand((unsigned int)time(nullptr));};
 	bool updateLife();
 	int getLives() {return m_life;}
 	int getScore() {return m_score;}
@@ -28,6 +29,9 @@ public:
 	void printBoard() { m_Board.printBoard(); initView();}
 	void initView();
 	eGameStatus getGameStatus() { return m_gameStatus; };
+	void setColorStyle(bool isColorful) { m_isColorful = isColorful; };
+	bool getColorStyle() { return m_isColorful; };
+	void setDefaultColor();
 
 	// ----------- PACMAN---------
 	bool checkTunnel(const int yCoord, const int xCoord);

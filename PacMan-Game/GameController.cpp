@@ -3,14 +3,13 @@
 #include <iostream>
 using std::cout;
 
- 
+
 void GameController::Run()
 {
 	eUserChoice userChoice = eUserChoice::UNDEFINED;
 	do
 	{
-		printLogo(1);
-		printLogo(2);
+		printLogo(GameLogo);
 		userChoice = activateMenu();
 		switch (userChoice)
 		{
@@ -21,8 +20,8 @@ void GameController::Run()
 		default:							printGoodbyeMessage();		break; // The user chose to exit the game
 
 		}
-
 		_getch();
+
 	} while (userChoice != eUserChoice::Exit);
 
 
@@ -31,11 +30,35 @@ void GameController::Run()
 void GameController::startNewGame()
 {
 	Game newGame;
+	char colorStyle = 0;
+	clrscr();
+
+	cout << " Please choose: " << endl << " (1) Colorful " << endl << " (2) Not Colorful " << endl;
+
+	while (colorStyle != '1' && colorStyle != '2')
+	{
+		colorStyle = _getch();
+
+		if (colorStyle == '1')
+		{
+			newGame.setColorStyle(true);
+		}
+
+		else if (colorStyle == '2')
+		{
+			newGame.setColorStyle(false);
+		}
+
+		else //wrong input- not 1 or 2
+		{
+			cout << "Invalid choice, please choose again." << endl;
+		}
+	}
 
 	clrscr();
 
 	newGame.printBoard();
-	
+
 	newGame.initView();
 
 	while (newGame.getGameStatus() == eGameStatus::RUNNING)
@@ -50,13 +73,13 @@ void GameController::printInstructions()
 {
 	clrscr();
 	cout << endl;
-	cout << " How do you win?"                                                         << endl;
-	cout << " In order to win the Pacman needs to eat all the spreaded breadcrumbs"    << endl;
+	cout << " How do you win?" << endl;
+	cout << " In order to win the Pacman needs to eat all the spreaded breadcrumbs" << endl;
 	cout << " How do you lose?" << endl;
 	cout << " You have 3 lives, if a ghost catches you 3 times the game will be over!" << endl;
-	cout << " Keys: LEFT a or A, RIGHT d or D, UP w or W, Down x or X, STAY s or S"	   << endl;
-	cout << "            -------------------------------------------              "    << endl;
-	cout << "           Press any key to go back to the main menu..."                  << endl;
+	cout << " Keys: LEFT a or A, RIGHT d or D, UP w or W, Down x or X, STAY s or S" << endl;
+	cout << "            -------------------------------------------              " << endl;
+	cout << "           Press any key to go back to the main menu..." << endl;
 
 	while (!_kbhit()) {};
 	clrscr();
@@ -75,9 +98,7 @@ void GameController::printLogo(int logo)
 		cout << " | .__/ \\__,_|\\___|_| |_| |_|\\__,_|_| |_|" << endl;
 		Sleep(200);
 		cout << " |_|                                     " << endl;
-		break;
 
-	case 2:
 		cout << "\033[1m\033[34m" << "         ___            " << endl
 			<< "\033[1m\033[34m" << "        |||||           " << "\033[1m\033[33m" << "       ||||||           \n"
 			<< "\033[1m\033[34m" << "       | *| *|          " << "\033[1m\033[33m" << "      ||||| ||          \n"
@@ -92,19 +113,19 @@ void GameController::printLogo(int logo)
 
 		break;
 
-	case 3:
-		cout << "  _____                 _ _                _   "       << endl;
-		cout << " / ____|               | | |              | |  "       << endl;
-		cout << "| |  __  ___   ___   __| | |__  _   _  ___| |  "       << endl;
-		cout << "| | |_ |/ _ \\ / _ \\ / _` | '_ \\| | | |/ _ \\ |  "   << endl;
-		cout << "| |__| | (_) | (_) | (_| | |_) | |_| |  __/_|  "       << endl;
+	case 2:
+		cout << "  _____                 _ _                _   " << endl;
+		cout << " / ____|               | | |              | |  " << endl;
+		cout << "| |  __  ___   ___   __| | |__  _   _  ___| |  " << endl;
+		cout << "| | |_ |/ _ \\ / _ \\ / _` | '_ \\| | | |/ _ \\ |  " << endl;
+		cout << "| |__| | (_) | (_) | (_| | |_) | |_| |  __/_|  " << endl;
 		cout << " \\_____|\\___/ \\___/ \\__,_|_.__/ \\__, |\\___(_)   " << endl;
 		cout << "                                  _/ |               " << endl;
 		cout << "                                 |___/               " << endl;
-	
-	}   
 
-	 
+	}
+
+
 }
 
 eUserChoice GameController::activateMenu()
@@ -122,6 +143,6 @@ eUserChoice GameController::activateMenu()
 void GameController::printGoodbyeMessage()
 {
 	clrscr();
-	printLogo(3);
+	printLogo(GoodbyeLogo);
 	exit(0);
 }
