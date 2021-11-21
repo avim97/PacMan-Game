@@ -41,7 +41,7 @@ void gotoxy(int x, int y)
 
 void clrscr()
 {
-	system("cls");
+	system("CLS");
 }
 
 

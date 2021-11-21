@@ -1,8 +1,10 @@
 #pragma once
-#include "GameController.h"
 #include "eUserChoice.h"
 #include <stdlib.h>
-
+#include "io_utils.h"
+#include <conio.h>
+#include <iostream>
+using namespace std;
 
 class Menu {
 private:
@@ -10,13 +12,9 @@ private:
 
 
 public:
-
-	void printLogo(const int logo);
-	void menuPrint();
+	void printMenu();
 	char requestInput();
-	void checkInput(const char choice);
-	void startGame();
-	void gameDirectionsPrint();
-	void colorChoice();
+	
+	eUserChoice checkInput(const char choice);
 
 };

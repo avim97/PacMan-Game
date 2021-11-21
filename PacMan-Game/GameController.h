@@ -7,15 +7,19 @@
 class GameController
 {
 
+
 private:
+	
+	
+	void printLogo(int logo);
+	void startNewGame();
+	void printInstructions();
 	
 
 	
 public:
 	void Run();
-	void startNewGame();
-	void printMenu() const;
-	void printInstructions();
+
 };
 
 
