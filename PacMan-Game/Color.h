@@ -1,4 +1,6 @@
 #pragma once
+#include <windows.h>
+#include <iostream>
 
 class Color
 {
@@ -12,6 +14,7 @@ public:
 	void setColor(eColor color) { m_currColor = color; };
 	eColor getColor() { return m_currColor; };
 	const char* getColorCode(eColor color) { return m_colorCodes[(int)color]; };
+	void applyOutputColor(eColor color);
 };
 
 

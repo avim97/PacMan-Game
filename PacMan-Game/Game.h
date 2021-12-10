@@ -31,6 +31,8 @@ public:
 	void initialGhostPos(int ghostInd);
 	void initialPacmanPos();
 	eGameStatus getGameStatus() { return m_gameStatus; };
+
+	//------------- COLORS -------------
 	void setColorStyle(bool isColorful) { m_isColorful = isColorful; };
 	bool getColorStyle() { return m_isColorful; };
 	void setDefaultColor();
