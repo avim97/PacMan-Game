@@ -21,7 +21,7 @@ private:
 	bool m_isColorful;
 
 public:
-	Game() : m_Board(), m_Ghost{{36, 20, Color::eColor::Blue},{36, 9, Color::eColor::Red}}, m_Pacman(), m_gameStatus(eGameStatus::RUNNING), m_score(0), m_life(3) ,m_isColorful(true){srand((unsigned int)time(nullptr));};
+	Game() : m_Board(), m_Ghost{{36, 20, Color::eColor::BLUE},{36, 9, Color::eColor::RED}}, m_Pacman(), m_gameStatus(eGameStatus::RUNNING), m_score(0), m_life(3) ,m_isColorful(true){srand((unsigned int)time(nullptr));};
 	bool updateLife();
 	int getLives() {return m_life;}
 	int getScore() {return m_score;}

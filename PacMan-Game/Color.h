@@ -1,21 +1,24 @@
 #pragma once
 #include <windows.h>
 #include <iostream>
-
+#include "io_utils.h"
 class Color
 {
 public:
-	enum class eColor { White, Yellow, Blue, Green, Red };
+	static enum class eColor { BLUE = 1, BOLD_GREEN, CYAN, RED, PURPLE,YELLOW, FAINT_YELLOW = 14, DEFAULT };
 private:
-	const char* m_colorCodes[5] = { "\033[1m\033[37m" , "\033[1m\033[33m" ,"\033[1m\033[34m", "\033[1m\033[32m", "\033[1m\033[31m" };
-	eColor m_currColor = eColor::White;
+	eColor m_currColor;
 public:
 	Color(eColor color) { m_currColor = color; };
+	Color() : m_currColor(eColor::DEFAULT) {};
 	void setColor(eColor color) { m_currColor = color; };
-	eColor getColor() { return m_currColor; };
-	const char* getColorCode(eColor color) { return m_colorCodes[(int)color]; };
-	void applyOutputColor(eColor color);
+	int getColor() { return static_cast<int>(m_currColor); };
+	static int getColorValue(eColor color) { return static_cast<int>(color); };
+	static void applyOutputColor(int color);
+	static void resetOutputColor();
 };
 
+// we need to change the color of the breadcrumbs and lifes and score to white when chosen no color and in the end to find a
+// way to not use the function applyColorOutput at all if the user chose "not colorful" (maybe use inheritence ?)
 
 

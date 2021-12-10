@@ -333,11 +333,12 @@ void Game::eraseFood(const int yCoord, const int xCoord)
 void Game::printPacman(const int yCoord, const int xCoord)
 {
 	gotoxy(xCoord, yCoord);
-	Color::eColor color;
+	int color;
 
 	color = m_Pacman.getColor().getColor();
-
-	cout << m_Pacman.getColor().getColorCode(color) << m_Pacman.getFigure() << "\033[0m";
+	Color::applyOutputColor(color);
+	cout << m_Pacman.getFigure();
+	Color::resetOutputColor();
 
 
 
@@ -346,11 +347,13 @@ void Game::printPacman(const int yCoord, const int xCoord)
 void Game::eraseGhost(const int yCoord, const int xCoord)
 {
 	gotoxy(xCoord, yCoord);
-	Color::eColor color;
+	int color;
 	if (m_Board.getPosition(xCoord, yCoord) == (char)BoardObjects::FOOD)
 	{
 		color = m_Board.getBreadcrumbColor().getColor();
-		cout << m_Board.getBreadcrumbColor().getColorCode(color) << (char)BoardObjects::FOOD ;
+		Color::applyOutputColor(color);
+		cout << (char)BoardObjects::FOOD ;
+		Color::resetOutputColor();
 	}
 	else // there was a space before
 	{
@@ -363,11 +366,12 @@ void Game::printGhost(const int yCoord, const int xCoord, int ghost)
 {
 	gotoxy(xCoord, yCoord);
 
-	Color::eColor color;
+	int color;
 
 	color = m_Ghost[ghost].getColor().getColor();
-
-	cout << m_Ghost[ghost].getColor().getColorCode(color) << m_Ghost[ghost].getFigure() << "\033[0m";
+	Color::applyOutputColor(color);
+	cout << m_Ghost[ghost].getFigure();
+	Color::resetOutputColor();
 }
 void Game::erasePacman(const int yCoord, const int xCoord)
 {
@@ -437,22 +441,27 @@ void Game::showPlayerStatus()
 {
 	int lives = getLives();
 	int score = getScore();
+
 	gotoxy(0, this->m_Board.getHeight() + 1);
-	cout << "\033[1m\033[37m" << "Current score: " << "\033[1m\033[32m" << score << "\033[0m";
+	Color::resetOutputColor();
+	cout << "Current score: "; 
+	Color::applyOutputColor(Color::getColorValue(Color::eColor::BOLD_GREEN));
+	cout << score ;
+	Color::resetOutputColor();
 	gotoxy(this->m_Board.getWidth() - 20, this->m_Board.getHeight() + 1);
-	cout << "\033[1m\033[37m" << "Lives Left:" << "\033[0m";
+	cout << "Lives Left:";
+	Color::applyOutputColor(Color::getColorValue(Color::eColor::RED));
 	for (int i = 0; i < 3; i++)
 	{
 		if (lives > 0)
 		{
-			cout << "\033[31m" << " <3";
+			cout << " <3";
 			lives--;
 		}
 		else
 			cout << "   ";
 	}
-
-
+	Color::resetOutputColor();
 }
 void Game::userWon()
 {
@@ -491,9 +500,9 @@ void Game::userLost()
 }
 void Game::setDefaultColor() //this function sets the default color (white) to all of the game and board objects.
 {
-	m_Board.setBreadcrumColor(Color::eColor::White);
-	m_Board.setWallColor(Color::eColor::White);
-	m_Pacman.setColor(Color::eColor::White);
-	m_Ghost[0].setColor(Color::eColor::White);
-	m_Ghost[1].setColor(Color::eColor::White);
+	m_Board.setBreadcrumColor(Color::eColor::DEFAULT);
+	m_Board.setWallColor(Color::eColor::DEFAULT);
+	m_Pacman.setColor(Color::eColor::DEFAULT);
+	m_Ghost[0].setColor(Color::eColor::DEFAULT);
+	m_Ghost[1].setColor(Color::eColor::DEFAULT);
 }
