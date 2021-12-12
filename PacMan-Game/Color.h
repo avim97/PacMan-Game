@@ -16,6 +16,7 @@ public:
 	static int getColorValue(eColor color) { return static_cast<int>(color); };
 	static void applyOutputColor(int color);
 	static void resetOutputColor();
+	
 };
 
 // we need to change the color of the breadcrumbs and lifes and score to white when chosen no color and in the end to find a

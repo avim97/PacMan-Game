@@ -28,7 +28,6 @@ void Game::initialPacmanPos()
 	printPacman(yCoord, xCoord);
 	m_Pacman.setPosition(xCoord, yCoord);
 }
-
 void Game::movePacman(char nextDir)
 {
 	int yCoord = m_Pacman.getYcoord();
@@ -328,17 +327,19 @@ bool Game::updateScore()
 }
 void Game::eraseFood(const int yCoord, const int xCoord)
 {
-	m_Board.setChar(xCoord, yCoord, (char)BoardObjects::SPACE);
+	m_Board.setChar(xCoord, yCoord, static_cast<char>(BoardObjects::SPACE));
 }
 void Game::printPacman(const int yCoord, const int xCoord)
 {
 	gotoxy(xCoord, yCoord);
 	int color;
-
-	color = m_Pacman.getColor().getColor();
-	Color::applyOutputColor(color);
+	if (this->m_isColorful)
+	{
+		color = m_Pacman.getColor().getColor();
+		Color::applyOutputColor(color);
+	}
 	cout << m_Pacman.getFigure();
-	Color::resetOutputColor();
+	//Color::resetOutputColor();
 
 
 
@@ -351,13 +352,16 @@ void Game::eraseGhost(const int yCoord, const int xCoord)
 	if (m_Board.getPosition(xCoord, yCoord) == (char)BoardObjects::FOOD)
 	{
 		color = m_Board.getBreadcrumbColor().getColor();
-		Color::applyOutputColor(color);
-		cout << (char)BoardObjects::FOOD ;
-		Color::resetOutputColor();
+		if (this->m_isColorful)
+		{
+			Color::applyOutputColor(color);
+		}
+		cout << static_cast<char>(BoardObjects::FOOD);
+		//Color::resetOutputColor();
 	}
 	else // there was a space before
 	{
-		cout << (char)BoardObjects::SPACE;
+		cout << static_cast<char>(BoardObjects::SPACE);
 	}
 
 	
@@ -368,15 +372,18 @@ void Game::printGhost(const int yCoord, const int xCoord, int ghost)
 
 	int color;
 
-	color = m_Ghost[ghost].getColor().getColor();
-	Color::applyOutputColor(color);
+	if (this->m_isColorful)
+	{
+		color = m_Ghost[ghost].getColor().getColor();
+		Color::applyOutputColor(color);
+	}
 	cout << m_Ghost[ghost].getFigure();
-	Color::resetOutputColor();
+	//Color::resetOutputColor();
 }
 void Game::erasePacman(const int yCoord, const int xCoord)
 {
 	gotoxy(xCoord, yCoord);
-	cout << (char)BoardObjects::SPACE;
+	cout << static_cast<char>(BoardObjects::SPACE);
 }
 bool Game::isValidMove(char move)
 {
@@ -431,7 +438,9 @@ void Game::PauseGame()
 {
 	do {
 		gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
-		cout << "\033[37m" << " Game Paused, press ESC to continue.";
+		if (this->m_isColorful)
+			Color::resetOutputColor();
+		cout  << " Game Paused, press ESC to continue.";
 
 	} while (!_kbhit() || _getch() != 27);
 	gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
@@ -443,14 +452,26 @@ void Game::showPlayerStatus()
 	int score = getScore();
 
 	gotoxy(0, this->m_Board.getHeight() + 1);
-	Color::resetOutputColor();
+
+	if (this->m_isColorful)
+		Color::resetOutputColor();
+
 	cout << "Current score: "; 
-	Color::applyOutputColor(Color::getColorValue(Color::eColor::BOLD_GREEN));
+
+	if(this->m_isColorful)
+		Color::applyOutputColor(Color::getColorValue(Color::eColor::BOLD_GREEN));
 	cout << score ;
-	Color::resetOutputColor();
+
+	if(this->m_isColorful)
+		Color::resetOutputColor();
+
 	gotoxy(this->m_Board.getWidth() - 20, this->m_Board.getHeight() + 1);
+
 	cout << "Lives Left:";
-	Color::applyOutputColor(Color::getColorValue(Color::eColor::RED));
+
+	if (this->m_isColorful)
+		Color::applyOutputColor(Color::getColorValue(Color::eColor::RED));
+
 	for (int i = 0; i < 3; i++)
 	{
 		if (lives > 0)
@@ -461,11 +482,13 @@ void Game::showPlayerStatus()
 		else
 			cout << "   ";
 	}
-	Color::resetOutputColor();
+	//Color::resetOutputColor();
 }
 void Game::userWon()
 {
 	clrscr();
+	if (this->m_isColorful)
+		Color::resetOutputColor();
 	cout << R"(
  __     __          __          __         _ 
  \ \   / /          \ \        / /        | |
@@ -483,6 +506,8 @@ void Game::userWon()
 void Game::userLost()
 {
 	clrscr();
+	if (this->m_isColorful)
+		Color::resetOutputColor();
 	cout<< R"(
  __     __           _               _   _ 
  \ \   / /          | |             | | | |
@@ -497,6 +522,12 @@ void Game::userLost()
 	cout << endl <<  "  Press any key to go back to the main menu..." << endl;
 	while (!_kbhit()) {};
 	clrscr();
+}
+void Game::setColorStyle(bool isColorful)
+{
+	if (!isColorful)
+		setDefaultColor();
+	m_isColorful = isColorful;
 }
 void Game::setDefaultColor() //this function sets the default color (white) to all of the game and board objects.
 {

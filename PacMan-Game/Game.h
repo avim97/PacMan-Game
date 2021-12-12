@@ -33,7 +33,7 @@ public:
 	eGameStatus getGameStatus() { return m_gameStatus; };
 
 	//------------- COLORS -------------
-	void setColorStyle(bool isColorful) { m_isColorful = isColorful; };
+	void setColorStyle(bool isColorful);
 	bool getColorStyle() { return m_isColorful; };
 	void setDefaultColor();
 
