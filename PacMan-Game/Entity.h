@@ -7,23 +7,23 @@
 #include "eBoardObjects.h"
 
 class Entity {
-Public:
+public:
 	Position initPosition;
-Private:
-	cosnt char m_figure;
-	char m_color;
+private:
+	const char m_figure;
+	Color m_color;
 	Position m_position;
 	unsigned char m_currDir;
-Public:
-	Entity();
+public:
+	Entity(const char figure, Color color, const int x, const int y, unsigned char dir): m_figure(figure), m_color(color), m_position(x,y),m_currDir(dir) {};
 
 	//get functions
-	const char GetFigure()const {return m_figure};
-	Color GetColor(){ return m_color };
-	Position GetPosition() { return m_position; };
+	const char GetFigure()const const { return m_figure; };
+	Color GetColor() const { return m_color; };
+	Position GetPosition() const { return m_position; };
 	int GetXcoord() const { return m_position.getXcoord(); };
 	int GetYcoord() const { return m_position.getYcoord(); };
-	char GetDirection() { return m_currDir; };
+	char GetDirection() const { return m_currDir; };
 
 	//set functions
 	void SetPosition(int x, int y) { m_position.setXcoord(x); m_position.setYcoord(y); };
@@ -33,6 +33,6 @@ Public:
 	void SetDirection(char newDir) { m_currDir = newDir; };
 
 	// virtual 'move' function
-	virtual void Move();         //to do
-	virtual bool StepCheck();    //to do
+	virtual void Move() = 0;         //to do
+	virtual bool StepCheck() = 0;    //to do
 };

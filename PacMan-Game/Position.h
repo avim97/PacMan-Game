@@ -10,6 +10,7 @@ private:
 	int yCoord;
  
 public:
+	Position() : xCoord(0), yCoord(0) {};
 	Position(const int x, const int y) : xCoord(x), yCoord(y) {}; 
 	void setPosition(const int _xCoord, const int _yCoord) { xCoord = _xCoord; yCoord = _yCoord; };
 	int getXcoord() const { return xCoord; } ;
