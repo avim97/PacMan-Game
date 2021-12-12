@@ -8,14 +8,14 @@
 
 class Entity {
 public:
-	Position initPosition;
+	Position initialPosition;
 private:
 	const char m_figure;
 	Color m_color;
 	Position m_position;
 	unsigned char m_currDir;
 public:
-	Entity(const char figure, Color color, const int x, const int y, unsigned char dir): m_figure(figure), m_color(color), m_position(x,y),m_currDir(dir) {};
+	Entity(const char figure, Color color, Position _initalPosition, unsigned char dir): m_figure(figure), m_color(color), m_position(_initalPosition),m_currDir(dir) {};
 
 	//get functions
 	const char GetFigure()const const { return m_figure; };
@@ -33,6 +33,6 @@ public:
 	void SetDirection(char newDir) { m_currDir = newDir; };
 
 	// virtual 'move' function
-	virtual void Move() = 0;         //to do
+	//virtual void Move() = 0;         //check if needed a virtual function
 	virtual bool StepCheck() = 0;    //to do
 };

@@ -41,7 +41,7 @@ public:
 	bool checkTunnel(const int yCoord, const int xCoord);
 	bool PacmanStepCheck(const int yCoord, const int xCoord);
 	void crossTunnel(const int yCoord, const int xCoord);
-	void movePacman(char nextDir);
+	//void movePacman(char nextDir);
 	void eraseFood(const int yCoord, const int xCoord);
 	void erasePacman(const int yCoord, const int xCoord);
 	void printPacman(const int yCoord, const int xCoord);
