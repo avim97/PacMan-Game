@@ -24,7 +24,7 @@ private:
 
 
 public:
-	Pacman() : m_figure((int)BoardObjects::PACMAN), m_color(Color::eColor::Yellow), m_position(initialPos), m_currDir((char)Direction::eDirection::STAY) {};
+	Pacman() : m_figure(static_cast<int>(BoardObjects::PACMAN)), m_color(Color::eColor::YELLOW), m_position(initialPos), m_currDir(static_cast<char>(Direction::eDirection::STAY)) {};
 	void setColor(Color::eColor color) { m_color.setColor(color); };
 	Color getColor() { return m_color; };
 	int getXcoord() const { return m_position.getXcoord(); };
