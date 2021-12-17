@@ -29,10 +29,13 @@ void GameCreature::Move(const Position _Position) const
 	if (color != static_cast<int>(Color::eColor::DEFAULT))
 	{
 		Color::applyOutputColor(color);
+		this->Draw();
+		Color::resetOutputColor();
 	}
 
-	this->Draw();
-	Color::resetOutputColor();
+	else
+		this->Draw();
+
 }
 void GameCreature::EraseFood(const int yCoord, const int xCoord, Board& board)
 {

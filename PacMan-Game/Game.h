@@ -58,11 +58,13 @@ public:
 	//void erasePacman(const int yCoord, const int xCoord); // ## 
 	//void printPacman(const int yCoord, const int xCoord); // ## - MOVED TO GAMECREATURE CLASS
 	//bool isValidMove(char move);   // ## - MOVED TO DIRECTION CLASS
-	bool checkGhostIntersection(); // ##
+	bool CheckPacmanIntersection();
+// ##
 
 	// -------------- GHOST ----------
 	void GhostStepCheck(const int yCoord, const int xCoord, int ghost); 
 	void moveGhost(int ghost);
+	bool checkGhostIntersection(int GhostIndex);
 	void InitializeGhosts(const int& ghostsNumber);
 	//void eraseGhost(const int yCoord, const int xCoord);
 	//void printGhost(const int yCoord, const int xCoord, int ghost);

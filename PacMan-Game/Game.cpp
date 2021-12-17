@@ -48,7 +48,7 @@ void Game::initialPacmanPos()
 	yCoord = InitialPosition.getYcoord();
 
 	m_Pacman.Move(InitialPosition);
-	
+
 }
 void Game::movePacman(char nextDir)
 {
@@ -63,7 +63,7 @@ void Game::movePacman(char nextDir)
 	switch (toupper(nextDir))
 	{
 	case static_cast<char>(Direction::eDirection::UP):
-	 	if (PacmanStepCheck(yCoord - 1, xCoord))
+		if (PacmanStepCheck(yCoord - 1, xCoord))
 		{
 			m_Pacman.Erase(yCoord, xCoord, m_Board);
 			m_Pacman.Move();
@@ -126,6 +126,7 @@ void Game::moveGhost(int ghost)
 {
 
 	Direction::eDirection ghostDir = Direction::getRandDir();
+
 	int yCoord = m_Ghosts[ghost].GetYcoord();
 	int xCoord = m_Ghosts[ghost].GetXcoord();
 
@@ -159,7 +160,7 @@ void Game::InitializeGhosts(const int& ghostsNumber)
 {
 	for (int i = 0; i < ghostsNumber; i++)
 	{
-		Ghost _Ghost( Color::getColor(i), {38, 14 + i}, 1 );
+		Ghost _Ghost(Color::getColor(i), { 38, 14 + i }, 1);
 		m_Ghosts.push_back(_Ghost);
 	}
 }
@@ -188,7 +189,7 @@ void Game::crossTunnel(const int yCoord, const int xCoord)
 void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 {
 
-	if (checkGhostIntersection())
+	if (checkGhostIntersection(ghost))
 	{
 		m_Pacman.UpdateLife();
 		if (!m_Pacman.IsAlive())
@@ -214,7 +215,7 @@ void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 			break;
 
 		case static_cast<char>(BoardObjects::SPACE):
-			m_Ghosts[ghost].Erase(yCoord,xCoord, m_Board);
+			m_Ghosts[ghost].Erase(CurrentYCoord, CurrentXCoord, m_Board);
 			m_Ghosts[ghost].SetPosition(xCoord, yCoord);
 			m_Ghosts[ghost].Move();
 			break;
@@ -222,7 +223,7 @@ void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 		case static_cast<char>(BoardObjects::FOOD):
 			if (!checkTunnel(yCoord, xCoord))
 			{
-				m_Ghosts[ghost].Erase(yCoord, xCoord , m_Board);
+				m_Ghosts[ghost].Erase(CurrentYCoord, CurrentXCoord, m_Board);
 				m_Ghosts[ghost].SetPosition(xCoord, yCoord);
 				m_Ghosts[ghost].Move();
 			}
@@ -258,10 +259,10 @@ void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 }
 bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 {
-	
+
 	bool moved = true;
 
-	if (checkGhostIntersection())
+	if (CheckPacmanIntersection())
 	{
 		m_Pacman.UpdateLife();
 
@@ -317,16 +318,27 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 	return moved;
 
 }
-bool Game::checkGhostIntersection()
+bool Game::CheckPacmanIntersection()
 {
 	bool IsIntersecting = false;
 	size_t ghostsNumber = m_Ghosts.size();
 	const Position& PacmanPosition = m_Pacman.GetPosition();
-	for (int i = 0; i < ghostsNumber && !IsIntersecting ; i++)
+	for (int i = 0; i < ghostsNumber && !IsIntersecting; i++)
 	{
 		if (PacmanPosition == m_Ghosts[i].GetPosition())
 			IsIntersecting = true;
 	}
+
+
+	return IsIntersecting;
+}
+bool Game::checkGhostIntersection(int GhostIndex)
+{
+	bool IsIntersecting = false;
+	const Position& PacmanPosition = m_Pacman.GetPosition();
+	if (PacmanPosition == m_Ghosts[GhostIndex].GetPosition())
+		IsIntersecting = true;
+
 
 
 	return IsIntersecting;
@@ -343,6 +355,162 @@ bool Game::checkTunnel(const int yCoord, const int xCoord)
 		return false;
 
 }
+void Game::eraseFood(const int yCoord, const int xCoord)
+{
+	m_Board.setChar(xCoord, yCoord, static_cast<char>(BoardObjects::SPACE));
+}
+void Game::PlayGame()
+{
+	char key = 'S';
+	int pacmanMoves = 0, ghostsMoves = 0;
+
+	if (!getColorStyle())
+		setDefaultColor();
+
+	hideCursor();
+
+	do
+	{
+		if (_kbhit())
+		{
+			key = _getch();
+			if (key == 27)
+			{
+				PauseGame();
+			}
+
+			movePacman(key);
+		}
+		else
+			movePacman(m_Pacman.GetCurrentDirection());
+		pacmanMoves++;
+		if (pacmanMoves % 2 == 0)
+		{
+			for (int i = 0; i < m_Ghosts.size(); i++)
+			{
+				moveGhost(i);
+			}
+		}
+		Sleep(300);
+		showPlayerStatus();
+	} while (m_gameStatus == eGameStatus::RUNNING);
+
+	if (m_gameStatus == eGameStatus::WON)
+		userWon();
+	else
+		userLost();
+
+}
+void Game::PauseGame()
+{
+	do {
+		gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
+		if (this->m_isColorful)
+			Color::resetOutputColor();
+		cout << " Game Paused, press ESC to continue.";
+
+	} while (!_kbhit() || _getch() != 27);
+	gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
+	cout << "                                       " << endl;
+
+}
+void Game::showPlayerStatus()
+{
+	int lives = m_Pacman.GetCurrentLives();
+	int score = m_Pacman.GetCurrentScore();
+
+	gotoxy(0, this->m_Board.getHeight() + 1);
+
+	if (this->m_isColorful)
+		Color::resetOutputColor();
+
+	cout << "Current score: ";
+
+	if (this->m_isColorful)
+		Color::applyOutputColor(Color::getColorValue(Color::eColor::BOLD_GREEN));
+	cout << score;
+
+	if (this->m_isColorful)
+		Color::resetOutputColor();
+
+	gotoxy(this->m_Board.getWidth() - 20, this->m_Board.getHeight() + 1);
+
+	cout << "Lives Left:";
+
+	if (this->m_isColorful)
+		Color::applyOutputColor(Color::getColorValue(Color::eColor::RED));
+
+	for (int i = 0; i < 3; i++)
+	{
+		if (lives > 0)
+		{
+			cout << " <3";
+			lives--;
+		}
+		else
+			cout << "   ";
+	}
+	//Color::resetOutputColor();
+}
+void Game::userWon()
+{
+	clrscr();
+	if (this->m_isColorful)
+		Color::resetOutputColor();
+	cout << R"(
+ __     __          __          __         _ 
+ \ \   / /          \ \        / /        | |
+  \ \_/ /__  _   _   \ \  /\  / /__  _ __ | |
+   \   / _ \| | | |   \ \/  \/ / _ \| '_ \| |
+    | | (_) | |_| |    \  /\  / (_) | | | |_|
+    |_|\___/ \__,_|     \/  \/ \___/|_| |_(_)
+                                             
+                                             
+)";
+	cout << "Press any key to go back to the main menu..." << endl;
+	while (!_kbhit()) {};
+	clrscr();
+}
+void Game::userLost()
+{
+	clrscr();
+	if (this->m_isColorful)
+		Color::resetOutputColor();
+	cout << R"(
+ __     __           _               _   _ 
+ \ \   / /          | |             | | | |
+  \ \_/ /__  _   _  | |     ___  ___| |_| |
+   \   / _ \| | | | | |    / _ \/ __| __| |
+    | | (_) | |_| | | |___| (_) \__ \ |_|_|
+    |_|\___/ \__,_| |______\___/|___/\__(_)
+                                           
+                                           
+)";
+
+	cout << endl << "  Press any key to go back to the main menu..." << endl;
+	while (!_kbhit()) {};
+	clrscr();
+}
+void Game::setColorStyle(bool isColorful)
+{
+	if (!isColorful)
+		setDefaultColor();
+	m_isColorful = isColorful;
+}
+void Game::setDefaultColor() //this function sets the default color (white) to all of the game and board objects.
+{
+	size_t ghostsNumber = m_Ghosts.size();
+	m_Board.setBreadcrumColor(Color::eColor::DEFAULT);
+	m_Board.setWallColor(Color::eColor::DEFAULT);
+	m_Pacman.SetColor(Color::eColor::DEFAULT);
+	for (int i = 0; i < ghostsNumber; i++)
+	{
+		m_Ghosts[i].SetColor(Color::eColor::DEFAULT);
+	}
+
+}
+
+//Updated functions for inheritence
 //bool Game::updateLife()
 //{
 //	m_life--;
@@ -362,10 +530,10 @@ bool Game::checkTunnel(const int yCoord, const int xCoord)
 //
 //	return true;
 //}
-void Game::eraseFood(const int yCoord, const int xCoord)
-{
-	m_Board.setChar(xCoord, yCoord, static_cast<char>(BoardObjects::SPACE));
-}
+//void Game::MoveCreature(char nextDir, BoardObjects object)
+//{
+//
+//}
 //void Game::printPacman(const int yCoord, const int xCoord)
 //{
 //	gotoxy(xCoord, yCoord);
@@ -425,160 +593,4 @@ void Game::eraseFood(const int yCoord, const int xCoord)
 //
 //	else
 //		return false;
-//}
-void Game::PlayGame()
-{
-	char key = 'S';
-	int pacmanMoves = 0, ghostsMoves = 0;
-
-	if (!getColorStyle())
-		setDefaultColor();
-
-	hideCursor();
-
-	do
-	{
-		if (_kbhit())
-		{
-			key = _getch();
-			if (key == 27)
-			{
-				PauseGame();
-			}
-
-			movePacman(key);
-		}
-		else
-			movePacman(m_Pacman.GetCurrentDirection());
-		pacmanMoves++;
-		if (pacmanMoves % 2 == 0)
-		{
-			moveGhost(0);
-			moveGhost(1);
-		}
-		Sleep(300);
-		showPlayerStatus();
-	} while (m_gameStatus == eGameStatus::RUNNING);
-
-	if (m_gameStatus == eGameStatus::WON)
-		userWon();
-	else
-		userLost();
-
-}
-void Game::PauseGame()
-{
-	do {
-		gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
-		if (this->m_isColorful)
-			Color::resetOutputColor();
-		cout  << " Game Paused, press ESC to continue.";
-
-	} while (!_kbhit() || _getch() != 27);
-	gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
-	cout << "                                       " << endl;
-
-}
-void Game::showPlayerStatus()
-{
-	int lives = m_Pacman.GetCurrentLives();
-	int score = m_Pacman.GetCurrentScore();
-
-	gotoxy(0, this->m_Board.getHeight() + 1);
-
-	if (this->m_isColorful)
-		Color::resetOutputColor();
-
-	cout << "Current score: "; 
-
-	if(this->m_isColorful)
-		Color::applyOutputColor(Color::getColorValue(Color::eColor::BOLD_GREEN));
-	cout << score ;
-
-	if(this->m_isColorful)
-		Color::resetOutputColor();
-
-	gotoxy(this->m_Board.getWidth() - 20, this->m_Board.getHeight() + 1);
-
-	cout << "Lives Left:";
-
-	if (this->m_isColorful)
-		Color::applyOutputColor(Color::getColorValue(Color::eColor::RED));
-
-	for (int i = 0; i < 3; i++)
-	{
-		if (lives > 0)
-		{
-			cout << " <3";
-			lives--;
-		}
-		else
-			cout << "   ";
-	}
-	//Color::resetOutputColor();
-}
-void Game::userWon()
-{
-	clrscr();
-	if (this->m_isColorful)
-		Color::resetOutputColor();
-	cout << R"(
- __     __          __          __         _ 
- \ \   / /          \ \        / /        | |
-  \ \_/ /__  _   _   \ \  /\  / /__  _ __ | |
-   \   / _ \| | | |   \ \/  \/ / _ \| '_ \| |
-    | | (_) | |_| |    \  /\  / (_) | | | |_|
-    |_|\___/ \__,_|     \/  \/ \___/|_| |_(_)
-                                             
-                                             
-)";
-	cout << "Press any key to go back to the main menu..." << endl;
-	while (!_kbhit()) {};
-	clrscr();
-}
-void Game::userLost()
-{
-	clrscr();
-	if (this->m_isColorful)
-		Color::resetOutputColor();
-	cout<< R"(
- __     __           _               _   _ 
- \ \   / /          | |             | | | |
-  \ \_/ /__  _   _  | |     ___  ___| |_| |
-   \   / _ \| | | | | |    / _ \/ __| __| |
-    | | (_) | |_| | | |___| (_) \__ \ |_|_|
-    |_|\___/ \__,_| |______\___/|___/\__(_)
-                                           
-                                           
-)";
-
-	cout << endl <<  "  Press any key to go back to the main menu..." << endl;
-	while (!_kbhit()) {};
-	clrscr();
-}
-void Game::setColorStyle(bool isColorful)
-{
-	if (!isColorful)
-		setDefaultColor();
-	m_isColorful = isColorful;
-}
-void Game::setDefaultColor() //this function sets the default color (white) to all of the game and board objects.
-{
-	size_t ghostsNumber = m_Ghosts.size();
-	m_Board.setBreadcrumColor(Color::eColor::DEFAULT);
-	m_Board.setWallColor(Color::eColor::DEFAULT);
-	m_Pacman.SetColor(Color::eColor::DEFAULT);
-	for (int i = 0; i < ghostsNumber; i++)
-	{
-		m_Ghosts[i].SetColor(Color::eColor::DEFAULT);
-	}
-
-}
-
-
-
-//Updated functions for inheritence
-//void Game::MoveCreature(char nextDir, BoardObjects object)
-//{
-//
 //}

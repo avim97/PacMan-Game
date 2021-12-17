@@ -11,8 +11,11 @@ void Ghost::Erase(const int yCoord, const int xCoord, Board& board) const
 		if (color != static_cast<int>(Color::eColor::DEFAULT))
 		{
 			Color::applyOutputColor(color);
+			cout << static_cast<char>(BoardObjects::FOOD);
+			Color::resetOutputColor();
 		}
-		cout << static_cast<char>(BoardObjects::FOOD);
+		else
+			cout << static_cast<char>(BoardObjects::FOOD);
 
 	}
 	else // there was a space before
