@@ -3,11 +3,12 @@
 
 
 
-void FileActions::sortNames(vector<string>& fileArr)
+void FileActions::sortBoardFileNames(vector<string>& fileArr)
 {
 	sort(fileArr.begin(), fileArr.end());
 
 }
+
 void FileActions::dirFileList(vector<string>& fileArr)
 {
 	string pathStr;
@@ -24,7 +25,26 @@ void FileActions::dirFileList(vector<string>& fileArr)
 	}
 	else
 	{
-		sortNames(fileArr);
+		sortBoardFileNames(fileArr);
 	}
 
+}
+void FileActions::updateBoardFromFile(string& fileName, gameBoard& board, int& ROWS, int& COLS)
+{
+	string readLine;
+	int rowNum = 0, colsNum = 0;
+
+	std::ifstream readFile(fileName);
+	while (getline(readFile, readLine))
+	{
+		for (char& c : readLine)
+		{
+			board[rowNum].push_back(c);
+			if (rowNum == 0)
+				colsNum++;
+		}
+		rowNum++;
+	}
+	ROWS = rowNum + 1;
+	COLS = colsNum + 1;
 }

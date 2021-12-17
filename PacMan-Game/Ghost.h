@@ -10,7 +10,7 @@ public:
 	Ghost(Color::eColor COLOR, Position _position, int mode) :
 		GameCreature(
 			static_cast<int>(BoardObjects::GHOST),
-			COLOR, 
+			COLOR,
 			_position,
 			static_cast<char>(Direction::eDirection::STAY)),
 		m_mode(static_cast<eMode>(mode))
