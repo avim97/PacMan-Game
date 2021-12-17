@@ -1,33 +1,22 @@
 #pragma once
 
-#include "Position.h"
-#include "Color.h"
-#include "eBoardObjects.h"
-#include "Direction.h"
-#include <iostream>
+#include "GameCreature.h"
 
 
-class Ghost 
-{
+class Ghost : public GameCreature {
+	enum class eMode { BEST = 1, GOOD, NOVICE, UNDEFINED };
+	eMode m_mode;
 public:
-	const Position initialPos ;
+	Ghost(Color::eColor COLOR, Position _position, int mode) :
+		GameCreature(
+			static_cast<int>(BoardObjects::GHOST),
+			COLOR, 
+			_position,
+			static_cast<char>(Direction::eDirection::STAY)),
+		m_mode(static_cast<eMode>(mode))
+	{};
+	void SetMode(eMode& mode) { m_mode = mode; };
+	eMode GetMode() const { return m_mode; };
+	void Erase(const int yCoord, const int xCoord, Board& board) const override;
 
-private:
-	const char m_figure;
-	Color m_color;
-	Position m_position;
-
-public:
-	Ghost(const int x, const int y, Color::eColor color) : initialPos({x, y}), m_figure((int)BoardObjects::GHOST), m_color(color), m_position(initialPos) {};
-	void setColor(Color::eColor color) { m_color.setColor(color); };
-	Color getColor() { return m_color; };
-	int getXcoord() const { return m_position.getXcoord(); };
-	int getYcoord() const { return m_position.getYcoord(); };
-	const char getFigure() { return m_figure; };
-	void setPosition(int x, int y) { m_position.setXcoord(x); m_position.setYcoord(y); };
-	Position getPosition() { return m_position; };
-	void setXcoord(int x) { m_position.setXcoord(x); };
-	void setYcoord(int y) { m_position.setYcoord(y); };
 };
-
-

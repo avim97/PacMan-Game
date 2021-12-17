@@ -11,7 +11,7 @@ void hideCursor()
 	SetConsoleCursorInfo(myconsole, &CURSOR);
 }
 
-void gotoxy(int x, int y)
+void gotoxy(int x, int y) 
 {
 	HANDLE hConsoleOutput;
 	COORD dwCursorPosition;

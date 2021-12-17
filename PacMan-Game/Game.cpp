@@ -1,98 +1,120 @@
 #include "Game.h"
 
 
-
 void Game::initView()
 {
 	initialPacmanPos();
-	for (int i = 0; i < sizeof(m_Ghost) / sizeof(m_Ghost[0]); i++)
-		initialGhostPos(i);
+	initialGhostPos();
 }
-void Game::initialGhostPos(int ghostInd)
+void Game::initialGhostPos()
 {
+	size_t ghostsNumber = m_Ghosts.size();
 	int xCoord, yCoord;
-	gotoxy(m_Ghost[ghostInd].getXcoord(), m_Ghost[ghostInd].getYcoord());
-	cout << m_Board.getPosition(m_Ghost[ghostInd].getXcoord(), m_Ghost[ghostInd].getYcoord());
-	xCoord = m_Ghost[ghostInd].initialPos.getXcoord();
-	yCoord = m_Ghost[ghostInd].initialPos.getYcoord();
-	printGhost(yCoord, xCoord, ghostInd);
-	m_Ghost[ghostInd].setPosition(xCoord, yCoord);
+	Position CurrentPosition;
+	Position InitialPosition;
+	for (int i = 0; i < ghostsNumber; i++)
+	{
+		CurrentPosition = this->m_Ghosts[i].GetPosition();
+		InitialPosition = this->m_Ghosts[i].GetInitialPosition();
+
+		xCoord = CurrentPosition.getXcoord();
+		yCoord = CurrentPosition.getYcoord();
+		gotoxy(xCoord, yCoord);
+		cout << m_Board.getCellValue(CurrentPosition);
+
+		m_Ghosts[i].ResetCurrentPosition();
+
+		xCoord = InitialPosition.getXcoord();
+		yCoord = InitialPosition.getYcoord();
+
+		m_Ghosts[i].Move(InitialPosition);
+	}
 }
 void Game::initialPacmanPos()
 {
+	Position CurrentPosition = this->m_Pacman.GetPosition();
+	Position InitialPosition = this->m_Pacman.GetInitialPosition();
 	int xCoord, yCoord;
-	gotoxy(m_Pacman.getXcoord(), m_Pacman.getYcoord());
-	cout << m_Board.getPosition(m_Pacman.getXcoord(), m_Pacman.getYcoord());
-	xCoord = m_Pacman.initialPos.getXcoord();
-	yCoord = m_Pacman.initialPos.getYcoord();
-	printPacman(yCoord, xCoord);
-	m_Pacman.setPosition(xCoord, yCoord);
+
+	xCoord = CurrentPosition.getXcoord();
+	yCoord = CurrentPosition.getYcoord();
+
+	gotoxy(xCoord, yCoord);
+	cout << m_Board.getCellValue(CurrentPosition);
+
+	m_Pacman.ResetCurrentPosition();
+
+	xCoord = InitialPosition.getXcoord();
+	yCoord = InitialPosition.getYcoord();
+
+	m_Pacman.Move(InitialPosition);
+	
 }
 void Game::movePacman(char nextDir)
 {
-	int yCoord = m_Pacman.getYcoord();
-	int xCoord = m_Pacman.getXcoord();
+	int yCoord = m_Pacman.GetYcoord();
+	int xCoord = m_Pacman.GetXcoord();
 
 
-	if (isValidMove(nextDir)) { m_Pacman.setDirection(nextDir); }
+	if (Direction::isValidDirection(nextDir)) { m_Pacman.SetDirection(nextDir); }
 
-	else { nextDir = m_Pacman.getDirection(); };
+	else { nextDir = m_Pacman.GetCurrentDirection(); };
 
 	switch (toupper(nextDir))
 	{
-	case (char)Direction::eDirection::UP:
-		if (PacmanStepCheck(yCoord - 1, xCoord))
+	case static_cast<char>(Direction::eDirection::UP):
+	 	if (PacmanStepCheck(yCoord - 1, xCoord))
 		{
-			erasePacman(yCoord, xCoord);
-			printPacman(m_Pacman.getYcoord(), m_Pacman.getXcoord());
+			m_Pacman.Erase(yCoord, xCoord, m_Board);
+			m_Pacman.Move();
 		}
 
 		else
 		{
-			if (m_life == 0)
-				m_gameStatus = eGameStatus::LOST;
+			//if (m_life == 0)
+			//	m_gameStatus = eGameStatus::LOST;
 		}
 		break;
 
-	case (char)Direction::eDirection::DOWN:
+	case static_cast<char>(Direction::eDirection::DOWN):
 		if (PacmanStepCheck(yCoord + 1, xCoord))
 		{
-			erasePacman(yCoord, xCoord);
-			printPacman(m_Pacman.getYcoord(), m_Pacman.getXcoord());
+			m_Pacman.Erase(yCoord, xCoord, m_Board);
+			m_Pacman.Move();
 		}
 
 		else
 		{
-			if (m_life == 0)
-				m_gameStatus = eGameStatus::LOST;
+			//if (m_life == 0)
+			//	m_gameStatus = eGameStatus::LOST;
 		}
 		break;
 
-	case (char)Direction::eDirection::LEFT:
+	case static_cast<char>(Direction::eDirection::LEFT):
 		if (PacmanStepCheck(yCoord, xCoord - 1))
 		{
-			erasePacman(yCoord, xCoord);
-			printPacman(m_Pacman.getYcoord(), m_Pacman.getXcoord());
+			m_Pacman.Erase(yCoord, xCoord, m_Board);
+			m_Pacman.Move();
 		}
 
 		else
 		{
-			if (m_life == 0)
-				m_gameStatus = eGameStatus::LOST;
+			//if (m_life == 0)
+			//	m_gameStatus = eGameStatus::LOST;
 		}
 		break;
 
-	case (char)Direction::eDirection::RIGHT:
+	case static_cast<char>(Direction::eDirection::RIGHT):
 		if (PacmanStepCheck(yCoord, xCoord + 1))
 		{
-			erasePacman(yCoord, xCoord);
-			printPacman(m_Pacman.getYcoord(), m_Pacman.getXcoord());
+			m_Pacman.Erase(yCoord, xCoord, m_Board);
+			m_Pacman.Move();
 		}
 
 		else
 		{
-			if (m_life == 0)
-				m_gameStatus = eGameStatus::LOST;
+			//if (m_life == 0)
+			//	m_gameStatus = eGameStatus::LOST;
 		}
 		break;
 
@@ -104,8 +126,8 @@ void Game::moveGhost(int ghost)
 {
 
 	Direction::eDirection ghostDir = Direction::getRandDir();
-	int yCoord = m_Ghost[ghost].getYcoord();
-	int xCoord = m_Ghost[ghost].getXcoord();
+	int yCoord = m_Ghosts[ghost].GetYcoord();
+	int xCoord = m_Ghosts[ghost].GetXcoord();
 
 	switch (ghostDir)
 	{
@@ -133,26 +155,34 @@ void Game::moveGhost(int ghost)
 
 
 }
+void Game::InitializeGhosts(const int& ghostsNumber)
+{
+	for (int i = 0; i < ghostsNumber; i++)
+	{
+		Ghost _Ghost( Color::getColor(i), {38, 14 + i}, 1 );
+		m_Ghosts.push_back(_Ghost);
+	}
+}
 void Game::crossTunnel(const int yCoord, const int xCoord)
 {
 	if (xCoord == 0)
 	{
-		m_Pacman.setPosition(m_Board.getWidth() - 1, yCoord);
+		m_Pacman.SetPosition(m_Board.getWidth() - 1, yCoord);
 	}
 
 	else if (xCoord == m_Board.getWidth() - 1)
 	{
-		m_Pacman.setPosition(0, yCoord);
+		m_Pacman.SetPosition(0, yCoord);
 	}
 
 	else if (yCoord == 0)
 	{
-		m_Pacman.setPosition(xCoord, m_Board.getHeight() - 1);
+		m_Pacman.SetPosition(xCoord, m_Board.getHeight() - 1);
 	}
 
 	else if (yCoord == m_Board.getHeight() - 1)
 	{
-		m_Pacman.setPosition(xCoord, 0);
+		m_Pacman.SetPosition(xCoord, 0);
 	}
 }
 void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
@@ -160,7 +190,8 @@ void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 
 	if (checkGhostIntersection())
 	{
-		if (!updateLife())
+		m_Pacman.UpdateLife();
+		if (!m_Pacman.IsAlive())
 		{
 			m_gameStatus = eGameStatus::LOST;
 		}
@@ -172,24 +203,28 @@ void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 
 	else
 	{
-		char nextPos = m_Board.getPosition(xCoord, yCoord);
+		int CurrentXCoord = m_Ghosts[ghost].GetXcoord();
+		int CurrentYCoord = m_Ghosts[ghost].GetYcoord();
+
+		char nextPos = m_Board.getCellValue(xCoord, yCoord);
+
 		switch (nextPos) {
-		case (char)BoardObjects::WALL:
+		case static_cast<char>(BoardObjects::WALL):
 			moveGhost(ghost);
 			break;
 
-		case (char)BoardObjects::SPACE:
-			eraseGhost(m_Ghost[ghost].getYcoord(), m_Ghost[ghost].getXcoord());
-			m_Ghost[ghost].setPosition(xCoord, yCoord);
-			printGhost(yCoord, xCoord, ghost);
+		case static_cast<char>(BoardObjects::SPACE):
+			m_Ghosts[ghost].Erase(yCoord,xCoord, m_Board);
+			m_Ghosts[ghost].SetPosition(xCoord, yCoord);
+			m_Ghosts[ghost].Move();
 			break;
 
-		case (char)BoardObjects::FOOD:
+		case static_cast<char>(BoardObjects::FOOD):
 			if (!checkTunnel(yCoord, xCoord))
 			{
-				eraseGhost(m_Ghost[ghost].getYcoord(), m_Ghost[ghost].getXcoord());
-				m_Ghost[ghost].setPosition(xCoord, yCoord);
-				printGhost(yCoord, xCoord, ghost);
+				m_Ghosts[ghost].Erase(yCoord, xCoord , m_Board);
+				m_Ghosts[ghost].SetPosition(xCoord, yCoord);
+				m_Ghosts[ghost].Move();
 			}
 
 			else
@@ -198,12 +233,13 @@ void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 			}
 			break;
 
-		case (char)BoardObjects::GHOST:
+		case static_cast<char>(BoardObjects::GHOST):
 			moveGhost(ghost);
 			break;
 
-		case (char)BoardObjects::PACMAN:
-			if (!updateLife())
+		case static_cast<char>(BoardObjects::PACMAN):
+			this->m_Pacman.UpdateLife();
+			if (!m_Pacman.IsAlive())
 			{
 				m_gameStatus = eGameStatus::LOST;
 			}
@@ -222,53 +258,52 @@ void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 }
 bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 {
+	
 	bool moved = true;
 
 	if (checkGhostIntersection())
 	{
+		m_Pacman.UpdateLife();
 
-		if (!updateLife())
+		if (!m_Pacman.IsAlive())
 		{
-			moved = false;
 			m_gameStatus = eGameStatus::LOST;
 		}
 		else
 		{
-
 			initView();
 		}
 	}
 
 	else
 	{
-		char nextPos = m_Board.getPosition(xCoord, yCoord);
+		char nextPos = m_Board.getCellValue(xCoord, yCoord);
 
 		switch (nextPos)
 		{
 
-		case (char)BoardObjects::WALL:
+		case static_cast<char>(BoardObjects::WALL):
 			moved = false;
 			break;
 
 
-		case (char)BoardObjects::SPACE:
+		case static_cast<char>(BoardObjects::SPACE):
 			if (!checkTunnel(yCoord, xCoord))
-				m_Pacman.setPosition(xCoord, yCoord);
+				m_Pacman.SetPosition(xCoord, yCoord);
 			else
 				crossTunnel(yCoord, xCoord);
-			moved = true;
 			break;
 
-		case (char)BoardObjects::FOOD:
-			if (updateScore())
+		case static_cast<char>(BoardObjects::FOOD):
+			if (m_Pacman.UpdateScore(m_Board))
 			{
-				m_Pacman.setPosition(xCoord, yCoord);
-				moved = true;
+				m_Pacman.SetPosition(xCoord, yCoord);
 				eraseFood(yCoord, xCoord);
 			}
 
 			else
 				m_gameStatus = eGameStatus::WON;
+
 			break;
 
 		default:
@@ -284,116 +319,113 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 }
 bool Game::checkGhostIntersection()
 {
-	bool isIntersecting = false;
-
-	if (m_Pacman.getXcoord() == m_Ghost[0].getXcoord() && m_Pacman.getYcoord() == m_Ghost[0].getYcoord() || m_Pacman.getXcoord() == m_Ghost[1].getXcoord() && m_Pacman.getYcoord() == m_Ghost[1].getYcoord())
+	bool IsIntersecting = false;
+	size_t ghostsNumber = m_Ghosts.size();
+	const Position& PacmanPosition = m_Pacman.GetPosition();
+	for (int i = 0; i < ghostsNumber && !IsIntersecting ; i++)
 	{
-		isIntersecting = true;
-
+		if (PacmanPosition == m_Ghosts[i].GetPosition())
+			IsIntersecting = true;
 	}
 
-	return isIntersecting;
+
+	return IsIntersecting;
 }
 bool Game::checkTunnel(const int yCoord, const int xCoord)
 {
-	if ((xCoord == 0 || xCoord == m_Board.getWidth() - 1) && m_Board.getPosition(xCoord, yCoord) != (char)BoardObjects::WALL)
+	if ((xCoord == 0 || xCoord == m_Board.getWidth() - 1) && m_Board.getCellValue(xCoord, yCoord) != (char)BoardObjects::WALL)
 		return true;
 
-	else if ((yCoord == 0 || yCoord == m_Board.getHeight() - 1) && m_Board.getPosition(xCoord, yCoord) != (char)BoardObjects::WALL)
+	else if ((yCoord == 0 || yCoord == m_Board.getHeight() - 1) && m_Board.getCellValue(xCoord, yCoord) != (char)BoardObjects::WALL)
 		return true;
 
 	else
 		return false;
 
 }
-bool Game::updateLife()
-{
-	m_life--;
-
-	if (m_life == 0)
-		return false;
-
-	else
-		return true;
-}
-bool Game::updateScore()
-{
-	m_score++;
-
-	if (m_score == m_Board.getMaxScore())
-		return false;
-
-	return true;
-}
+//bool Game::updateLife()
+//{
+//	m_life--;
+//
+//	if (m_life == 0)
+//		return false;
+//
+//	else
+//		return true;
+//}
+//bool Game::updateScore()
+//{
+//	m_score++;
+//
+//	if (m_score == m_Board.getMaxScore())
+//		return false;
+//
+//	return true;
+//}
 void Game::eraseFood(const int yCoord, const int xCoord)
 {
 	m_Board.setChar(xCoord, yCoord, static_cast<char>(BoardObjects::SPACE));
 }
-void Game::printPacman(const int yCoord, const int xCoord)
-{
-	gotoxy(xCoord, yCoord);
-	int color;
-	if (this->m_isColorful)
-	{
-		color = m_Pacman.getColor().getColor();
-		Color::applyOutputColor(color);
-	}
-	cout << m_Pacman.getFigure();
-	//Color::resetOutputColor();
-
-
-
-
-}
-void Game::eraseGhost(const int yCoord, const int xCoord)
-{
-	gotoxy(xCoord, yCoord);
-	int color;
-	if (m_Board.getPosition(xCoord, yCoord) == (char)BoardObjects::FOOD)
-	{
-		color = m_Board.getBreadcrumbColor().getColor();
-		if (this->m_isColorful)
-		{
-			Color::applyOutputColor(color);
-		}
-		cout << static_cast<char>(BoardObjects::FOOD);
-		//Color::resetOutputColor();
-	}
-	else // there was a space before
-	{
-		cout << static_cast<char>(BoardObjects::SPACE);
-	}
-
-	
-}
-void Game::printGhost(const int yCoord, const int xCoord, int ghost)
-{
-	gotoxy(xCoord, yCoord);
-
-	int color;
-
-	if (this->m_isColorful)
-	{
-		color = m_Ghost[ghost].getColor().getColor();
-		Color::applyOutputColor(color);
-	}
-	cout << m_Ghost[ghost].getFigure();
-	//Color::resetOutputColor();
-}
-void Game::erasePacman(const int yCoord, const int xCoord)
-{
-	gotoxy(xCoord, yCoord);
-	cout << static_cast<char>(BoardObjects::SPACE);
-}
-bool Game::isValidMove(char move)
-{
-	Direction::eDirection direction = Direction::Convert(move);
-	if (direction != Direction::eDirection::UNDEFINED)
-		return true;
-
-	else
-		return false;
-}
+//void Game::printPacman(const int yCoord, const int xCoord)
+//{
+//	gotoxy(xCoord, yCoord);
+//	int color;
+//	if (this->m_isColorful)
+//	{
+//		color = m_Pacman.getColor().getColor();
+//		Color::applyOutputColor(color);
+//	}
+//	cout << m_Pacman.getFigure();
+//} 
+//void Game::eraseGhost(const int yCoord, const int xCoord)
+//{
+//	gotoxy(xCoord, yCoord);
+//	int color;
+//	if (m_Board.getCellValue(xCoord, yCoord) == (char)BoardObjects::FOOD)
+//	{
+//		color = m_Board.getBreadcrumbColor().getColor();
+//		if (this->m_isColorful)
+//		{
+//			Color::applyOutputColor(color);
+//		}
+//		cout << static_cast<char>(BoardObjects::FOOD);
+//
+//	}
+//	else // there was a space before
+//	{
+//		cout << static_cast<char>(BoardObjects::SPACE);
+//	}
+//
+//	
+//}
+//void Game::printGhost(const int yCoord, const int xCoord, int ghost)
+//{
+//	gotoxy(xCoord, yCoord);
+//
+//	int color;
+//
+//	if (this->m_isColorful)
+//	{
+//		color = m_Ghost[ghost].getColor().getColor();
+//		Color::applyOutputColor(color);
+//	}
+//	cout << m_Ghost[ghost].getFigure();
+//
+//}
+//void Game::erasePacman(const int yCoord, const int xCoord)
+//{
+//	gotoxy(xCoord, yCoord);
+//	cout << static_cast<char>(BoardObjects::SPACE);
+//}
+//bool Game::isValidMove(char move)
+//{
+//	Direction::eDirection direction = Direction::Convert(move);
+//	if (direction != Direction::eDirection::UNDEFINED)
+//		return true;
+//
+//	else
+//		return false;
+//}
 void Game::PlayGame()
 {
 	char key = 'S';
@@ -417,7 +449,7 @@ void Game::PlayGame()
 			movePacman(key);
 		}
 		else
-			movePacman(m_Pacman.getDirection());
+			movePacman(m_Pacman.GetCurrentDirection());
 		pacmanMoves++;
 		if (pacmanMoves % 2 == 0)
 		{
@@ -445,11 +477,12 @@ void Game::PauseGame()
 	} while (!_kbhit() || _getch() != 27);
 	gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
 	cout << "                                       " << endl;
+
 }
 void Game::showPlayerStatus()
 {
-	int lives = getLives();
-	int score = getScore();
+	int lives = m_Pacman.GetCurrentLives();
+	int score = m_Pacman.GetCurrentScore();
 
 	gotoxy(0, this->m_Board.getHeight() + 1);
 
@@ -531,9 +564,21 @@ void Game::setColorStyle(bool isColorful)
 }
 void Game::setDefaultColor() //this function sets the default color (white) to all of the game and board objects.
 {
+	size_t ghostsNumber = m_Ghosts.size();
 	m_Board.setBreadcrumColor(Color::eColor::DEFAULT);
 	m_Board.setWallColor(Color::eColor::DEFAULT);
-	m_Pacman.setColor(Color::eColor::DEFAULT);
-	m_Ghost[0].setColor(Color::eColor::DEFAULT);
-	m_Ghost[1].setColor(Color::eColor::DEFAULT);
+	m_Pacman.SetColor(Color::eColor::DEFAULT);
+	for (int i = 0; i < ghostsNumber; i++)
+	{
+		m_Ghosts[i].SetColor(Color::eColor::DEFAULT);
+	}
+
 }
+
+
+
+//Updated functions for inheritence
+//void Game::MoveCreature(char nextDir, BoardObjects object)
+//{
+//
+//}

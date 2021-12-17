@@ -1,13 +1,13 @@
 #include "Direction.h"
 
 
-Direction::eDirection Direction::Convert(char c)
+Direction::eDirection Direction::Convert(char key)
 {
 	{
-		c = toupper(c);
+		key = toupper(key);
 		Direction::eDirection value = Direction::eDirection::UNDEFINED;
 
-		switch (c)
+		switch (key)
 		{
 		case 'W':
 			value = Direction::eDirection::UP;
@@ -44,16 +44,26 @@ Direction::eDirection Direction::getRandDir()
 	switch (dir)
 	{
 	case 1:
-		return Direction::eDirection::LEFT;
+		return eDirection::LEFT;
 
 	case 2:
-		return Direction::eDirection::RIGHT;
+		return eDirection::RIGHT;
 		
 	case 3:
-		return Direction::eDirection::UP;
+		return eDirection::UP;
 
 	default:
-		return Direction::eDirection::DOWN;
+		return eDirection::DOWN;
 
 	}
+}
+
+bool Direction::isValidDirection(char nextDirection)
+{
+	eDirection direction = Convert(nextDirection);
+	if (direction != eDirection::UNDEFINED)
+		return true;
+
+	else
+		return false;
 }

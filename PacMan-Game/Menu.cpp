@@ -25,7 +25,7 @@ void Menu::requestInput()
 
 void Menu::checkInput(const char choice)
 {
-	eUserChoice userChoice;
+	//eUserChoice userChoice;
 
 	switch (choice)
 	{

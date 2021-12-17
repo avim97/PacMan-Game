@@ -38,7 +38,7 @@ void Board::initBoard()
 		}
 	}
 	createTopTunnel();
-	createBottomtunnel();
+	createBottomTunnel();
 
 }
 void Board::createTopTunnel()
@@ -47,7 +47,7 @@ void Board::createTopTunnel()
 	board[11][WIDTH - 2] = board[11][WIDTH - 1] = board[12][WIDTH - 2] = board[12][WIDTH - 1] = board[16][WIDTH - 2] = board[16][WIDTH - 1] = board[17][WIDTH - 2] = board[17][WIDTH - 1] = static_cast<char>(BoardObjects::SPACE);
 
 }
-void Board::createBottomtunnel()
+void Board::createBottomTunnel()
 {
 	board[0][34] = board[0][35] = board[0][36] = board[0][37] = board[0][38] = board[0][39] = static_cast<char>(BoardObjects::SPACE);
 	board[1][34] = board[1][35] = board[1][36] = board[1][37] = board[1][38] = board[1][39] = static_cast<char>(BoardObjects::SPACE);
@@ -55,7 +55,6 @@ void Board::createBottomtunnel()
 	board[HEIGHT - 2][34] = board[HEIGHT - 2][35] = board[HEIGHT - 2][36] = board[HEIGHT - 2][37] = board[HEIGHT - 2][38] = board[HEIGHT - 2][39] = static_cast<char>(BoardObjects::SPACE);
 
 }
-
 void Board::printBoard()
 {
 	for (int i = 0; i < HEIGHT; i++)

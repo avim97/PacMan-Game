@@ -5,8 +5,9 @@
 #include <conio.h>
 #include <windows.h>
 #include <iostream>
+#include "Position.h"
 
 
 void hideCursor();
-void gotoxy(int, int); 
+void gotoxy(int x, int y) ; 
 void clrscr(); 

@@ -1,46 +1,29 @@
 #pragma once
+#include "GameCreature.h"
 
 
-#include <iostream>
-#include "Direction.h"
-#include "Position.h"
-#include "Color.h"
-#include "eBoardObjects.h"
 
-using namespace std;
-
-
-class Pacman
-{
-public:
-	const Position initialPos = { 36, 14 };
-
+class Pacman : public GameCreature {
 private:
-
-	const char m_figure;
-	Color m_color;
-	Position m_position;
-	char m_currDir;
-
-
+	int m_life;
+	int m_score;
 public:
-	Pacman() : m_figure(static_cast<int>(BoardObjects::PACMAN)), m_color(Color::eColor::YELLOW), m_position(initialPos), m_currDir(static_cast<char>(Direction::eDirection::STAY)) {};
-	void setColor(Color::eColor color) { m_color.setColor(color); };
-	Color getColor() { return m_color; };
-	int getXcoord() const { return m_position.getXcoord(); };
-	int getYcoord() const { return m_position.getYcoord(); };
-	Position getPosition() { return m_position; };
-	const char getFigure() { return m_figure; };
-	char getDirection() { return m_currDir; };
-	void setPosition(int x, int y) { m_position.setXcoord(x); m_position.setYcoord(y); };
-	void setXcoord(int x) { m_position.setXcoord(x); };
-	void setYcoord(int y) { m_position.setYcoord(y); };
-	void setDirection(char newDir) { m_currDir = newDir; };
-
-
-
+	Pacman() : 
+		GameCreature(
+			static_cast<int>(BoardObjects::PACMAN),
+			Color::eColor::YELLOW,
+			{ 36, 14 },
+			static_cast<char>(Direction::eDirection::STAY)),
+		m_life(3),
+		m_score(0)
+	{};
+	int GetCurrentLives() const { return m_life; };
+	void UpdateLife();
+	int GetCurrentScore() const { return m_score; };
+	bool UpdateScore(Board& board);
+	bool IsAlive() const;
+	virtual void Erase(const int yCoord, const int xCoord, Board& board) const override;
+	//virtual void Erase(const Position& position, Board& board) const override;
 
 };
-
-
 

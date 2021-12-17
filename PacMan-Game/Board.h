@@ -1,7 +1,7 @@
 #pragma once
 #include "eBoardObjects.h"
 #include "Color.h"
-
+#include "Position.h"
 
 
 class Board
@@ -20,17 +20,19 @@ public:
 	Board() :m_wallColor(Color::eColor::DEFAULT), m_breadcrumbColor(Color::eColor::BOLD_GREEN) { initBoard(); };
 	void initBoard();
 	void createTopTunnel();
-	void createBottomtunnel();
+	void createBottomTunnel();
 	void printBoard();
-	char getPosition(const int x, const int y) { return board[y][x]; };
 	int getWidth() { return WIDTH; };
 	int getHeight() { return HEIGHT; };
 	int getMaxScore() { return totalBreadcrumbs; };
+	Color  getWallColor() { return m_wallColor; };
+	Color  getBreadcrumbColor() { return m_breadcrumbColor; };
+	char getCellValue(const int x, const int y) const { return board[y][x]; };
+	char getCellValue(const Position& position) const { return board[position.getYcoord()][position.getXcoord()]; }; //check
 	void setChar(const int xCoord, const int yCoord, char ch) { board[yCoord][xCoord] = ch; };
 	void setWallColor(Color::eColor color) { m_wallColor.setColor(color); };
 	void setBreadcrumColor(Color::eColor color) { m_breadcrumbColor.setColor(color); };
-	Color  getWallColor() { return m_wallColor; };
-	Color  getBreadcrumbColor(){ return m_breadcrumbColor; };
+
 };
 
 
