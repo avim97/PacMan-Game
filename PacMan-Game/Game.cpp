@@ -12,6 +12,7 @@ void Game::initialGhostPos()
 	int xCoord, yCoord;
 	Position CurrentPosition;
 	Position InitialPosition;
+
 	for (int i = 0; i < ghostsNumber; i++)
 	{
 		CurrentPosition = this->m_Ghosts[i].GetPosition();
@@ -20,20 +21,16 @@ void Game::initialGhostPos()
 		xCoord = CurrentPosition.getXcoord();
 		yCoord = CurrentPosition.getYcoord();
 		gotoxy(xCoord, yCoord);
-		cout << m_Board.getCellValue(CurrentPosition);
-
+		m_Ghosts[i].Erase(yCoord, xCoord, m_Board);
 		m_Ghosts[i].ResetCurrentPosition();
-
-		xCoord = InitialPosition.getXcoord();
-		yCoord = InitialPosition.getYcoord();
-
-		m_Ghosts[i].Move(InitialPosition);
+		m_Ghosts[i].Move();
 	}
 }
 void Game::initialPacmanPos()
 {
 	Position CurrentPosition = this->m_Pacman.GetPosition();
 	Position InitialPosition = this->m_Pacman.GetInitialPosition();
+
 	int xCoord, yCoord;
 
 	xCoord = CurrentPosition.getXcoord();
@@ -43,11 +40,7 @@ void Game::initialPacmanPos()
 	cout << m_Board.getCellValue(CurrentPosition);
 
 	m_Pacman.ResetCurrentPosition();
-
-	xCoord = InitialPosition.getXcoord();
-	yCoord = InitialPosition.getYcoord();
-
-	m_Pacman.Move(InitialPosition);
+	m_Pacman.Move();
 
 }
 void Game::movePacman(char nextDir)
@@ -134,7 +127,6 @@ void Game::moveGhost(int ghost)
 	{
 	case Direction::eDirection::UP:
 		GhostStepCheck(yCoord - 1, xCoord, ghost);
-
 		break;
 
 	case Direction::eDirection::DOWN:
@@ -189,7 +181,7 @@ void Game::crossTunnel(const int yCoord, const int xCoord)
 void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 {
 
-	if (checkGhostIntersection(ghost))
+	if (CheckPacmanIntersection())
 	{
 		m_Pacman.UpdateLife();
 		if (!m_Pacman.IsAlive())
@@ -200,6 +192,11 @@ void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 		{
 			initView();
 		}
+	}
+
+	else if (CheckGhostsIntersection(ghost))
+	{
+		moveGhost(ghost);
 	}
 
 	else
@@ -232,23 +229,8 @@ void Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 			{
 				moveGhost(ghost);
 			}
-			break;
 
-		case static_cast<char>(BoardObjects::GHOST):
-			moveGhost(ghost);
 			break;
-
-		case static_cast<char>(BoardObjects::PACMAN):
-			this->m_Pacman.UpdateLife();
-			if (!m_Pacman.IsAlive())
-			{
-				m_gameStatus = eGameStatus::LOST;
-			}
-			else {
-				initView();
-			}
-			break;
-
 
 		default:
 			break;
@@ -304,7 +286,6 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 
 			else
 				m_gameStatus = eGameStatus::WON;
-
 			break;
 
 		default:
@@ -332,16 +313,21 @@ bool Game::CheckPacmanIntersection()
 
 	return IsIntersecting;
 }
-bool Game::checkGhostIntersection(int GhostIndex)
+bool Game::CheckGhostsIntersection(int ghostInd)
 {
-	bool IsIntersecting = false;
-	const Position& PacmanPosition = m_Pacman.GetPosition();
-	if (PacmanPosition == m_Ghosts[GhostIndex].GetPosition())
-		IsIntersecting = true;
+	bool AreIntersecting = false;
+	size_t ghostsNumber = m_Ghosts.size();
+	const Position& CurrentGhostPosition = m_Ghosts[ghostInd].GetPosition();
+	for (int i = 0 ; i < ghostsNumber && !AreIntersecting; i++)
+	{
+		if (i != ghostInd)
+		{
+			if (CurrentGhostPosition == m_Ghosts[i].GetPosition())
+				AreIntersecting = true;
+		}
+	}
 
-
-
-	return IsIntersecting;
+	return AreIntersecting;
 }
 bool Game::checkTunnel(const int yCoord, const int xCoord)
 {
@@ -383,14 +369,17 @@ void Game::PlayGame()
 		}
 		else
 			movePacman(m_Pacman.GetCurrentDirection());
+
 		pacmanMoves++;
+
 		if (pacmanMoves % 2 == 0)
 		{
-			for (int i = 0; i < m_Ghosts.size(); i++)
+			for (int i = 0; i < m_Ghosts.size() ; i++)
 			{
 				moveGhost(i);
 			}
 		}
+
 		Sleep(300);
 		showPlayerStatus();
 	} while (m_gameStatus == eGameStatus::RUNNING);

@@ -50,6 +50,7 @@ public:
 	void setDefaultColor();
 
 	// ----------- PACMAN---------
+
 	bool checkTunnel(const int yCoord, const int xCoord); //## - MOVED TO GAMECREATURE CLASS
 	bool PacmanStepCheck(const int yCoord, const int xCoord); //##
 	void crossTunnel(const int yCoord, const int xCoord); //## - MOVED TI PACMAN CLASS
@@ -59,15 +60,16 @@ public:
 	//void printPacman(const int yCoord, const int xCoord); // ## - MOVED TO GAMECREATURE CLASS
 	//bool isValidMove(char move);   // ## - MOVED TO DIRECTION CLASS
 	bool CheckPacmanIntersection();
-// ##
+
 
 	// -------------- GHOST ----------
 	void GhostStepCheck(const int yCoord, const int xCoord, int ghost); 
 	void moveGhost(int ghost);
-	bool checkGhostIntersection(int GhostIndex);
+	//bool checkGhostIntersection(int GhostIndex);
 	void InitializeGhosts(const int& ghostsNumber);
 	//void eraseGhost(const int yCoord, const int xCoord);
 	//void printGhost(const int yCoord, const int xCoord, int ghost);
+	bool CheckGhostsIntersection(int ghostInd);
 
 	//---------- Playing the game ---------
 	void PlayGame();

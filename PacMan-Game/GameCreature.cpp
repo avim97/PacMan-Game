@@ -6,16 +6,17 @@ void GameCreature::Move() const
 	int yCoord = this->GetYcoord();
 	gotoxy(xCoord, yCoord);
 
-	int color;
+	int color = this->GetColor().getColor();
 
-	if (this->GetColor().getColor() != static_cast<int>(Color::eColor::DEFAULT))
+	if (color != static_cast<int>(Color::eColor::DEFAULT))
 	{
-		color = this->GetColor().getColor();
 		Color::applyOutputColor(color);
+		this->Draw();
+		Color::resetOutputColor();
 	}
+	else
+		this->Draw();
 
-	this->Draw();
-	Color::resetOutputColor();
 }
 void GameCreature::Move(const Position _Position) const
 {

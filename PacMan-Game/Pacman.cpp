@@ -18,9 +18,9 @@ bool Pacman::UpdateScore(Board& board)
 bool Pacman::IsAlive() const
 {
 	if (m_life == 0)
-		return true;
-	else
 		return false;
+	else
+		return true;
 }
 
 void Pacman::Erase(const int yCoord, const int xCoord, Board& board) const
