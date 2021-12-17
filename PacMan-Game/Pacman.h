@@ -23,7 +23,7 @@ public:
 	bool UpdateScore(Board& board);
 	bool IsAlive() const;
 	virtual void Erase(const int yCoord, const int xCoord, Board& board) const override;
-	//virtual void Erase(const Position& position, Board& board) const override;
+
 
 };
 
