@@ -143,6 +143,7 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Direction.cpp" />
+    <ClCompile Include="FileActions.cpp" />
     <ClCompile Include="Fruit.cpp" />
     <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="Pacman.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="eBoardObjects.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="eGameStatus.h" />
+    <ClInclude Include="FileActions.h" />
     <ClInclude Include="Fruit.h" />
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="Pacman.h" />

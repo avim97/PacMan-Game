@@ -1,11 +1,10 @@
 #pragma once
-#include <iostream>
 #include "Direction.h"
 #include "Position.h"
 #include "Color.h"
 #include "eBoardObjects.h"
 #include "Board.h"
-#include <vector>
+
 
 using std::cout;
 using std::endl;

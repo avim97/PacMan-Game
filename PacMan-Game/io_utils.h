@@ -5,6 +5,8 @@
 #include <conio.h>
 #include <windows.h>
 #include <iostream>
+#include <vector>
+#include <filesystem>
 #include "Position.h"
 
 

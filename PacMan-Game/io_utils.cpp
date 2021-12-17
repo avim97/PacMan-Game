@@ -1,5 +1,5 @@
 #include "io_utils.h"
-using namespace std;
+//using namespace std;
 
 
 void hideCursor()
@@ -15,7 +15,7 @@ void gotoxy(int x, int y)
 {
 	HANDLE hConsoleOutput;
 	COORD dwCursorPosition;
-	cout.flush();
+	std::cout.flush();
 	dwCursorPosition.X = x;
 	dwCursorPosition.Y = y;
 	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
