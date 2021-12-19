@@ -3,74 +3,48 @@
 #include <iostream>
 
 
-Legend& Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos)
+void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos)
 {
 	
-	Position *LegendPos = new Position;
-	LegendPos = nullptr;
 	for (int i = 0; i < HEIGHT; i++)
 		for (int j = 0; j < WIDTH; j++)
 		{
-			if(LegendPos !=nullptr)
-			{ 
-
-			}
-			else {
-				switch (board[i][j])
-				{
-				case '@':
-					pacmanInitialPos = { i,j };
-					break;
-				case '$':
-					ghostInitialPos.push_back({ i,j });
-					board[i][j] = ' ';
-					break;
-				case '#':
-					break;
-				case '%':
-					board[i][j] = ' ';
-					break;
-				case '&':
-					*LegendPos = { i,j };
-					Legend Legend(*LegendPos);
-					break;
-				default:
-					if (Legend.checkIfWithinLegendRange({ i,j }))
-						board[i][j] = 'L';
-					else
-					{
-						board[i][j] = static_cast<char>(249);
-						this->totalBreadcrumbs++;
-					}
-
-
-			else if (((j > 26 && j < 34 || j>39 && j < 47) && i > 9 && i < 13) || ((j > 26 && j < 34 || j>39 && j < 47) && i > 15 && i < 19) || (i < 16 && i>12 && (j < 34 || j>39)))
-				board[i][j] = static_cast<char>(BoardObjects::WALL);
-
-
-			else if (j <= 1 || j >= WIDTH - 2)
-				board[i][j] = static_cast<char>(BoardObjects::WALL);
-
-
-			else if (((i < 7 || i>18) && j > 10 && j < 18) || ((i < 7 || i>18) && j < 63 && j>55))
-				board[i][j] = static_cast<char>(BoardObjects::WALL);
-
-
-			else 
-
+			switch (board[i][j])
 			{
-				board[i][j] = static_cast<char>(BoardObjects::FOOD);
-				totalBreadcrumbs++;
+			case '@':
+				pacmanInitialPos = { i,j };
+				break;
+			case '$':
+				ghostInitialPos.push_back({ i,j });
+				board[i][j] = ' ';
+				break;
+			case '#':
+				break;
+			case '%':
+				board[i][j] = ' ';
+				break;
+			case '&':
+				legend.SetPosition({ i,j });
+				ChangeLegendCells();
+				break;
+			case 'L':
+				break;
+			default:
+					board[i][j] = static_cast<char>(249);
+					this->totalBreadcrumbs++;
 			}
 		}
-	}
-	createTopTunnel();
-	createBottomTunnel();
-
-
 }
-
-
+void Board::ChangeLegendCells()
+{
+	int startX = legend.GetPosition().getXcoord();
+	int startY = legend.GetPosition().getYcoord();
+	for(int i=0;i<3;i++)
+		for (int j = 0; j < 20; j++)
+		{
+			board[startX + i][startY + j] = 'L';
+		}
+}
 
 void Board::printBoard()
 {

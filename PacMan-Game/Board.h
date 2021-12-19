@@ -18,7 +18,7 @@ private:
 	unsigned int totalBreadcrumbs = 0;
 	Position m_PacmanInitialPos = { 0,0 };
 	vector<Position> m_GhostInitialPos = {};
-
+	Legend legend;
 
 	GameBoard board;
 	Color m_wallColor;
@@ -33,9 +33,10 @@ public:
 		initBoard(m_PacmanInitialPos, m_GhostInitialPos);
 
 	};
-	Legend& initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos);
+	void initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos);
 	void createLegend(Position& legendLocation);
 	void printBoard();
+	void ChangeLegendCells();
 	int getWidth() { return WIDTH; };
 	int getHeight() { return HEIGHT; };
 	int getMaxScore() { return totalBreadcrumbs; };
