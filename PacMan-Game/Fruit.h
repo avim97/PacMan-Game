@@ -13,7 +13,7 @@ public:
 		GameCreature(
 			GetFruitFigure(GetRandomScoreValue()),
 			Color::eColor::PURPLE,
-			{ 0, 0 },
+			{ 36, 20 },
 			static_cast<char>(Direction::eDirection::STAY)),
 		m_IsActive(false)
 	{};

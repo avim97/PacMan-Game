@@ -53,5 +53,4 @@ void Fruit::DeActivateFruit(Board& board)
 	Position currentPosition = GetPosition();
 	m_IsActive = false;
 	Erase(currentPosition.getYcoord(), currentPosition.getXcoord(), board);
-
 }

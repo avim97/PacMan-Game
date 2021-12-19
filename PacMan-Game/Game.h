@@ -60,8 +60,8 @@ public:
 	void InitializeGhosts(const int& ghostsNumber);
 	void MoveGhost(int ghost);
 	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost); 
-	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord);
-	bool CheckGhostIntersection(const int yCoord, const int xCoord);
+	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject);
+
 
 
 	//------------FRUIT--------------
