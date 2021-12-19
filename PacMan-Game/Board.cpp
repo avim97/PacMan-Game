@@ -29,7 +29,7 @@ void Board::initBoard()
 				board[i][j] = static_cast<char>(BoardObjects::WALL);
 
 
-			else 
+			else
 
 			{
 				board[i][j] = static_cast<char>(BoardObjects::FOOD);
@@ -74,10 +74,22 @@ void Board::printBoard()
 				if (this->m_breadcrumbColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
 					m_wallColor.resetOutputColor();
 				cout << board[i][j];
-				
+
 			}
 
 		}
 		cout << '\n';
 	}
+}
+Position Board::GetRandomPosition()
+{
+
+	int randomX = 1 + (rand() % WIDTH);
+	int randomY = 1 + (rand() % HEIGHT);
+	while (board[randomX][randomY] != static_cast<char>(BoardObjects::WALL))
+	{
+		 randomX = 1 + (rand() % WIDTH);
+		 randomY = 1 + (rand() % HEIGHT);
+	}
+	return { randomY,randomX };
 }

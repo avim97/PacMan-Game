@@ -27,7 +27,7 @@ public:
 	Game(Position position) : //after merging get the initial position for the pacman and the fruit from the board member
 		m_Board(),
 		m_Pacman(),
-		m_Fruit(),
+		m_Fruit(m_Board.GetRandomPosition()),
 		m_gameStatus(eGameStatus::RUNNING),
 		m_IsColorful(true) 
 	{
@@ -71,7 +71,7 @@ public:
 	//---------- Playing the game ---------
 	void PlayGame();
 	void PauseGame();
-	void showPlayerStatus();
+	void ShowPlayerStatus();
 	void userWon();
 	void userLost();
 

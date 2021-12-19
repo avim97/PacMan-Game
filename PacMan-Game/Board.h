@@ -32,7 +32,7 @@ public:
 	void setChar(const int xCoord, const int yCoord, char ch) { board[yCoord][xCoord] = ch; };
 	void setWallColor(Color::eColor color) { m_wallColor.setColor(color); };
 	void setBreadcrumColor(Color::eColor color) { m_breadcrumbColor.setColor(color); };
-
+	Position GetRandomPosition();
 };
 
 

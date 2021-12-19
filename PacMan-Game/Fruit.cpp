@@ -46,7 +46,8 @@ void Fruit::ActivateFruit(Position position)
 	m_IsActive = true;
 	scoreValue = GetRandomScoreValue();
 	SetFigure(GetFruitFigure(scoreValue));
-
+	SetPosition(position);
+	SetInitialPosition(position);
 }
 void Fruit::DeActivateFruit(Board& board)
 {
