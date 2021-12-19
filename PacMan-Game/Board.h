@@ -4,6 +4,7 @@
 #include "Position.h"
 #include "FileActions.h"
 #include <vector>
+#include "Legend.h"
 
 using std::vector;
 typedef vector<vector<char>> GameBoard;
@@ -17,7 +18,7 @@ private:
 	unsigned int totalBreadcrumbs = 0;
 	Position m_PacmanInitialPos = { 0,0 };
 	vector<Position> m_GhostInitialPos = {};
-	
+
 
 	GameBoard board;
 	Color m_wallColor;
@@ -28,10 +29,11 @@ private:
 public:
 	Board(string& fileName) :m_wallColor(Color::eColor::DEFAULT), m_breadcrumbColor(Color::eColor::BOLD_GREEN) {
 		FileActions::updateBoardFromFile(fileName, board, HEIGHT, WIDTH);
+
 		initBoard(m_PacmanInitialPos, m_GhostInitialPos);
 
 	};
-	void initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos);
+	Legend& initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos);
 	void createLegend(Position& legendLocation);
 	void printBoard();
 	int getWidth() { return WIDTH; };
@@ -44,8 +46,8 @@ public:
 	void setChar(const int xCoord, const int yCoord, char ch) { board[yCoord][xCoord] = ch; };
 	void setWallColor(Color::eColor color) { m_wallColor.setColor(color); };
 	void setBreadcrumColor(Color::eColor color) { m_breadcrumbColor.setColor(color); };
-	Position getPacmanInitPos()const;
-	vector<Position> getGhostInitPos() const;
+	Position getPacmanInitPos()const { return m_PacmanInitialPos; };
+	vector<Position> getGhostInitPos() const { return m_GhostInitialPos; };
 };
 
 
