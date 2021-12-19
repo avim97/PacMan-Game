@@ -2,14 +2,14 @@
 
 
 
-bool Legend::checkIfWithinLegendRange(Position& position) const
+bool Legend::checkIfWithinLegendRange(const Position&  position) const
 {
 	if (!checkIfWithinRange(m_Position.getXcoord(), m_Position.getXcoord() + 2, position.getXcoord()) || !checkIfWithinRange(m_Position.getYcoord(), m_Position.getYcoord() + 19, position.getYcoord()))
 		return false;
 	else
 		return true;
 }
-bool Legend::checkIfWithinRange(int start, int end, int value)const
+bool Legend::checkIfWithinRange(const int &start, const int& end, const int& value)const
 {
 	if (value >= start && value <= end)
 		return true;
