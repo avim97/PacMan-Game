@@ -5,6 +5,7 @@ void Game::initView()
 {
 	initialPacmanPos();
 	initialGhostPos();
+	m_Fruit.DeActivateFruit(m_Board);
 }
 void Game::initialGhostPos()
 {
@@ -170,6 +171,11 @@ void Game::MoveFruit()
 	int yCoord = m_Fruit.GetYcoord();
 	int xCoord = m_Fruit.GetXcoord();
 
+	if (!m_Fruit.IsActive())
+	{
+		m_Fruit.ActivateFruit(m_Board.GetRandomPosition());
+	}
+
 	while (!Moved && m_Fruit.IsActive())
 	{
 		fruitDirection = Direction::getRandDir();
@@ -180,9 +186,8 @@ void Game::MoveFruit()
 			{
 				m_Fruit.Erase(yCoord, xCoord, m_Board);
 				m_Fruit.Move();
+				Moved = true;
 			}
-			else
-				Moved = false;
 			break;
 
 		case Direction::eDirection::DOWN:
@@ -190,9 +195,8 @@ void Game::MoveFruit()
 			{
 				m_Fruit.Erase(yCoord, xCoord, m_Board);
 				m_Fruit.Move();
+				Moved = true;
 			}
-			else
-				Moved = false;
 			break;
 
 		case Direction::eDirection::LEFT:
@@ -200,9 +204,8 @@ void Game::MoveFruit()
 			{
 				m_Fruit.Erase(yCoord, xCoord, m_Board);
 				m_Fruit.Move();
+				Moved = true;
 			}
-			else
-				Moved = false;
 			break;
 
 		case Direction::eDirection::RIGHT:
@@ -210,9 +213,8 @@ void Game::MoveFruit()
 			{
 				m_Fruit.Erase(yCoord, xCoord, m_Board);
 				m_Fruit.Move();
+				Moved = true;
 			}
-			else
-				Moved = false;
 			break;
 
 		default:
@@ -249,6 +251,8 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 		if (nextPosition == m_Fruit.GetPosition())
 		{
 			m_Pacman.UpdateFruitScore(m_Fruit.GetScoreValue());
+			m_Fruit.DeActivateFruit(m_Board);
+			//m_Fruit.SetFigure(m_Fruit.GetFruitFigure(m_Fruit.GetRandomScoreValue())); //
 		}
 
 
@@ -356,22 +360,31 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 }
 bool Game::FruitStepCheck(const int yCoord, const int xCoord)
 {
-	bool isValidStep;
+	bool isValidStep = true;
+	char cellValue = m_Board.getCellValue(xCoord, yCoord);
 
 	if (!CheckFruitIntersection({ yCoord, xCoord }, BoardObjects::PACMAN) && !CheckFruitIntersection({ yCoord, xCoord }, BoardObjects::GHOST))
 	{
-		if (m_Board.getCellValue({ yCoord,xCoord }) == static_cast<char>(BoardObjects::WALL))
+		if (cellValue == static_cast<char>(BoardObjects::WALL))
 			isValidStep = false;
-		else
+
+		else if (cellValue == static_cast<char>(BoardObjects::FOOD) || cellValue == static_cast<char>(BoardObjects::SPACE))
 		{
-			isValidStep = true;
-			m_Fruit.SetPosition({ yCoord, xCoord });
+			if (!checkTunnel(yCoord, xCoord))
+			{
+				m_Fruit.SetPosition(xCoord, yCoord);
+			}
+
+			else
+				isValidStep = false;
 		}
 	}
 	else
+		
 		isValidStep = false;
 
 	return isValidStep;
+
 }
 bool Game::CheckFruitIntersection(Position nextPosition, BoardObjects gameObject)
 {
@@ -383,6 +396,7 @@ bool Game::CheckFruitIntersection(Position nextPosition, BoardObjects gameObject
 		{
 			m_Pacman.UpdateFruitScore(m_Fruit.GetScoreValue());
 			m_Fruit.DeActivateFruit(m_Board);
+			//m_Fruit.SetFigure(m_Fruit.GetFruitFigure(m_Fruit.GetRandomScoreValue())); //
 			Intersected = true;
 		}
 		break;
@@ -395,6 +409,7 @@ bool Game::CheckFruitIntersection(Position nextPosition, BoardObjects gameObject
 			if (nextPosition == m_Ghosts[i].GetPosition())
 			{
 				m_Fruit.DeActivateFruit(m_Board);
+				//m_Fruit.SetFigure(m_Fruit.GetFruitFigure(m_Fruit.GetRandomScoreValue())); //
 				Intersected = true;
 			}
 		}
@@ -425,13 +440,17 @@ bool Game::CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObj
 	switch (gameObject)
 	{
 	case BoardObjects::GHOST:
-		
+
 		for (int i = 0; i < m_Ghosts.size() && !isIntersecting; i++)
 		{
 			if (i != ghostInd)
 			{
 				if (nextPosition == m_Ghosts[i].GetPosition())
+				{
 					isIntersecting = true;
+					m_Fruit.DeActivateFruit(m_Board);
+					//m_Fruit.SetFigure(m_Fruit.GetFruitFigure(m_Fruit.GetRandomScoreValue())); //
+				}
 			}
 		}
 		break;
@@ -446,6 +465,7 @@ bool Game::CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObj
 		if (nextPosition == m_Fruit.GetPosition())
 		{
 			m_Fruit.DeActivateFruit(m_Board);
+			//m_Fruit.SetFigure(m_Fruit.GetFruitFigure(m_Fruit.GetRandomScoreValue())); //
 		}
 		break;
 	}
@@ -472,7 +492,7 @@ void Game::eraseFood(const int yCoord, const int xCoord)
 void Game::PlayGame()
 {
 	char key = 'S';
-	int pacmanMoves = 0, ghostsMoves = 0;
+	int pacmanMoves = 0;
 
 	if (!getColorStyle())
 		setDefaultColor();
@@ -504,8 +524,18 @@ void Game::PlayGame()
 			}
 		}
 
+		else if (pacmanMoves % 5 == 0)
+		{
+			MoveFruit();
+		}
+
+		else if (pacmanMoves % 20 == 0)
+		{
+			m_Fruit.DeActivateFruit(m_Board);
+		}
+
 		Sleep(300);
-		showPlayerStatus();
+		ShowPlayerStatus();
 	}
 
 	if (m_gameStatus == eGameStatus::WON)
@@ -527,7 +557,7 @@ void Game::PauseGame()
 	cout << "                                       " << endl;
 
 }
-void Game::showPlayerStatus()
+void Game::ShowPlayerStatus()
 {
 	int lives = m_Pacman.GetCurrentLives();
 	int score = m_Pacman.GetCurrentScore();

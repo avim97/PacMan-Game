@@ -41,6 +41,7 @@ public:
 	//set functions
 	void SetPosition(const int x, const int y) { m_currentPosition.setXcoord(x); m_currentPosition.setYcoord(y); };
 	void SetPosition(Position position) { m_currentPosition = position; };
+	void SetInitialPosition(Position position) { m_initialPosition = position; };
 	void SetXcoord(const int x) { m_currentPosition.setXcoord(x); };
 	void SetYcoord(const int y) { m_currentPosition.setYcoord(y); };
 	void SetFigure(const char figure) { m_figure = figure; };
