@@ -166,30 +166,53 @@ void Game::MoveFruit()
 {
 
 	char Moved = false;
-
-
+	Direction::eDirection fruitDirection;
 	int yCoord = m_Fruit.GetYcoord();
 	int xCoord = m_Fruit.GetXcoord();
 
-	while (!Moved)
+	while (!Moved && m_Fruit.IsActive())
 	{
-		Direction::eDirection ghostDir = Direction::getRandDir();
-		switch (ghostDir)
+		fruitDirection = Direction::getRandDir();
+		switch (fruitDirection)
 		{
 		case Direction::eDirection::UP:
-			Moved = FruitStepCheck(yCoord - 1, xCoord);
+			if (FruitStepCheck(yCoord - 1, xCoord))
+			{
+				m_Fruit.Erase(yCoord, xCoord, m_Board);
+				m_Fruit.Move();
+			}
+			else
+				Moved = false;
 			break;
 
 		case Direction::eDirection::DOWN:
-			Moved = FruitStepCheck(yCoord + 1, xCoord);
+			if (FruitStepCheck(yCoord + 1, xCoord))
+			{
+				m_Fruit.Erase(yCoord, xCoord, m_Board);
+				m_Fruit.Move();
+			}
+			else
+				Moved = false;
 			break;
 
 		case Direction::eDirection::LEFT:
-			Moved = FruitStepCheck(yCoord, xCoord - 1);
+			if (FruitStepCheck(yCoord, xCoord - 1))
+			{
+				m_Fruit.Erase(yCoord, xCoord, m_Board);
+				m_Fruit.Move();
+			}
+			else
+				Moved = false;
 			break;
 
 		case Direction::eDirection::RIGHT:
-			Moved = FruitStepCheck(yCoord, xCoord + 1);
+			if (FruitStepCheck(yCoord, xCoord + 1))
+			{
+				m_Fruit.Erase(yCoord, xCoord, m_Board);
+				m_Fruit.Move();
+			}
+			else
+				Moved = false;
 			break;
 
 		default:
@@ -270,7 +293,7 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 {
 	bool IsValidStep = true;
 
-	if (CheckGhostIntersection(yCoord, xCoord))
+	if (CheckGhostIntersection(ghost, yCoord, xCoord, BoardObjects::PACMAN))
 	{
 		m_Pacman.UpdateLife();
 		if (m_Pacman.IsAlive())
@@ -284,18 +307,18 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 	}
 
 
-	else if (CheckGhostIntersection(ghost, yCoord, xCoord))
+	else if (CheckGhostIntersection(ghost, yCoord, xCoord, BoardObjects::GHOST))
 	{
 		IsValidStep = false;
 	}
 
-	else
+	else //there is not pacman or ghost in the next direction
 	{
 		int CurrentXCoord = m_Ghosts[ghost].GetXcoord();
 		int CurrentYCoord = m_Ghosts[ghost].GetYcoord();
-
 		char nextPos = m_Board.getCellValue(xCoord, yCoord);
 
+		CheckGhostIntersection(ghost, yCoord, xCoord, BoardObjects::FRUIT);
 		switch (nextPos) {
 		case static_cast<char>(BoardObjects::WALL):
 			IsValidStep = false;
@@ -333,40 +356,22 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 }
 bool Game::FruitStepCheck(const int yCoord, const int xCoord)
 {
+	bool isValidStep;
+
 	if (!CheckFruitIntersection({ yCoord, xCoord }, BoardObjects::PACMAN) && !CheckFruitIntersection({ yCoord, xCoord }, BoardObjects::GHOST))
 	{
-		char Moved = false;
-		Direction::eDirection nextDirection;
-		int yCoord = m_Fruit.GetYcoord();
-		int xCoord = m_Fruit.GetXcoord();
-
-		while (!Moved)
+		if (m_Board.getCellValue({ yCoord,xCoord }) == static_cast<char>(BoardObjects::WALL))
+			isValidStep = false;
+		else
 		{
-			nextDirection = Direction::getRandDir();
-			switch (nextDirection)
-			{
-			case Direction::eDirection::UP:
-				Moved = FruitStepCheck(yCoord - 1, xCoord);
-				break;
-
-			case Direction::eDirection::DOWN:
-				Moved = FruitStepCheck(yCoord + 1, xCoord);
-				break;
-
-			case Direction::eDirection::LEFT:
-				Moved = FruitStepCheck(yCoord, xCoord - 1);
-				break;
-
-			case Direction::eDirection::RIGHT:
-				Moved = FruitStepCheck(yCoord, xCoord + 1);
-				break;
-
-			default:
-				break;
-			}
-
+			isValidStep = true;
+			m_Fruit.SetPosition({ yCoord, xCoord });
 		}
 	}
+	else
+		isValidStep = false;
+
+	return isValidStep;
 }
 bool Game::CheckFruitIntersection(Position nextPosition, BoardObjects gameObject)
 {
@@ -394,10 +399,6 @@ bool Game::CheckFruitIntersection(Position nextPosition, BoardObjects gameObject
 			}
 		}
 		break;
-
-	default:
-		Intersected = false;
-		break;
 	}
 
 	return Intersected;
@@ -416,32 +417,41 @@ bool Game::CheckPacmanIntersection(const int yCoord, const int xCoord)
 
 	return IsIntersecting;
 }
-bool Game::CheckGhostIntersection(int ghostInd, int yCoord, int xCoord)
+bool Game::CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject)
 {
-	bool AreIntersecting = false;
-	size_t ghostsNumber = m_Ghosts.size();
-	Position NextPosition = { xCoord, yCoord };
-	for (int i = 0; i < ghostsNumber && !AreIntersecting; i++)
+	bool isIntersecting = false;
+	Position nextPosition = { xCoord, yCoord };
+
+	switch (gameObject)
 	{
-		if (i != ghostInd)
+	case BoardObjects::GHOST:
+		
+		for (int i = 0; i < m_Ghosts.size() && !isIntersecting; i++)
 		{
-			if (NextPosition == m_Ghosts[i].GetPosition())
-				AreIntersecting = true;
+			if (i != ghostInd)
+			{
+				if (nextPosition == m_Ghosts[i].GetPosition())
+					isIntersecting = true;
+			}
 		}
+		break;
+
+	case BoardObjects::PACMAN:
+
+		if (nextPosition == m_Pacman.GetPosition())
+			isIntersecting = true;
+		break;
+
+	case BoardObjects::FRUIT:
+		if (nextPosition == m_Fruit.GetPosition())
+		{
+			m_Fruit.DeActivateFruit(m_Board);
+		}
+		break;
 	}
 
-	return AreIntersecting;
-}
-bool Game::CheckGhostIntersection(const int yCoord, const int xCoord)
-{
-	bool AreIntersecting = false;
-	Position NextPosition = { xCoord, yCoord };
+	return isIntersecting;
 
-	if (NextPosition == m_Pacman.GetPosition())
-		AreIntersecting = true;
-
-
-	return AreIntersecting;
 }
 bool Game::checkTunnel(const int yCoord, const int xCoord)
 {
