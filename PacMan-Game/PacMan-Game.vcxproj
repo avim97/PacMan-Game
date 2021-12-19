@@ -146,6 +146,7 @@
     <ClCompile Include="FileActions.cpp" />
     <ClCompile Include="Fruit.cpp" />
     <ClCompile Include="Ghost.cpp" />
+    <ClCompile Include="Legend.cpp" />
     <ClCompile Include="Pacman.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameController.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="FileActions.h" />
     <ClInclude Include="Fruit.h" />
     <ClInclude Include="Ghost.h" />
+    <ClInclude Include="Legend.h" />
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="eUserChoice.h" />
     <ClInclude Include="Game.h" />

@@ -8,12 +8,11 @@ using std::cout; using std::cin;
 using std::endl; using std::string;
 using std::vector;
 
-typedef vector<vector<char>> gameBoard;
+typedef vector<vector<char>> GameBoard;
 
 class FileActions {
 public:
 	static void dirFileList(vector<string>& fileArr);
 	static void sortBoardFileNames(vector<string>& fileArr);
-	static void updateBoardFromFile(string& fileName, gameBoard& board, int& ROWS, int& COLS);
-
+	static void updateBoardFromFile(string& fileName, GameBoard& board, int& HEIGHT, int& WIDTH);
 };

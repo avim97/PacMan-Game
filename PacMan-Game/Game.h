@@ -24,8 +24,8 @@ private:
 	bool m_isColorful;
 
 public:
-	Game() : 
-		m_Board(),
+	Game(string &boardPath) : 
+		m_Board(boardPath),
 		m_Pacman(),
 		m_gameStatus(eGameStatus::RUNNING),
 		m_score(0), 

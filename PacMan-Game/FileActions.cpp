@@ -29,22 +29,27 @@ void FileActions::dirFileList(vector<string>& fileArr)
 	}
 
 }
-void FileActions::updateBoardFromFile(string& fileName, gameBoard& board, int& ROWS, int& COLS)
+void FileActions::updateBoardFromFile(string& fileName, GameBoard& board,int &HEIGHT,int &WIDTH)
 {
+	HEIGHT = 0;
+	WIDTH = 0;
 	string readLine;
-	int rowNum = 0, colsNum = 0;
+
 
 	std::ifstream readFile(fileName);
 	while (getline(readFile, readLine))
 	{
 		for (char& c : readLine)
 		{
-			board[rowNum].push_back(c);
-			if (rowNum == 0)
-				colsNum++;
+
+			board[HEIGHT].push_back(c);
+			WIDTH++;
 		}
-		rowNum++;
+		HEIGHT++;
 	}
-	ROWS = rowNum + 1;
-	COLS = colsNum + 1;
+	
+	WIDTH += 1;
+	HEIGHT += 1;
+	readFile.close();
+
 }

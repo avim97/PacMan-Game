@@ -30,7 +30,8 @@ void GameController::Run()
 
 void GameController::startNewGame()
 {
-	Game newGame;
+	string fileName;
+	Game newGame(fileName);
 	char colorStyle = 0;
 	clrscr();
 

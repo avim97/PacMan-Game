@@ -3,11 +3,15 @@
 #include <iostream>
 
 
-void Board::initBoard(Position &pacmanInitialPos, vector<Position>& ghostInitialPos, Position& fruitInitialPos)
+void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos)
 {
-for (int i=0;i<HEIGHT;i++)
-	for(int j=0;j<WIDTH;j++)
+	Position legendLocation;
+	for (int i = 0; i < HEIGHT; i++)
+		for (int j = 0; j < WIDTH; j++)
 		{
+			bool IsLegend
+			if()
+
 			switch (board[i][j])
 			{
 			case '@':
@@ -15,17 +19,27 @@ for (int i=0;i<HEIGHT;i++)
 				break;
 			case '$':
 				ghostInitialPos.push_back({ i,j });
+				board[i][j] = ' ';
 				break;
 			case '#':
 				break;
 			case '%':
+				board[i][j] = ' ';
 				break;
 			case '&':
+				legendLocation = { i,j };
 				break;
+			default:
+				board[i][j] = static_cast<char>(249);
+
+				this->totalBreadcrumbs++;
 			}
 		}
 
+
 }
+
+
 
 void Board::printBoard()
 {
@@ -52,4 +66,13 @@ void Board::printBoard()
 		}
 		std::cout << '\n';
 	}
+}
+Position Board::getPacmanInitPos()const
+{
+	return m_PacmanInitialPos;
+}
+
+vector<Position> Board::getGhostInitPos() const
+{
+	return m_GhostInitialPos;
 }
