@@ -12,5 +12,5 @@
 
 
 void hideCursor();
-void gotoxy(int x, int y);
-void clrscr();
+void gotoxy(const int x, const int y) ;
+void clrscr(); 

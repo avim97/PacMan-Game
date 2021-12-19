@@ -5,8 +5,9 @@
 
 class Pacman : public GameCreature {
 private:
-	int m_life;
-	int m_score;
+	int m_Lives;
+	int m_BreadcrumbsScore;
+	int m_FruitScore;
 public:
 	Pacman() : 
 		GameCreature(
@@ -14,13 +15,15 @@ public:
 			Color::eColor::YELLOW,
 			{ 36, 14 },
 			static_cast<char>(Direction::eDirection::STAY)),
-		m_life(3),
-		m_score(0)
+		m_Lives(3),
+		m_BreadcrumbsScore(0),
+		m_FruitScore(0)
 	{};
-	int GetCurrentLives() const { return m_life; };
+	int GetCurrentLives() const { return m_Lives; };
 	void UpdateLife();
-	int GetCurrentScore() const { return m_score; };
-	bool UpdateScore(Board& board);
+	int GetCurrentScore() const { return m_BreadcrumbsScore; };
+	bool UpdateBreadcrumbScore(Board& board);
+	void UpdateFruitScore(int score) { m_BreadcrumbsScore += score; };
 	bool IsAlive() const;
 	virtual void Erase(const int yCoord, const int xCoord, Board& board) const override;
 

@@ -43,10 +43,29 @@ Legend& Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInit
 						this->totalBreadcrumbs++;
 					}
 
-					
-				}
+
+			else if (((j > 26 && j < 34 || j>39 && j < 47) && i > 9 && i < 13) || ((j > 26 && j < 34 || j>39 && j < 47) && i > 15 && i < 19) || (i < 16 && i>12 && (j < 34 || j>39)))
+				board[i][j] = static_cast<char>(BoardObjects::WALL);
+
+
+			else if (j <= 1 || j >= WIDTH - 2)
+				board[i][j] = static_cast<char>(BoardObjects::WALL);
+
+
+			else if (((i < 7 || i>18) && j > 10 && j < 18) || ((i < 7 || i>18) && j < 63 && j>55))
+				board[i][j] = static_cast<char>(BoardObjects::WALL);
+
+
+			else 
+
+			{
+				board[i][j] = static_cast<char>(BoardObjects::FOOD);
+				totalBreadcrumbs++;
 			}
 		}
+	}
+	createTopTunnel();
+	createBottomTunnel();
 
 
 }

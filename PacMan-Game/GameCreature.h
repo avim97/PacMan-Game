@@ -14,7 +14,7 @@ class GameCreature
 public:
 	
 private:
-	const char m_figure;
+	char m_figure;
 	Color m_color;
 	Position m_initialPosition;
 	Position m_currentPosition;
@@ -30,7 +30,7 @@ public:
 
 
 	//get functions
-	const char GetFigure()const { return m_figure; };
+	const char GetFigure() const { return m_figure; };
 	Color GetColor() const { return m_color; };
 	Position const&  GetPosition() const { return m_currentPosition; };
 	int GetXcoord() const { return m_currentPosition.getXcoord(); };
@@ -43,14 +43,15 @@ public:
 	void SetPosition(Position position) { m_currentPosition = position; };
 	void SetXcoord(const int x) { m_currentPosition.setXcoord(x); };
 	void SetYcoord(const int y) { m_currentPosition.setYcoord(y); };
+	void SetFigure(const char figure) { m_figure = figure; };
 	void SetColor(Color::eColor color) { m_color.setColor(color); };
 	void SetDirection(const char newDir) { m_currDir = newDir; };
 	void ResetCurrentPosition() { m_currentPosition = m_initialPosition; };
 
 	//i_o functions
 	void Move() const;
-	void Move(const Position _Position) const;
-	void Draw()const { cout << m_figure; };
+	void Move(const Position _position) const;
+	void Draw() const { cout << m_figure; };
 	virtual void Erase(const int yCoord, const int xCoord, Board& board) const = 0;
 	void EraseFood(const int yCoord, const int xCoord, Board& board);
 

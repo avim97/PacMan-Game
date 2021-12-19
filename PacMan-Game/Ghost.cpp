@@ -2,8 +2,10 @@
 
 void Ghost::Erase(const int yCoord, const int xCoord, Board& board) const
 {
+
 	int color;
-	gotoxy(xCoord, yCoord);
+
+	gotoxy(xCoord, yCoord); //there is a problem here it prints no on the right location
 
 	if (board.getCellValue(xCoord, yCoord) == static_cast<char>(BoardObjects::FOOD))
 	{

@@ -62,7 +62,7 @@ void GameController::startNewGame()
 	
 	newGame.printBoard();
 
-	newGame.initView();
+	//newGame.initView();
 
 	while (newGame.getGameStatus() == eGameStatus::RUNNING)
 	{
