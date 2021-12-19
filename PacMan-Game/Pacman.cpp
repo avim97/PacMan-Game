@@ -2,14 +2,14 @@
 
 void Pacman::UpdateLife()
 {
-	m_life--;
+	m_Lives--;
 }
 
-bool Pacman::UpdateScore(Board& board)
+bool Pacman::UpdateBreadcrumbScore(Board& board)
 {
-	m_score++;
+	m_BreadcrumbsScore++;
 
-	if (m_score == board.getMaxScore())
+	if (m_BreadcrumbsScore == board.getMaxScore())
 		return false;
 
 	return true;
@@ -17,7 +17,7 @@ bool Pacman::UpdateScore(Board& board)
 
 bool Pacman::IsAlive() const
 {
-	if (m_life == 0)
+	if (m_Lives == 0)
 		return false;
 	else
 		return true;
@@ -29,8 +29,4 @@ void Pacman::Erase(const int yCoord, const int xCoord, Board& board) const
 	cout << static_cast<char>(BoardObjects::SPACE);
 }
 
-//void Pacman::Erase(const Position& position, Board& board) const
-//{
-//	//gotoxy(position);
-//	cout << static_cast<char>(BoardObjects::SPACE);
-//}
+

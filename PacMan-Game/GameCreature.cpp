@@ -4,6 +4,7 @@ void GameCreature::Move() const
 {
 	int xCoord = this->GetXcoord();
 	int yCoord = this->GetYcoord();
+
 	gotoxy(xCoord, yCoord);
 
 	int color = this->GetColor().getColor();
@@ -18,10 +19,10 @@ void GameCreature::Move() const
 		this->Draw();
 
 }
-void GameCreature::Move(const Position _Position) const
+void GameCreature::Move(const Position _position) const
 {
-	int xCoord = _Position.getXcoord();
-	int yCoord = _Position.getYcoord();
+	int xCoord = _position.getXcoord();
+	int yCoord = _position.getYcoord();
 
 	gotoxy(xCoord, yCoord);
 
@@ -38,7 +39,7 @@ void GameCreature::Move(const Position _Position) const
 		this->Draw();
 
 }
-void GameCreature::EraseFood(const int yCoord, const int xCoord, Board& board)
+void GameCreature::EraseFood( int yCoord,  int xCoord, Board& board)
 {
 	board.setChar(xCoord, yCoord, static_cast<char>(BoardObjects::SPACE));
 }

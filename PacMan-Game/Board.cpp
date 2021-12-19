@@ -29,7 +29,7 @@ void Board::initBoard()
 				board[i][j] = static_cast<char>(BoardObjects::WALL);
 
 
-			else
+			else 
 
 			{
 				board[i][j] = static_cast<char>(BoardObjects::FOOD);

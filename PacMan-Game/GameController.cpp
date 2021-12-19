@@ -30,7 +30,7 @@ void GameController::Run()
 
 void GameController::startNewGame()
 {
-	Game newGame;
+	Game newGame({36,17}); //after merging get the initial position for the pacman and the fruit from the board member
 	char colorStyle = 0;
 	clrscr();
 
@@ -61,7 +61,7 @@ void GameController::startNewGame()
 	
 	newGame.printBoard();
 
-	newGame.initView();
+	//newGame.initView();
 
 	while (newGame.getGameStatus() == eGameStatus::RUNNING)
 	{
