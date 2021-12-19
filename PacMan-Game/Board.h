@@ -17,6 +17,7 @@ private:
 	int WIDTH;
 	unsigned int totalBreadcrumbs = 0;
 	Position m_PacmanInitialPos = { 0,0 };
+	Position m_FruitInitialPos = { 0,0 };
 	vector<Position> m_GhostInitialPos = {};
 	Legend legend;
 
@@ -37,6 +38,7 @@ public:
 	void createLegend(Position& legendLocation);
 	void printBoard();
 	void ChangeLegendCells();
+	
 	int getWidth() { return WIDTH; };
 	int getHeight() { return HEIGHT; };
 	int getMaxScore() { return totalBreadcrumbs; };
@@ -47,8 +49,9 @@ public:
 	void setChar(const int xCoord, const int yCoord, char ch) { board[yCoord][xCoord] = ch; };
 	void setWallColor(Color::eColor color) { m_wallColor.setColor(color); };
 	void setBreadcrumColor(Color::eColor color) { m_breadcrumbColor.setColor(color); };
-	Position getPacmanInitPos()const { return m_PacmanInitialPos; };
-	vector<Position> getGhostInitPos() const { return m_GhostInitialPos; };
+	const Position& getPacmanInitPos() const { return m_PacmanInitialPos; };
+	const vector<Position>& getGhostInitPos() const { return m_GhostInitialPos; };
+	const Position& GetFruitInitPos() const{ return m_FruitInitialPos; };
 };
 
 
