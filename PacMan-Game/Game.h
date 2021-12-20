@@ -6,6 +6,7 @@
 #include "Fruit.h"
 #include <vector>
 #include "eGameStatus.h"
+#include <cmath>
 
 using std::vector;
 typedef vector<Ghost> GhostsVector;
@@ -42,7 +43,7 @@ public:
 	void initialPacmanPos();
 	eGameStatus getGameStatus() { return m_gameStatus; };
 
-
+	bool CheckBoardEdge(int xCoord, int yCoord);
 	//------------- COLORS -------------
 	void setColorStyle(bool isColorful); 
 	bool getColorStyle() { return m_IsColorful; };
@@ -50,9 +51,9 @@ public:
 
 	// ----------- PACMAN---------
 
-	bool checkTunnel(const int yCoord, const int xCoord); //## - MOVED TO GAMECREATURE CLASS
+	bool CheckTunnel(const int yCoord, const int xCoord); //## - MOVED TO GAMECREATURE CLASS
 	bool PacmanStepCheck(const int yCoord, const int xCoord); //##
-	void crossTunnel(const int yCoord, const int xCoord); //## - MOVED IT PACMAN CLASS
+	void CrossTunnel(const int yCoord, const int xCoord); //## - MOVED IT PACMAN CLASS
 	void MovePacman(char nextDir); 
 	void eraseFood(const int yCoord, const int xCoord); //## - MOVED TO GAMECREATURE CLASS
 	bool CheckPacmanIntersection(const int yCoord, const int xCoord);
@@ -78,6 +79,7 @@ public:
 	void ShowPlayerStatus();
 	void userWon();
 	void userLost();
+	
 
 
 	//Updated functions for inheritence
