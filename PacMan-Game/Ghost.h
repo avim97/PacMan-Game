@@ -1,22 +1,24 @@
 #pragma once
-
 #include "GameCreature.h"
-
+#include "MovementFactory.h"
 
 class Ghost : public GameCreature {
-	enum class eMode { BEST = 1, GOOD, NOVICE, UNDEFINED };
-	eMode m_mode;
+	GameMode m_mode;
+	Movement* m_Movement;
 public:
-	Ghost(Color::eColor COLOR, Position _position, int mode) :
+	Ghost(Color::eColor COLOR, Position _position, GameMode _mode) :
 		GameCreature(
-			static_cast<int>(BoardObjects::GHOST),
+			static_cast<char>(BoardObjects::GHOST),
 			COLOR, 
 			_position,
 			static_cast<char>(Direction::eDirection::STAY)),
-		m_mode(static_cast<eMode>(mode))
-	{};
-	void SetMode(eMode& mode) { m_mode = mode; };
-	eMode GetMode() const { return m_mode; };
-	void Erase(const int yCoord, const int xCoord, Board& board) const override;
+		m_mode(_mode)
+	{
+		AssignMovement(_mode);
+	};
 
+	~Ghost() { delete m_Movement; };
+	void AssignMovement(GameMode _mode) { m_Movement = MovementFactory::Create(_mode); }
+	void Erase(const int yCoord, const int xCoord, Board& board) const override;
+	Direction::eDirection GetMovement(char* board[], int ghostInd, Position& destination, Position* source) { return m_Movement->GetMove(board, ghostInd, destination, source); };
 };

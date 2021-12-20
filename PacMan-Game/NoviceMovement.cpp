@@ -1,6 +1,6 @@
 #include "NoviceMovement.h"
 
-void NoviceMovement::Move(int ghostInd)
+Direction::eDirection NoviceMovement::GetMove(char* board[], int ghostInd, Position& destination,Position* source)
 {
-
+	return Direction::eDirection::UNDEFINED;
 }

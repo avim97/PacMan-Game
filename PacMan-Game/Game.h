@@ -43,15 +43,15 @@ public:
 	//------------- COLORS -------------
 	void setColorStyle(bool isColorful); 
 	bool getColorStyle() { return m_IsColorful; };
-	void setDefaultColor();
+	void SetDefaultColor();
 
 	// ----------- PACMAN---------
 
-	bool checkTunnel(const int yCoord, const int xCoord); //## - MOVED TO GAMECREATURE CLASS
+	bool CheckTunnel(const int yCoord, const int xCoord); //## - MOVED TO GAMECREATURE CLASS
 	bool PacmanStepCheck(const int yCoord, const int xCoord); //##
-	void crossTunnel(const int yCoord, const int xCoord); //## - MOVED IT PACMAN CLASS
+	void CrossTunnel(const int yCoord, const int xCoord); //## - MOVED IT PACMAN CLASS
 	void MovePacman(char nextDir); 
-	void eraseFood(const int yCoord, const int xCoord); //## - MOVED TO GAMECREATURE CLASS
+	void EraseFood(const int yCoord, const int xCoord); //## - MOVED TO GAMECREATURE CLASS
 	void InitialFruitPosition();
 	bool CheckPacmanIntersection(const int yCoord, const int xCoord);
 
@@ -75,11 +75,6 @@ public:
 	void ShowPlayerStatus();
 	void userWon();
 	void userLost();
-
-
-	//Updated functions for inheritence
-	//void MoveCreature(char nextDir, BoardObjects object);
-
 
 };
 

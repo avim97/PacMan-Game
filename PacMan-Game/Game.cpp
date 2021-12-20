@@ -56,11 +56,11 @@ void Game::InitializeGhosts(const int& ghostsNumber)
 {
 	for (int i = 0; i < ghostsNumber; i++)
 	{
-		Ghost _Ghost(Color::getColor(i), { 38, 14 + i }, 1);
+		Ghost _Ghost(Color::getColor(i), { 38, 14 + i }, GameMode::BEST);
 		m_Ghosts.push_back(_Ghost);
 	}
 }
-void Game::crossTunnel(const int yCoord, const int xCoord)
+void Game::CrossTunnel(const int yCoord, const int xCoord)
 {
 	if (xCoord == 0)
 	{
@@ -139,10 +139,10 @@ void Game::MoveGhost(int ghost)
 
 	int yCoord = m_Ghosts[ghost].GetYcoord();
 	int xCoord = m_Ghosts[ghost].GetXcoord();
-
 	while (!Moved)
 	{
-		Direction::eDirection ghostDir = Direction::getRandDir();
+		Direction::eDirection ghostDir = m_Ghosts[ghost].GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost].GetPosition());
+
 		switch (ghostDir)
 		{
 		case Direction::eDirection::UP:
@@ -270,17 +270,17 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 
 
 		case static_cast<char>(BoardObjects::SPACE):
-			if (!checkTunnel(yCoord, xCoord))
+			if (!CheckTunnel(yCoord, xCoord))
 				m_Pacman.SetPosition(xCoord, yCoord);
 			else
-				crossTunnel(yCoord, xCoord);
+				CrossTunnel(yCoord, xCoord);
 			break;
 
 		case static_cast<char>(BoardObjects::FOOD):
 			if (m_Pacman.UpdateBreadcrumbScore(m_Board))
 			{
 				m_Pacman.SetPosition(xCoord, yCoord);
-				eraseFood(yCoord, xCoord);
+				EraseFood(yCoord, xCoord);
 			}
 
 			else
@@ -340,7 +340,7 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 			break;
 
 		case static_cast<char>(BoardObjects::FOOD):
-			if (!checkTunnel(yCoord, xCoord))
+			if (!CheckTunnel(yCoord, xCoord))
 			{
 				m_Ghosts[ghost].Erase(CurrentYCoord, CurrentXCoord, m_Board);
 				m_Ghosts[ghost].SetPosition(xCoord, yCoord);
@@ -375,7 +375,7 @@ bool Game::FruitStepCheck(const int yCoord, const int xCoord)
 
 		else if (cellValue == static_cast<char>(BoardObjects::FOOD) || cellValue == static_cast<char>(BoardObjects::SPACE))
 		{
-			if (!checkTunnel(yCoord, xCoord))
+			if (!CheckTunnel(yCoord, xCoord))
 			{
 				m_Fruit.SetPosition(xCoord, yCoord);
 			}
@@ -474,7 +474,7 @@ bool Game::CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObj
 	return isIntersecting;
 
 }
-bool Game::checkTunnel(const int yCoord, const int xCoord)
+bool Game::CheckTunnel(const int yCoord, const int xCoord)
 {
 	if ((xCoord == 0 || xCoord == m_Board.getWidth() - 1) && m_Board.getCellValue(xCoord, yCoord) != (char)BoardObjects::WALL)
 		return true;
@@ -486,7 +486,7 @@ bool Game::checkTunnel(const int yCoord, const int xCoord)
 		return false;
 
 }
-void Game::eraseFood(const int yCoord, const int xCoord)
+void Game::EraseFood(const int yCoord, const int xCoord)
 {
 	m_Board.setChar(xCoord, yCoord, static_cast<char>(BoardObjects::SPACE));
 }
@@ -496,7 +496,7 @@ void Game::PlayGame()
 	int pacmanMoves = 0,  fruitMoves =0;
 
 	if (!getColorStyle())
-		setDefaultColor();
+		SetDefaultColor();
 
 	hideCursor();
 
@@ -640,10 +640,10 @@ void Game::userLost()
 void Game::setColorStyle(bool isColorful)
 {
 	if (!isColorful)
-		setDefaultColor();
+		SetDefaultColor();
 	m_IsColorful = isColorful;
 }
-void Game::setDefaultColor() //this function sets the default color (white) to all of the game and board objects.
+void Game::SetDefaultColor() //this function sets the default color (white) to all of the game and board objects.
 {
 	size_t ghostsNumber = m_Ghosts.size();
 	m_Board.setBreadcrumColor(Color::eColor::DEFAULT);

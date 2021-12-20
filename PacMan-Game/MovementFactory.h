@@ -7,6 +7,6 @@
 class MovementFactory
 {
 public:
-	const Movement* Create(GameMode gameMode);
+	static Movement* Create(GameMode gameMode);
 };
 

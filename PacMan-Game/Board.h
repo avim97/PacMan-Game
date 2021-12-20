@@ -2,7 +2,8 @@
 #include "eBoardObjects.h"
 #include "Color.h"
 #include "Position.h"
-
+#include <vector>
+using std::vector;
 
 class Board
 {
@@ -11,7 +12,8 @@ private:
 	static const int HEIGHT = 25;
 	static const int WIDTH = 80;
 	unsigned int totalBreadcrumbs = 0;
-	char board[HEIGHT][WIDTH];
+	//char board[HEIGHT][WIDTH];
+	vector<vector<char>> board;
 	Color m_wallColor ;
 	Color m_breadcrumbColor ;
 
@@ -20,6 +22,7 @@ public:
 	Board() :
 		m_wallColor(Color::eColor::DEFAULT),
 		m_breadcrumbColor(Color::eColor::BOLD_GREEN)
+
 	 { initBoard(); };
 	void initBoard();
 	void createTopTunnel();
@@ -36,6 +39,7 @@ public:
 	void setWallColor(Color::eColor color) { m_wallColor.setColor(color); };
 	void setBreadcrumColor(Color::eColor color) { m_breadcrumbColor.setColor(color); };
 	Position GetRandomPosition();
+	vector<vector<char>> GetBoard() { return board; };
 };
 
 

@@ -1,6 +1,6 @@
 #include "GoodMovement.h"
 
-void GoodMovement::Move(int ghostInd)
+Direction::eDirection GoodMovement::GetMove(char* board[], int ghostInd, Position& destination, Position* source)
 {
-
+	return Direction::eDirection::UNDEFINED;
 }
