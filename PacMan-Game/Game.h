@@ -52,13 +52,13 @@ public:
 	void crossTunnel(const int yCoord, const int xCoord); //## - MOVED IT PACMAN CLASS
 	void MovePacman(char nextDir); 
 	void eraseFood(const int yCoord, const int xCoord); //## - MOVED TO GAMECREATURE CLASS
+	void InitialFruitPosition();
 	bool CheckPacmanIntersection(const int yCoord, const int xCoord);
 
 
 
 	// -------------- GHOST ----------
 	void InitializeGhosts(const int& ghostsNumber);
-	void InitialFruitPosition();
 	void MoveGhost(int ghost);
 	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost); 
 	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject);

@@ -16,6 +16,7 @@ private:
 	int m_ShortestPath;
 	queue<Position> m_QPosition;
 public:
+	BestMovement(){};
 	BestMovement(int _height, int _width) :
 		m_ShortestPath(0)
 	{ m_Paths.resize(_height, vector<char>(_width)); };
