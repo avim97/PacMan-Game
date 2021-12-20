@@ -84,9 +84,10 @@ void Board::printBoard()
 Position Board::GetRandomPosition()
 {
 
-	int randomX = 1 + (rand() % WIDTH);
-	int randomY = 1 + (rand() % HEIGHT);
-	while (board[randomX][randomY] != static_cast<char>(BoardObjects::WALL))
+	int randomX = 1 + (rand() % (HEIGHT - 1));
+	int randomY = 1 + (rand() % (WIDTH - 1));
+
+	while (board[randomX][randomY] == static_cast<char>(BoardObjects::WALL))
 	{
 		 randomX = 1 + (rand() % WIDTH);
 		 randomY = 1 + (rand() % HEIGHT);

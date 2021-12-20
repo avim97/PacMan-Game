@@ -17,7 +17,10 @@ private:
 
 
 public:
-	Board() :m_wallColor(Color::eColor::DEFAULT), m_breadcrumbColor(Color::eColor::BOLD_GREEN) { initBoard(); };
+	Board() :
+		m_wallColor(Color::eColor::DEFAULT),
+		m_breadcrumbColor(Color::eColor::BOLD_GREEN)
+	 { initBoard(); };
 	void initBoard();
 	void createTopTunnel();
 	void createBottomTunnel();
