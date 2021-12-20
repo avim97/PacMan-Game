@@ -510,7 +510,7 @@ void Game::PlayGame()
 
 	while (m_gameStatus == eGameStatus::RUNNING)
 	{
-		if (_kbhit())
+	if (_kbhit())
 		{
 			key = _getch();
 			if (key == 27)
