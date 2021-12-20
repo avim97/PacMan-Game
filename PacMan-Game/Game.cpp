@@ -5,7 +5,8 @@ void Game::initView()
 {
 	initialPacmanPos();
 	initialGhostPos();
-	m_Fruit.DeActivateFruit(m_Board);
+	InitialFruitPosition();
+	
 }
 void Game::initialGhostPos()
 {
@@ -46,7 +47,11 @@ void Game::initialPacmanPos()
 	m_Pacman.Move();
 
 }
-
+void Game::InitialFruitPosition()
+{
+	
+	m_Fruit.ActivateFruit(m_Board.GetRandomPosition());
+}
 void Game::InitializeGhosts(const int& ghostsNumber)
 {
 	for (int i = 0; i < ghostsNumber; i++)
@@ -170,8 +175,9 @@ void Game::MoveFruit()
 	Direction::eDirection fruitDirection;
 	int yCoord = m_Fruit.GetYcoord();
 	int xCoord = m_Fruit.GetXcoord();
+	bool activeFruit = rand() % 2;
 
-	if (!m_Fruit.IsActive())
+	if (activeFruit && !m_Fruit.IsActive())
 	{
 		m_Fruit.ActivateFruit(m_Board.GetRandomPosition());
 	}
@@ -252,7 +258,6 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 		{
 			m_Pacman.UpdateFruitScore(m_Fruit.GetScoreValue());
 			m_Fruit.DeActivateFruit(m_Board);
-			//m_Fruit.SetFigure(m_Fruit.GetFruitFigure(m_Fruit.GetRandomScoreValue())); //
 		}
 
 
@@ -396,7 +401,6 @@ bool Game::CheckFruitIntersection(Position nextPosition, BoardObjects gameObject
 		{
 			m_Pacman.UpdateFruitScore(m_Fruit.GetScoreValue());
 			m_Fruit.DeActivateFruit(m_Board);
-			//m_Fruit.SetFigure(m_Fruit.GetFruitFigure(m_Fruit.GetRandomScoreValue())); //
 			Intersected = true;
 		}
 		break;
@@ -409,7 +413,6 @@ bool Game::CheckFruitIntersection(Position nextPosition, BoardObjects gameObject
 			if (nextPosition == m_Ghosts[i].GetPosition())
 			{
 				m_Fruit.DeActivateFruit(m_Board);
-				//m_Fruit.SetFigure(m_Fruit.GetFruitFigure(m_Fruit.GetRandomScoreValue())); //
 				Intersected = true;
 			}
 		}
@@ -448,8 +451,6 @@ bool Game::CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObj
 				if (nextPosition == m_Ghosts[i].GetPosition())
 				{
 					isIntersecting = true;
-					m_Fruit.DeActivateFruit(m_Board);
-					//m_Fruit.SetFigure(m_Fruit.GetFruitFigure(m_Fruit.GetRandomScoreValue())); //
 				}
 			}
 		}
@@ -465,7 +466,7 @@ bool Game::CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObj
 		if (nextPosition == m_Fruit.GetPosition())
 		{
 			m_Fruit.DeActivateFruit(m_Board);
-			//m_Fruit.SetFigure(m_Fruit.GetFruitFigure(m_Fruit.GetRandomScoreValue())); //
+
 		}
 		break;
 	}
@@ -492,7 +493,7 @@ void Game::eraseFood(const int yCoord, const int xCoord)
 void Game::PlayGame()
 {
 	char key = 'S';
-	int pacmanMoves = 0;
+	int pacmanMoves = 0,  fruitMoves =0;
 
 	if (!getColorStyle())
 		setDefaultColor();
@@ -527,9 +528,10 @@ void Game::PlayGame()
 		else if (pacmanMoves % 5 == 0)
 		{
 			MoveFruit();
+			fruitMoves++;
 		}
 
-		else if (pacmanMoves % 20 == 0)
+		else if (fruitMoves % 10 == 0)
 		{
 			m_Fruit.DeActivateFruit(m_Board);
 		}
