@@ -178,14 +178,17 @@ void Game::MoveFruit()
 
 	char Moved = false;
 	Direction::eDirection fruitDirection;
-	int yCoord = m_Fruit.GetYcoord();
-	int xCoord = m_Fruit.GetXcoord();
+	int yCoord;
+	int xCoord;
 	bool activeFruit = rand() % 2;
 
 	if (activeFruit && !m_Fruit.IsActive())
 	{
 		m_Fruit.ActivateFruit(m_Board.GetRandomPosition());
 	}
+
+	yCoord = m_Fruit.GetYcoord();
+	xCoord = m_Fruit.GetXcoord();
 
 	while (!Moved && m_Fruit.IsActive())
 	{
@@ -443,7 +446,7 @@ bool Game::CheckPacmanIntersection(const int yCoord, const int xCoord)
 bool Game::CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject)
 {
 	bool isIntersecting = false;
-	Position nextPosition = { xCoord, yCoord };
+	Position nextPosition = { yCoord, xCoord };
 
 	switch (gameObject)
 	{

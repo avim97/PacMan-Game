@@ -12,10 +12,10 @@ void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitial
 			switch (board[i][j])
 			{
 			case '@':
-				pacmanInitialPos = { i,j };
+				pacmanInitialPos = { j,i };
 				break;
 			case '$':
-				ghostInitialPos.push_back({ i,j });
+				ghostInitialPos.push_back({ j,i });
 				board[i][j] = ' ';
 				break;
 			case '#':
@@ -78,10 +78,14 @@ Position Board::GetRandomPosition()
 
 	int randomX = 1 + (rand() % WIDTH);
 	int randomY = 1 + (rand() % HEIGHT);
-	while (board[randomX][randomY] == static_cast<char>(BoardObjects::WALL))
+	Position randomPosition;
+	while (board[randomY][randomX] == static_cast<char>(BoardObjects::WALL))
 	{
 		 randomX = 1 + (rand() % WIDTH);
 		 randomY = 1 + (rand() % HEIGHT);
 	}
-	return { randomY,randomX };
+	randomPosition.setYcoord(randomY);
+	randomPosition.setXcoord(randomX);
+
+	return randomPosition;
 }
