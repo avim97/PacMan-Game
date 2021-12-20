@@ -140,12 +140,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BestMovement.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Direction.cpp" />
+    <ClCompile Include="eGameMode.cpp" />
     <ClCompile Include="FileActions.cpp" />
     <ClCompile Include="Fruit.cpp" />
     <ClCompile Include="Ghost.cpp" />
+    <ClCompile Include="GoodMovement.cpp" />
+    <ClCompile Include="Movement.cpp" />
+    <ClCompile Include="MovementFactory.cpp" />
+    <ClCompile Include="NoviceMovement.cpp" />
     <ClCompile Include="Legend.cpp" />
     <ClCompile Include="Pacman.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -157,15 +163,21 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BestMovement.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="eBoardObjects.h" />
     <ClInclude Include="Direction.h" />
+    <ClInclude Include="eGameMode.h" />
     <ClInclude Include="eGameStatus.h" />
     <ClInclude Include="FileActions.h" />
     <ClInclude Include="Fruit.h" />
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="Legend.h" />
+    <ClInclude Include="GoodMovement.h" />
+    <ClInclude Include="Movement.h" />
+    <ClInclude Include="MovementFactory.h" />
+    <ClInclude Include="NoviceMovement.h" />
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="eUserChoice.h" />
     <ClInclude Include="Game.h" />

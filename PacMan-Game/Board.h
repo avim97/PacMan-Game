@@ -52,7 +52,7 @@ public:
 	Position GetRandomPosition();
 	const Position& getPacmanInitPos() const { return m_PacmanInitialPos; };
 	const vector<Position>& getGhostInitPos() const { return m_GhostInitialPos; };
-	const Position& GetFruitInitPos() const{ return m_FruitInitialPos; };
+	
 };
 
 

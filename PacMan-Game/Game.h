@@ -61,6 +61,7 @@ public:
 
 	// -------------- GHOST ----------
 	void InitializeGhostsVector(const vector<Position>& ghostsMoves);
+	void InitialFruitPosition();
 	void MoveGhost(int ghost);
 	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost); 
 	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject);
