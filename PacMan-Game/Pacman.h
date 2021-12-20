@@ -13,7 +13,7 @@ public:
 		GameCreature(
 			static_cast<int>(BoardObjects::PACMAN),
 			Color::eColor::YELLOW,
-			{ 36, 14 },
+			{ 5,25 },
 			static_cast<char>(Direction::eDirection::STAY)),
 		m_Lives(3),
 		m_BreadcrumbsScore(0),

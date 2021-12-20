@@ -31,25 +31,20 @@ void FileActions::dirFileList(vector<string>& fileArr)
 }
 void FileActions::updateBoardFromFile(string& fileName, GameBoard& board,int &HEIGHT,int &WIDTH)
 {
-	HEIGHT = 0;
-	WIDTH = 0;
 	string readLine;
-
-
 	std::ifstream readFile(fileName);
-	while (getline(readFile, readLine))
+	while (!readFile.eof())
 	{
+		getline(readFile, readLine);
+		vector<char> temp;
 		for (char& c : readLine)
 		{
-
-			board[HEIGHT].push_back(c);
-			WIDTH++;
+			temp.push_back(c);
 		}
-		HEIGHT++;
+		board.push_back(temp);
 	}
-	
-	WIDTH += 1;
-	HEIGHT += 1;
+	WIDTH = board[0].size();
+	HEIGHT = board.size();
 	readFile.close();
 
 }

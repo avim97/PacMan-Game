@@ -31,7 +31,10 @@ public:
 		m_gameStatus(eGameStatus::RUNNING),
 		m_IsColorful(true) 
 	{
-		srand((unsigned int)time(nullptr)); InitializeGhosts(4);
+		m_Pacman.SetInitialPosition(m_Board.getPacmanInitPos());
+		m_Pacman.SetPosition(m_Board.getPacmanInitPos());
+
+		srand((unsigned int)time(nullptr)); InitializeGhostsVector(m_Board.getGhostInitPos());
 	};
 	void printBoard() { m_Board.printBoard(); initView();}
 	void initView();
@@ -57,7 +60,7 @@ public:
 
 
 	// -------------- GHOST ----------
-	void InitializeGhosts(const int& ghostsNumber);
+	void InitializeGhostsVector(const vector<Position>& ghostsMoves);
 	void MoveGhost(int ghost);
 	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost); 
 	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject);

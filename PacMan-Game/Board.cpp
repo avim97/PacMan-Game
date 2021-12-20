@@ -39,7 +39,8 @@ void Board::ChangeLegendCells()
 {
 	int startX = legend.GetPosition().getXcoord();
 	int startY = legend.GetPosition().getYcoord();
-	for(int i=0;i<3;i++)
+
+	for(int i=0; i<3; i++)
 		for (int j = 0; j < 20; j++)
 		{
 			board[startX + i][startY + j] = 'L';
@@ -75,12 +76,12 @@ void Board::printBoard()
 Position Board::GetRandomPosition()
 {
 
-	int randomX = 1 + (rand() % WIDTH);
-	int randomY = 1 + (rand() % HEIGHT);
-	while (board[randomX][randomY] != static_cast<char>(BoardObjects::WALL))
+	int randomY = 1 + (rand() % WIDTH);
+	int randomX = 1 + (rand() % HEIGHT);
+	while (board[randomX][randomY] == static_cast<char>(BoardObjects::WALL))
 	{
-		 randomX = 1 + (rand() % WIDTH);
-		 randomY = 1 + (rand() % HEIGHT);
+		 randomY = 1 + (rand() % WIDTH);
+		 randomX = 1 + (rand() % HEIGHT);
 	}
-	return { randomY,randomX };
+	return { randomX,randomY };
 }

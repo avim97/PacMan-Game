@@ -4,7 +4,7 @@
 void Game::initView()
 {
 	initialPacmanPos();
-	initialGhostPos();
+	//initialGhostPos();
 	m_Fruit.DeActivateFruit(m_Board);
 }
 void Game::initialGhostPos()
@@ -47,11 +47,15 @@ void Game::initialPacmanPos()
 
 }
 
-void Game::InitializeGhosts(const int& ghostsNumber)
+void Game::InitializeGhostsVector(const vector<Position>& ghostsMoves)
 {
-	for (int i = 0; i < ghostsNumber; i++)
+	Position initialPosition;	
+		for (int i = 0; i < ghostsMoves.size(); i++)
 	{
-		Ghost _Ghost(Color::getColor(i), { 38, 14 + i }, 1);
+		/*initialPosition.setXcoord(ghostsMoves[i].getXcoord());
+		initialPosition.setYcoord(ghostsMoves[i].getYcoord());*/
+		initialPosition = ghostsMoves[i];
+		Ghost _Ghost(Color::getColor(i), initialPosition);
 		m_Ghosts.push_back(_Ghost);
 	}
 }

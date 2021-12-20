@@ -4,19 +4,16 @@
 
 
 class Ghost : public GameCreature {
-	enum class eMode { BEST = 1, GOOD, NOVICE, UNDEFINED };
-	eMode m_mode;
+	//enum class eMode { BEST = 1, GOOD, NOVICE, UNDEFINED };
+	//eMode m_mode;
 public:
-	Ghost(Color::eColor COLOR, Position _position, int mode) :
+	Ghost(Color::eColor COLOR, Position _position) :
 		GameCreature(
 			static_cast<int>(BoardObjects::GHOST),
 			COLOR,
 			_position,
-			static_cast<char>(Direction::eDirection::STAY)),
-		m_mode(static_cast<eMode>(mode))
+			static_cast<char>(Direction::eDirection::STAY))
 	{};
-	void SetMode(eMode& mode) { m_mode = mode; };
-	eMode GetMode() const { return m_mode; };
 	void Erase(const int yCoord, const int xCoord, Board& board) const override;
 
 };

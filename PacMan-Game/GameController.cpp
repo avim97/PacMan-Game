@@ -30,7 +30,7 @@ void GameController::Run()
 
 void GameController::startNewGame()
 {
-	string fileName;
+	string fileName = "s1.screen.txt";
 	Game newGame(fileName);
 	char colorStyle = 0;
 	clrscr();
