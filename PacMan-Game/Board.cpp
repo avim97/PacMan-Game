@@ -5,7 +5,7 @@
 
 void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos)
 {
-	
+
 	for (int i = 0; i < HEIGHT; i++)
 		for (int j = 0; j < WIDTH; j++)
 		{
@@ -19,7 +19,7 @@ void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitial
 				board[i][j] = static_cast<char>(BoardObjects::SPACE);
 				break;
 			case '#':
-				board[i][j]=static_cast<char>(BoardObjects::WALL);
+				board[i][j] = static_cast<char>(BoardObjects::WALL);
 				break;
 			case '%':
 				board[i][j] = static_cast<char>(BoardObjects::SPACE);
@@ -31,8 +31,8 @@ void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitial
 			case 'L':
 				break;
 			default:
-					board[i][j] = static_cast<char>(BoardObjects::FOOD);
-					this->totalBreadcrumbs++;
+				board[i][j] = static_cast<char>(BoardObjects::FOOD);
+				this->totalBreadcrumbs++;
 			}
 		}
 }
@@ -41,7 +41,7 @@ void Board::ChangeLegendCells()
 	int startX = legend.GetPosition().getXcoord();
 	int startY = legend.GetPosition().getYcoord();
 
-	for(int i=0; i<3; i++)
+	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 20; j++)
 		{
 			board[startX + i][startY + j] = 'L';
@@ -71,7 +71,7 @@ void Board::printBoard()
 				if (board[i][j] == 'L')
 					std::cout << static_cast<char>(BoardObjects::SPACE);
 				else
-				std::cout << board[i][j];
+					std::cout << board[i][j];
 
 			}
 
@@ -82,16 +82,28 @@ void Board::printBoard()
 Position Board::GetRandomPosition()
 {
 
-	int randomX = 1 + (rand() % WIDTH-1);
-	int randomY = 1 + (rand() % HEIGHT-1);
+	int randomX = 1 + (rand() % WIDTH - 1);
+	int randomY = 1 + (rand() % HEIGHT - 1);
 	Position randomPosition;
 	while (board[randomY][randomX] == static_cast<char>(BoardObjects::WALL))
 	{
-		 randomX = 1 + (rand() % WIDTH-1);
-		 randomY = 1 + (rand() % HEIGHT-1);
+		randomX = 1 + (rand() % WIDTH - 1);
+		randomY = 1 + (rand() % HEIGHT - 1);
 	}
 	randomPosition.setYcoord(randomY);
 	randomPosition.setXcoord(randomX);
 
 	return randomPosition;
 }
+//void Board::ChangeBoard(Board& newBoard)
+//{
+//	this->board = newBoard.GetBoard();
+//	this->HEIGHT = newBoard.HEIGHT;
+//	this->WIDTH = newBoard.WIDTH;
+//	this->totalBreadcrumbs = newBoard.totalBreadcrumbs;
+//	this->m_FruitInitialPos = newBoard.m_FruitInitialPos;
+//	this->m_GhostInitialPos = newBoard.m_GhostInitialPos;
+//	this->m_PacmanInitialPos = newBoard.m_PacmanInitialPos;
+//	this->legend.SetPosition(newBoard.legend.GetPosition());
+//	delete &newBoard;
+

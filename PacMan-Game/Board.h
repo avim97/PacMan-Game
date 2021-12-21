@@ -38,7 +38,7 @@ public:
 	void createLegend(Position& legendLocation);
 	void printBoard();
 	void ChangeLegendCells();
-	
+
 	int getWidth() { return WIDTH; };
 	int getHeight() { return HEIGHT; };
 	int getMaxScore() { return totalBreadcrumbs; };
@@ -52,7 +52,9 @@ public:
 	Position GetRandomPosition();
 	const Position& getPacmanInitPos() const { return m_PacmanInitialPos; };
 	const vector<Position>& getGhostInitPos() const { return m_GhostInitialPos; };
-	
+	void ChangeBoard(Board& board);
+	GameBoard GetBoard() { return board; };
+	Legend GetLegend() { return legend; };
 };
 
 

@@ -52,7 +52,13 @@ void Game::InitialFruitPosition()
 
 	m_Fruit.ActivateFruit(m_Board.GetRandomPosition());
 }
-
+//void Game::RunNextBoard(string& nextBoard) {
+//	Board newBoard(nextBoard);
+//	this->m_Board.ChangeBoard(newBoard);
+//	m_Pacman.SetInitialPosition(m_Board.getPacmanInitPos());
+//	this->m_Fruit.SetInitialPosition(m_Board)
+//	m_gameStatus = eGameStatus::RUNNING;
+//}
 void Game::InitializeGhostsVector(const vector<Position>& ghostsMoves)
 {
 	Position initialPosition;
@@ -259,8 +265,8 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 	}
 
 	else
-		
-		
+
+
 	{
 		if (CheckTunnel(yCoord, xCoord))
 		{
@@ -286,7 +292,7 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 
 
 			case static_cast<char>(BoardObjects::SPACE):
-					m_Pacman.SetPosition(xCoord, yCoord);
+				m_Pacman.SetPosition(xCoord, yCoord);
 				break;
 
 			case static_cast<char>(BoardObjects::FOOD):
@@ -305,7 +311,7 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 			}
 		}
 		else { Moved = false; }
-		
+
 	}
 
 
@@ -520,7 +526,7 @@ bool Game::CheckTunnel(const int yCoord, const int xCoord)
 	if (xCoord == 0 || xCoord == boardWidth)//side tunnel
 	{
 		otherSide = abs(boardWidth - xCoord);
-		if (m_Board.getCellValue( otherSide, yCoord) != static_cast<char>(BoardObjects::WALL) && m_Board.getCellValue(xCoord, yCoord) != static_cast<char>(BoardObjects::WALL))
+		if (m_Board.getCellValue(otherSide, yCoord) != static_cast<char>(BoardObjects::WALL) && m_Board.getCellValue(xCoord, yCoord) != static_cast<char>(BoardObjects::WALL))
 		{
 			return true;
 		}
@@ -529,11 +535,11 @@ bool Game::CheckTunnel(const int yCoord, const int xCoord)
 	else if (yCoord == 0 || yCoord == boardHeight)//top tunnel
 	{
 		otherSide = abs(boardHeight - yCoord);
-		if (m_Board.getCellValue(xCoord, otherSide) != static_cast<char>(BoardObjects::WALL) && m_Board.getCellValue( xCoord, yCoord) != static_cast<char>(BoardObjects::WALL))
+		if (m_Board.getCellValue(xCoord, otherSide) != static_cast<char>(BoardObjects::WALL) && m_Board.getCellValue(xCoord, yCoord) != static_cast<char>(BoardObjects::WALL))
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 	else
