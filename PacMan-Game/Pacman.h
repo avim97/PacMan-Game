@@ -9,11 +9,11 @@ private:
 	int m_BreadcrumbsScore;
 	int m_FruitScore;
 public:
-	Pacman() : 
+	Pacman(const Position& initialPosition) : 
 		GameCreature(
 			static_cast<int>(BoardObjects::PACMAN),
 			Color::eColor::YELLOW,
-			{ 5,25 },
+			initialPosition,
 			static_cast<char>(Direction::eDirection::STAY)),
 		m_Lives(3),
 		m_BreadcrumbsScore(0),
@@ -26,7 +26,7 @@ public:
 	void UpdateFruitScore(int score) { m_BreadcrumbsScore += score; };
 	bool IsAlive() const;
 	virtual void Erase(const int yCoord, const int xCoord, Board& board) const override;
-
+	int GetFruitScore() { return m_FruitScore; };
 
 };
 

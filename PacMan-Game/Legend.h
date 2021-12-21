@@ -13,15 +13,15 @@ private:
 	Color m_LivesColor;
 	Color m_ScoreColor;
 	Position m_Position;
-	const char heart[2] = { '<','3'};
+	const char heart[2] = { '<','3' };
 
 public:
 	Legend() :
 		m_LivesColor(Color::eColor::RED),
-		m_ScoreColor(Color::eColor::YELLOW){};
+		m_ScoreColor(Color::eColor::YELLOW) {};
 	bool checkIfWithinLegendRange(const Position& position)const;
 	bool checkIfWithinRange(const int& start, const int& end, const int& value)const;
-	void printLegend(int& lives, int& score,bool& m_isColorful) const;
+	void printLegend(int& lives, int& score, bool& m_isColorful) const;
 	void SetPosition(const Position& position) { m_Position = position; };
 	Position& GetPosition() { return m_Position; };
 };

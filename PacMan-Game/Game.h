@@ -15,27 +15,41 @@ typedef vector<Ghost*> GhostsVector;
 class Game
 {
 private:
-
+	
 	Board m_Board;
 	GhostsVector m_Ghosts;
 	Pacman m_Pacman;
 	Fruit m_Fruit;
 	eGameStatus m_gameStatus;
 	bool m_IsColorful;
-
+	int m_TotalScore;
 public:
 	Game(string &boardPath) : 
 		m_Board(boardPath),
-		m_Pacman(),
+		m_Pacman(m_Board.getPacmanInitPos()),
 		m_Fruit(m_Board.GetRandomPosition()),
 		m_gameStatus(eGameStatus::RUNNING),
-		m_IsColorful(true) 
+		m_IsColorful(true),
+		m_TotalScore(0)
 	{
-		m_Pacman.SetInitialPosition(m_Board.getPacmanInitPos());
-		m_Pacman.SetPosition(m_Board.getPacmanInitPos());
-
 		srand((unsigned int)time(nullptr)); InitializeGhostsVector(m_Board.getGhostInitPos());
 	};
+	Game(string& boardPath,int lives,int score) :
+		m_Board(boardPath),
+		m_Pacman(m_Board.getPacmanInitPos()),
+		m_Fruit(m_Board.GetRandomPosition()),
+		m_gameStatus(eGameStatus::RUNNING),
+		m_IsColorful(true),
+		m_TotalScore(score)
+	{
+		srand((unsigned int)time(nullptr)); InitializeGhostsVector(m_Board.getGhostInitPos());
+	};
+	int GetTotalScore()
+	{
+		m_TotalScore = m_Pacman.GetFruitScore() + m_Pacman.GetCurrentScore();
+		return m_TotalScore;
+	}
+	void RunNextBoard(string& nextBoard);
 	~Game();
 	void printBoard() { m_Board.printBoard(); initView();}
 	void initView();
@@ -56,6 +70,7 @@ public:
 	void MovePacman(char nextDir); 
 	void eraseFood(const int yCoord, const int xCoord); //## - MOVED TO GAMECREATURE CLASS
 	bool CheckPacmanIntersection(const int yCoord, const int xCoord);
+	Pacman& getPacman() { return this->m_Pacman; }
 
 	// -------------- GHOST ----------
 	void InitializeGhostsVector(const vector<Position>& ghostsMoves);
