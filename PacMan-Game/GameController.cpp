@@ -49,7 +49,7 @@ void GameController::startNewGame()
 		else if (colorStyle == '2')
 		{
 			newGame.setColorStyle(false);
-			newGame.setDefaultColor();
+			newGame.SetDefaultColor();
 		}
 
 		else //wrong input- not 1 or 2

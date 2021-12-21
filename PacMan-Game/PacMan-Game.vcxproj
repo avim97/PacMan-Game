@@ -160,6 +160,7 @@
     <ClCompile Include="io_utils.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Position.cpp" />
+    <ClCompile Include="QItem.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +189,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="OldPacman.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="QItem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

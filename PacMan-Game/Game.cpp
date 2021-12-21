@@ -144,10 +144,10 @@ void Game::MoveGhost(int ghost)
 
 	int yCoord = m_Ghosts[ghost].GetYcoord();
 	int xCoord = m_Ghosts[ghost].GetXcoord();
-
 	while (!Moved)
 	{
-		Direction::eDirection ghostDir = Direction::getRandDir();
+		Direction::eDirection ghostDir = m_Ghosts[ghost].GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost].GetPosition());
+
 		switch (ghostDir)
 		{
 		case Direction::eDirection::UP:
@@ -502,16 +502,9 @@ bool Game::CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObj
 }
 bool Game::CheckTunnel(const int yCoord, const int xCoord)
 {
-	/*if ((xCoord == 0 || xCoord == m_Board.getWidth() - 1) &&
-		m_Board.getCellValue(xCoord, yCoord) != static_cast<char>(BoardObjects::WALL))
-		return true;
 
-	else if ((yCoord == 0 || yCoord == m_Board.getHeight() - 1) &&
-		m_Board.getCellValue(xCoord, yCoord) != static_cast<char>(BoardObjects::WALL))
-		return true;
 
-	else
-		return false;*/
+
 
 	int boardWidth = m_Board.getWidth() - 1;
 	int boardHeight = m_Board.getHeight() - 1;
@@ -550,7 +543,7 @@ void Game::PlayGame()
 	int pacmanMoves = 0, fruitMoves = 0;
 
 	if (!getColorStyle())
-		setDefaultColor();
+		SetDefaultColor();
 
 	hideCursor();
 
@@ -697,7 +690,7 @@ void Game::setColorStyle(bool isColorful)
 		setDefaultColor();
 	m_IsColorful = isColorful;
 }
-void Game::setDefaultColor() //this function sets the default color (white) to all of the game and board objects.
+void Game::SetDefaultColor() //this function sets the default color (white) to all of the game and board objects.
 {
 	size_t ghostsNumber = m_Ghosts.size();
 	m_Board.setBreadcrumColor(Color::eColor::DEFAULT);

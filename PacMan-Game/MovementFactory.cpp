@@ -1,6 +1,6 @@
 #include "MovementFactory.h"
 
-const Movement* MovementFactory::Create(GameMode gameMode)
+Movement* MovementFactory::Create(GameMode gameMode)
 {
 	Movement* movement = nullptr;
 	switch (gameMode)
