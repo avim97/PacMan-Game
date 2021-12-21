@@ -4,11 +4,12 @@
 #include <vector>
 using std::vector;
 
-typedef vector<char> VisitedSteps;
+typedef vector<vector<char>> VisitedSteps;
+typedef vector<vector<char>> GameBoard;
 
 class Movement
 {
 public:
-	virtual Direction::eDirection GetMove(char* board[], int ghostInd, Position& destination, Position* source) = 0;
+	virtual Direction::eDirection GetMove(GameBoard board, int ghostInd, const Position& destination, const Position& source) = 0;
 };
 

@@ -4,7 +4,7 @@
 class NoviceMovement: public Movement
 {
 public:
-	Direction::eDirection GetMove(char* board[], int ghostInd, Position& destination, Position* source) override;
+	Direction::eDirection GetMove(GameBoard board, int ghostInd, const Position& destination, const Position& source) override;
 
 };
 

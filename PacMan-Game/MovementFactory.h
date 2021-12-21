@@ -1,12 +1,16 @@
 #pragma once
-#include "eGameMode.h"
-#include "NoviceMovement.h"
 #include "GoodMovement.h"
+#include "NoviceMovement.h"
 #include "BestMovement.h"
+#include "eGameMode.h"
+
+
+
+
 
 class MovementFactory
 {
 public:
-	static Movement* Create(GameMode gameMode);
+	Movement* Create(GameMode gameMode, int _height, int _width);
 };
 

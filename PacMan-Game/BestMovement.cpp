@@ -1,13 +1,13 @@
 #include "BestMovement.h"
 
-void BestMovement::InitializeVisitedPaths(char* board[], Position& destination, const Position& source)
+void BestMovement::InitializeVisitedPaths(GameBoard board, const Position& destination, const Position& source)
 {
 	size_t rows = m_Paths.size();
 	size_t cols = m_Paths[0].size();
 
-	for (size_t i = 0; i < rows; i++)
+	for (size_t i = 0; i < rows ; i++)
 	{
-		for (size_t j = 0; i < cols; i++)
+		for (size_t j = 0; j < cols ; j++)
 		{
 			if (board[i][j] != static_cast<char>(BoardObjects::WALL))
 				m_Paths[i][j] = TRAVELABLE;
@@ -25,47 +25,52 @@ void BestMovement::SetSource(const Position& sourcePos)
 {
 	int xCoord = sourcePos.getXcoord();
 	int yCoord = sourcePos.getYcoord();
-	m_Paths[xCoord][yCoord] = DESTINATION;
+
+	m_Paths[yCoord][xCoord] = SOURCE;
 }
 void BestMovement::SetDestination(const Position& destPos)
 {
 	int xCoord = destPos.getXcoord();
 	int yCoord = destPos.getYcoord();
-	m_Paths[xCoord][yCoord] = SOURCE;
+	m_Paths[yCoord][xCoord] = DESTINATION;
 }
-Direction::eDirection BestMovement::GetMove(char* board[], int ghostInd, Position& destination, Position* source)
+Direction::eDirection BestMovement::GetMove(GameBoard board, int ghostInd, const Position& destination, const Position& source)
 {
-	Direction::eDirection shortestMove = Direction::eDirection::UNDEFINED;
+	Direction::eDirection shortestMove = Direction::eDirection::UP;
+	Position nextPosition;
 	int shortestPath = NOT_FOUND;
 	int currentPath;
-	int xCoord = source->getXcoord();
-	int yCoord = source->getYcoord();
+	int xCoord = source.getXcoord();
+	int yCoord = source.getYcoord();
+	size_t height = m_Paths.size() - 1;
+	size_t width = m_Paths[0].size();
 	for (int i = 1; i <= TOTAL_MOVES; i++)
 	{
 		int nextX = xCoord;
 		int nextY = yCoord;
 		Direction::eDirection currentDirection = Direction::GetDirection(i);
 
-		if (currentDirection == Direction::eDirection::UP)
+		if (currentDirection == Direction::eDirection::UP && nextY > 1)
 		{
 			nextY--;
 		}
-		else if (currentDirection == Direction::eDirection::DOWN)
+		else if (currentDirection == Direction::eDirection::DOWN && nextY < height - 2)
 		{
 			nextY++;
 		}
 
-		else if (currentDirection == Direction::eDirection::LEFT)
+		else if (currentDirection == Direction::eDirection::LEFT && nextX > 1)
 		{
 			nextX--;
 		}
 
-		else
+		else if (nextX < width - 2)
 		{
 			nextX++;
 		}
-
-		currentPath = GetMinDistance(board, destination, {xCoord, yCoord - 1});
+		
+		nextPosition.setPosition(nextX, nextY);
+		currentPath = GetMinDistance(board, destination, nextPosition);
 		if (shortestMove == Direction::eDirection::UNDEFINED || currentPath >= shortestPath)
 		{
 			shortestMove = currentDirection;
@@ -75,7 +80,7 @@ Direction::eDirection BestMovement::GetMove(char* board[], int ghostInd, Positio
 
 	return shortestMove;
 }
-int BestMovement::GetMinDistance(char* board[], Position& destination, const Position& source)
+int BestMovement::GetMinDistance(GameBoard board, const Position& destination, const Position& source)
 {
 	QItem qsource;
 	Queue queue;
@@ -87,7 +92,7 @@ int BestMovement::GetMinDistance(char* board[], Position& destination, const Pos
 
 	for (int i = 0; i < rows; i++)
 	{
-		for (int j = 0; i < cols; i++)
+		for (int j = 0; j < cols; j++)
 		{
 			if (m_Paths[i][j] == NOT_TRAVELABLE)
 				visited[i][j] = true;
@@ -95,52 +100,55 @@ int BestMovement::GetMinDistance(char* board[], Position& destination, const Pos
 				visited[i][j] = false;
 
 			if (m_Paths[i][j] == SOURCE)
-				qsource.setPosition(rows, cols);
+				qsource.setPosition(j, i);
 		}
 	}
 
 
 	queue.push(qsource);
-	visited[qsource.getXcoord()][qsource.getYcoord()] = true;
+	visited[qsource.getYcoord() - 1][qsource.getXcoord() - 1] = true;
 
 	while (!queue.empty())
 	{
 		QItem pos = queue.front();
 		queue.pop();
 
-		if (m_Paths[pos.getXcoord()][pos.getYcoord()] == DESTINATION)
+		if (m_Paths[pos.getYcoord() - 1][pos.getXcoord() - 1] == DESTINATION)
 			return pos.GetDistance();
 
-		if (pos.getXcoord() - 1 >= 0 &&
-			visited[pos.getXcoord() - 1][pos.getYcoord()] == false)
+		if (pos.getYcoord() - 2 >= 0 && 
+			visited[pos.getYcoord() - 2][pos.getXcoord() - 1] == false)
 		{
-			QItem newPos(pos.getXcoord() - 1, pos.getYcoord(), pos.GetDistance() + 1);
+			QItem newPos(pos.getXcoord() - 1, pos.getYcoord() - 2, pos.GetDistance() + 1);
 			queue.push(newPos);
-			visited[pos.getXcoord() - 1][pos.getYcoord()] = true;
+			visited[pos.getYcoord() - 1][pos.getXcoord() - 2] = true;
+
 		}
 
-		if (pos.getXcoord() + 1 < rows &&
-			visited[pos.getXcoord() + 1][pos.getYcoord()] == false) 
+		
+
+		if (pos.getYcoord() < rows &&
+			visited[pos.getYcoord()][pos.getXcoord() - 1] == false) 
 		{
-			QItem newPos(pos.getXcoord() + 1, pos.getYcoord(), pos.GetDistance() + 1);
+			QItem newPos(pos.getXcoord() , pos.getYcoord(), pos.GetDistance() + 1);
 			queue.push(newPos);
-			visited[pos.getXcoord() + 1][pos.getYcoord()] = true;
+			visited[pos.getYcoord()][pos.getXcoord() - 1] = true;
 		}
 
-		if (pos.getYcoord() - 1 >= 0 &&
-			visited[pos.getXcoord()][pos.getYcoord() - 1] == false) 
+		if (pos.getXcoord() - 2 >= 0 &&
+			visited[pos.getYcoord() - 1][pos.getXcoord() - 2] == false) 
+		{
+			QItem newPos(pos.getXcoord() - 2, pos.getYcoord() - 1, pos.GetDistance() + 1);
+			queue.push(newPos);
+			visited[pos.getYcoord() - 1][pos.getXcoord() - 2] = true;
+		}
+
+		if (pos.getXcoord()  < cols &&
+			visited[pos.getYcoord() - 1][pos.getXcoord()] == false) 
 		{
 			QItem newPos(pos.getXcoord(), pos.getYcoord() - 1, pos.GetDistance() + 1);
 			queue.push(newPos);
-			visited[pos.getXcoord()][pos.getYcoord() - 1] = true;
-		}
-
-		if (pos.getYcoord() + 1 < cols &&
-			visited[pos.getXcoord()][pos.getYcoord() + 1] == false) 
-		{
-			QItem newPos(pos.getXcoord(), pos.getYcoord() + 1, pos.GetDistance() + 1);
-			queue.push(newPos);
-			visited[pos.getXcoord()][pos.getYcoord() + 1] = true;
+			visited[pos.getYcoord() - 1][pos.getXcoord()] = true;
 		}
 	}
 	return NOT_FOUND;
