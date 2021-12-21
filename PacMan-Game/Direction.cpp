@@ -67,3 +67,33 @@ bool Direction::isValidDirection(char nextDirection)
 	else
 		return false;
 }
+
+Direction::eDirection Direction::GetDirection(int move)
+{
+	eDirection direction;
+
+	switch (move)
+	{
+	case 1:
+		direction = eDirection::UP;
+		break;
+
+	case 2:
+		direction = eDirection::DOWN;
+		break;
+
+	case 3:
+		direction = eDirection::LEFT;
+		break;
+
+	case 4:
+		direction = eDirection::RIGHT;
+		break;
+
+	default:
+		direction = eDirection::UNDEFINED;
+		break;
+	}
+
+	return direction;
+}

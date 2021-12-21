@@ -1,5 +1,6 @@
 #pragma once
 #include "Position.h"
+#include "Direction.h"
 #include <vector>
 using std::vector;
 
@@ -7,9 +8,7 @@ typedef vector<char> VisitedSteps;
 
 class Movement
 {
-private:
-	
 public:
-	virtual void Move(int ghostInd) = 0;
+	virtual Direction::eDirection GetMove(char* board[], int ghostInd, Position& destination, Position* source) = 0;
 };
 

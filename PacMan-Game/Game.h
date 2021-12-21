@@ -61,7 +61,7 @@ public:
 	//------------- COLORS -------------
 	void setColorStyle(bool isColorful); 
 	bool getColorStyle() { return m_IsColorful; };
-	void setDefaultColor();
+	void SetDefaultColor();
 
 	// ----------- PACMAN---------
 
@@ -94,12 +94,6 @@ public:
 	void ShowPlayerStatus();
 	void userWon();
 	void userLost();
-	
-
-
-	//Updated functions for inheritence
-	//void MoveCreature(char nextDir, BoardObjects object);
-
 
 };
 

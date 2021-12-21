@@ -50,7 +50,7 @@ public:
 	void setWallColor(Color::eColor color) { m_wallColor.setColor(color); };
 	void setBreadcrumColor(Color::eColor color) { m_breadcrumbColor.setColor(color); };
 	Position GetRandomPosition();
-	const Position& getPacmanInitPos() const { return m_PacmanInitialPos; };
+	const Position& getPacmanInitPos() const { return m_PacmanInitialPos; }
 	const vector<Position>& getGhostInitPos() const { return m_GhostInitialPos; };
 	void ChangeBoard(Board& board);
 	GameBoard GetBoard() { return board; };

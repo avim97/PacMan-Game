@@ -11,5 +11,6 @@ public:
 	static  eDirection Convert(char key);
 	static eDirection getRandDir();
 	static bool isValidDirection(char nextDirection);
+	static eDirection GetDirection(int move);
 };
 

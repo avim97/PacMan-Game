@@ -1,7 +1,4 @@
 #pragma once
-
-
-
 #include "io_utils.h"
 
 class Position
