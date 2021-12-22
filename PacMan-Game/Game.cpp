@@ -70,8 +70,6 @@ void Game::InitializeGhostsVector(const vector<Position>& ghostsMoves)
 
 	for (int i = 0; i < totalGhosts; i++)
 	{
-		/*initialPosition.setXcoord(ghostsMoves[i].getXcoord());
-		initialPosition.setYcoord(ghostsMoves[i].getYcoord());*/
 		initialPosition = ghostsMoves[i];
 		Ghost* _Ghost = new Ghost(Color::getColor(i), initialPosition, GameMode::NOVICE, _height, _width);
 		m_Ghosts.push_back(_Ghost); // change here to * or delete
