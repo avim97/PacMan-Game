@@ -162,7 +162,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				if (newGame.getGameStatus() == eGameStatus::LOST)
 				{
 					Game::userLost(color);
-					return false;
+					return true;
 				}
 			}
 			else
@@ -187,7 +187,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				if (newGame.getGameStatus() == eGameStatus::LOST)
 				{
 					Game::userLost(color);
-					return false;
+					return true;
 				}
 				if (newGame.getGameStatus() == eGameStatus::NEXT_BOARD)
 				{
@@ -198,7 +198,6 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 						clrscr();
 						return false;
 					}
-
 				}
 				if (newGame.getGameStatus() == eGameStatus::EXIT)
 				{
@@ -207,10 +206,6 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 
 				lives = newGame.getPacman().GetCurrentLives();
 				score = newGame.GetTotalScore();
-				if (newGame.getGameStatus() == eGameStatus::EXIT)
-				{
-					return true;
-				}
 			}
 			Game::userWon(color);
 			return false;
