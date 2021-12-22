@@ -21,7 +21,7 @@ public:
 		m_ScoreColor(Color::eColor::YELLOW) {};
 	bool checkIfWithinLegendRange(const Position& position)const;
 	bool checkIfWithinRange(const int& start, const int& end, const int& value)const;
-	void printLegend(int& lives, int& score, bool& m_isColorful) const;
+	void printLegend(const int& lives, const  int& score, const bool& m_isColorful) const;
 	void SetPosition(const Position& position) { m_Position = position; };
 	Position& GetPosition() { return m_Position; };
 };
