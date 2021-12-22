@@ -2,6 +2,6 @@
 
 enum class GameMode
 {
-	NOVICE, GOOD, BEST
+	NOVICE=1, GOOD=2, BEST=3
 };
 
