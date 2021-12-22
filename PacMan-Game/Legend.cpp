@@ -31,10 +31,15 @@ void Legend::printLegend(const int& lives, const  int& score, const bool& m_isCo
 	if (m_LivesColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
 		Color::resetOutputColor();
 	gotoxy(x, y + 1);
-	cout << "Lives Left: ";
+	cout << "Lives Left:";
 	if (m_LivesColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
 		Color::applyOutputColor(Color::getColorValue(Color::eColor::RED));
-	
+	gotoxy(x, y + 2);
+	for (int i = 0; i < 3; i++)
+	{
+		cout  << "   ";
+	}
+	gotoxy(x, y + 2);
 	for (int i = 0; i < lives; i++)
 	{
 			cout << heart<<" ";
