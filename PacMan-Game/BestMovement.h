@@ -29,7 +29,7 @@ public:
 		m_ShortestPath(0)
 	{ m_Paths.resize(_height, vector<char>(_width)); };
 
-	void InitializeVisitedPaths(GameBoard board, const Position& destination, const Position& source, PositionsVector otherGhostsPositions); //change to vector later 
+	void InitializeVisitedPaths(GameBoard board, const Position& destination, const Position& source, PositionsVector otherGhostsPositions);
 	void SetSource(const Position& sourcePos);
 	void SetDestination(const Position& destPos);
 	Direction::eDirection GetMove(GameBoard board, int currentGhost, const Position& destination, const Position& source, PositionsVector otherGhostsPositions, int& ghostsMoves) override;
