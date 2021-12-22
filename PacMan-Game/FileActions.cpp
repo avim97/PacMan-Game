@@ -24,9 +24,13 @@ bool FileActions::DirFileList(vector<string>& fileArr)
 		clrscr();
 		cout << "No suitable files found. Please load Files to project folder and try again." << endl;
 		cout << "Press any key to get back to menu." << endl;
-		while (!_kbhit());
-		clrscr();
-		return false;
+		if (_kbhit())
+		{
+			clrscr();
+
+			return false;
+		}
+		
 	}
 	else
 	{
@@ -77,5 +81,14 @@ bool FileActions::SpecificFileNameSearch(vector<string>& fileArr, string& fileNa
 		return true;
 
 	else
+	{
+		cout << "file not found, press any key to get back to menu" << endl;
+		cin.clear();
+		while (!_kbhit()){};
+		cin.clear();
+		clrscr();
 		return false;
+		
+	}
+		
 }

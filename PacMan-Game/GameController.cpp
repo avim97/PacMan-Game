@@ -166,7 +166,10 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				}
 			}
 			else
-				userChoice = eUserChoice::UNDEFINED;
+			{
+				return true;
+			}
+				
 			break;
 		}
 		case  AllFiles:
