@@ -23,6 +23,7 @@ private:
 
 public:
 	void Run();
+	GameMode GameModeChoice();
 
 };
 
