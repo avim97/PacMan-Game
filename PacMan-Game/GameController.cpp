@@ -115,7 +115,7 @@ void GameController::printGoodbyeMessage()
 }
 eUserChoice GameController::ChooseScreenOrVector()
 {
-	eUserChoice userChoice;
+	eUserChoice userChoice = eUserChoice::UNDEFINED;
 	vector<string> filePaths;
 
 	if (!FileActions::DirFileList(filePaths))
@@ -153,7 +153,7 @@ eUserChoice GameController::ChooseScreenOrVector()
 				if (color == NULL)
 					color = ApplyUserColorsChoiceToGame(newGame);
 				if (!color)
-					newGame.setDefaultColor();
+					newGame.SetDefaultColor();
 				filePaths.erase(filePaths.begin());
 				clrscr();
 				newGame.printBoard();

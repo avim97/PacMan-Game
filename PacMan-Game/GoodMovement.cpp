@@ -1,6 +1,6 @@
 #include "GoodMovement.h"
 
-Direction::eDirection GoodMovement::GetMove(GameBoard board, int ghostInd, const Position& destination, const Position& source)
+Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, const Position& destination, const Position& source, PositionsVector otherGhostsPositions)
 {
 	return Direction::eDirection::UNDEFINED;
 }

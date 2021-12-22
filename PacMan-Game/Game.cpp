@@ -152,13 +152,15 @@ void Game::MovePacman(char nextDir)
 void Game::MoveGhost(int ghost)
 {
 	char Moved = false;
-
-
 	int yCoord = m_Ghosts[ghost]->GetYcoord();
 	int xCoord = m_Ghosts[ghost]->GetXcoord();
+	PositionsVector ghostsCurrentPositions;
+	LoadGhostsPositions(ghostsCurrentPositions, m_Ghosts, ghost);
+	
 	while (!Moved)
 	{
-		Direction::eDirection ghostDir = m_Ghosts[ghost]->GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost]->GetPosition());
+
+		Direction::eDirection ghostDir = m_Ghosts[ghost]->GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost]->GetPosition(), ghostsCurrentPositions);
 
 		switch (ghostDir)
 		{
@@ -329,8 +331,6 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 {
 	bool IsValidStep = true;
 
-
-
 	if (CheckGhostIntersection(ghost, yCoord, xCoord, BoardObjects::PACMAN))
 	{
 		m_Pacman.UpdateLife();
@@ -350,6 +350,8 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 		IsValidStep = false;
 	}
 
+	
+
 	else //there is not pacman or ghost in the next direction
 	{
 		if (CheckBoardEdge(xCoord, yCoord)) {
@@ -359,8 +361,9 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 			char nextPos = m_Board.getCellValue(xCoord, yCoord);
 
 			CheckGhostIntersection(ghost, yCoord, xCoord, BoardObjects::FRUIT);
+
 			switch (nextPos) {
-			case static_cast<char>(BoardObjects::WALL):
+			case static_cast<char>(BoardObjects::WALL) || '%' || 'L':
 				IsValidStep = false;
 				break;
 
@@ -723,6 +726,16 @@ bool Game::CheckBoardEdge(int xCoord, int yCoord)
 		return false;
 	else
 		return true;
+}
+void Game::LoadGhostsPositions(PositionsVector& positions,GhostsVector ghosts, int currentGhost)
+{
+	size_t totalGhosts = ghosts.size();
+	for (size_t i = 0 ; i < totalGhosts; i++)
+	{
+		if (i != currentGhost)
+			positions.push_back(ghosts[i]->GetPosition());
+	}
+	
 }
 //Updated functions for inheritence
 //bool Game::updateLife()

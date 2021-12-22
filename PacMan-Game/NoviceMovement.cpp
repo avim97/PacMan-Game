@@ -1,6 +1,6 @@
 #include "NoviceMovement.h"
 
-Direction::eDirection NoviceMovement::GetMove(GameBoard board, int ghostInd, const Position& destination, const Position& source)
+Direction::eDirection NoviceMovement::GetMove(GameBoard board, int currentGhost, const Position& destination, const Position& source, PositionsVector otherGhostsPositions)
 {
 	return Direction::eDirection::UNDEFINED;
 }

@@ -9,9 +9,9 @@
 using std::queue;
 using std::vector;
 typedef vector<vector<char>> AvailablePaths;
-typedef vector<vector<bool>> VisitedPaths;
 typedef vector<vector<char>> GameBoard;
 typedef queue<QItem> Queue;
+
 
 class BestMovement : public Movement
 {
@@ -29,10 +29,16 @@ public:
 		m_ShortestPath(0)
 	{ m_Paths.resize(_height, vector<char>(_width)); };
 
-	void InitializeVisitedPaths(GameBoard board, const Position& destination, const Position& source); //change to vector later 
+	void InitializeVisitedPaths(GameBoard board, const Position& destination, const Position& source, PositionsVector otherGhostsPositions); //change to vector later 
 	void SetSource(const Position& sourcePos);
 	void SetDestination(const Position& destPos);
-	Direction::eDirection GetMove(GameBoard board, int ghostInd, const Position& destination, const Position& source) override;
-	int GetMinDistance(GameBoard board, const Position& destination, const Position& source);
+	Direction::eDirection GetMove(GameBoard board, int currentGhost, const Position& destination, const Position& source, PositionsVector otherGhostsPositions) override;
+	int GetMinDistance(GameBoard board, const Position& destination, const Position& source, PositionsVector otherGhostsPositions);
+	bool isEdge(int xCoord, int yCoord, Direction::eDirection currentDirection);
+	bool IsValidPosition(Position position, int rows, int cols);
+	bool IsValidPosition(const Position& currentPosition, PositionsVector otherGhostsPositions);
+
+
+	void BestMovmentPrintDEBUG(int rows, int cols);
 };
 

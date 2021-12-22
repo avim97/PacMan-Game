@@ -78,6 +78,7 @@ public:
 	void MoveGhost(int ghost);
 	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost); 
 	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject);
+	void LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, int currentGhost);
 
 	//------------FRUIT--------------
 	void MoveFruit();
