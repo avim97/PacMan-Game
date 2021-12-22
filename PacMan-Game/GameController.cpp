@@ -128,14 +128,15 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 		userChoice = eUserChoice::UNDEFINED;
 		return true;
 	}
-		
-	
+
+
 
 	else {
 
 		clrscr();
-		GameMode mode=GameModeChoice();
+		GameMode mode = GameModeChoice();
 		clrscr();
+
 		cout << "Please choose one of the following:" << endl;
 		cout << "(1) Load my own file by name" << endl;
 		cout << "(2) Load all existing files " << endl;
@@ -146,21 +147,22 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 		case SpedificFile:
 		{
 			string fileName;
-		
+			bool color = NULL;
+
 			if (FileActions::SpecificFileNameSearch(filePaths, fileName))
 			{
-				Game newGame(fileName,mode);
+				Game newGame(fileName, mode);
+				if (color == NULL)
+					color = ApplyUserColorsChoiceToGame(newGame);
+				if (!color)
+					newGame.SetDefaultColor();
 				clrscr();
-				newGame.printBoard();
-				while (newGame.getGameStatus() == eGameStatus::RUNNING )
+				GameRun(fileName, mode, newGame);
+
+				if (newGame.getGameStatus() == eGameStatus::LOST)
 				{
-					newGame.PlayGame();
-					KeyPressed = newGame.getGameStatus();
-					if (KeyPressed == eGameStatus::ESC_PRESSED)
-					{
-						newGame.SetGameStatus(eGameStatus::RUNNING);
-						PauseGame(newGame,true);
-					}
+					Game::userLost(color);
+					return false;
 				}
 			}
 			else
@@ -173,51 +175,40 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 			for (string& fileName = filePaths[0]; !filePaths.empty() && lives > 0;)
 			{
 				Game newGame(fileName, mode, lives, score);
+				filePaths.erase(filePaths.begin());
 				if (color == NULL)
 					color = ApplyUserColorsChoiceToGame(newGame);
 				if (!color)
 					newGame.SetDefaultColor();
-				filePaths.erase(filePaths.begin());
+
 				clrscr();
 				newGame.printBoard();
-				while (newGame.getGameStatus() == eGameStatus::RUNNING )
-				{
-					newGame.PlayGame();
-					KeyPressed = newGame.getGameStatus();
-					if (KeyPressed == eGameStatus::ESC_PRESSED)
-					{
-						newGame.SetGameStatus(eGameStatus::RUNNING);
-						PauseGame(newGame,false);
-					}
-				}
-
-
+				GameRun(fileName, mode,newGame);
 				if (newGame.getGameStatus() == eGameStatus::LOST)
 				{
-					
-						Game::userLost(color);
-
+					Game::userLost(color);
 					return false;
 				}
 				if (newGame.getGameStatus() == eGameStatus::NEXT_BOARD)
 				{
 					if (filePaths.empty())
 					{
-						cout << "No other board found, press any key to exit "<<endl;
+						cout << "No other board found, press any key to exit " << endl;
 						while (!_kbhit());
 						clrscr();
-
 						return false;
-								
 					}
-					
+
+				}
+				if (newGame.getGameStatus() == eGameStatus::EXIT)
+				{
+					return true;
 				}
 
 				lives = newGame.getPacman().GetCurrentLives();
 				score = newGame.GetTotalScore();
 				if (newGame.getGameStatus() == eGameStatus::EXIT)
 				{
-					printGoodbyeMessage();
 					return true;
 				}
 			}
@@ -257,8 +248,26 @@ bool GameController::ApplyUserColorsChoiceToGame(Game& game)
 	}
 
 }
+void GameController::GameRun(string& fileName, GameMode mode, Game& game)
+{
+	eGameStatus KeyPressed;
 
-void GameController::PauseGame(Game& currentGame,bool isSingleGame)
+	clrscr();
+	game.printBoard();
+	while (game.getGameStatus() == eGameStatus::RUNNING)
+	{
+		game.PlayGame();
+		KeyPressed = game.getGameStatus();
+		if (KeyPressed == eGameStatus::ESC_PRESSED)
+		{
+			game.SetGameStatus(eGameStatus::RUNNING);
+			PauseGame(game, true);
+		}
+	}
+
+}
+
+void GameController::PauseGame(Game& currentGame, bool isSingleGame)
 {
 
 	clrscr();
@@ -270,7 +279,7 @@ void GameController::PauseGame(Game& currentGame,bool isSingleGame)
 	{
 		cout << "(2)   Play next board " << endl;
 	}
-		;	
+	;
 	cout << "(Esc) Continue Playing " << endl;
 
 
@@ -320,7 +329,7 @@ GameMode GameController::GameModeChoice()
 		choice = _getch();
 		switch (choice)
 		{
-		case static_cast<char>(GameMode::NOVICE)+'0':
+		case static_cast<char>(GameMode::NOVICE) + '0':
 			return GameMode::NOVICE;
 			validchoice = true;
 			break;
@@ -338,6 +347,6 @@ GameMode GameController::GameModeChoice()
 		}
 	}
 
-	
-	
+
+
 }
