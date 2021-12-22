@@ -310,9 +310,9 @@ GameMode GameController::GameModeChoice()
 {
 	clrscr();
 	cout << "Please choose game difficulty:" << endl;
-	cout << "(0) Novice" << endl;
-	cout << "(1) Good" << endl;
-	cout << "(2) Best" << endl;
+	cout << "(1) Novice" << endl;
+	cout << "(2) Good" << endl;
+	cout << "(3) Best" << endl;
 	bool validchoice = false;
 	while (!validchoice)
 	{
