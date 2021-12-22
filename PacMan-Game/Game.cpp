@@ -65,13 +65,13 @@ void Game::InitializeGhostsVector(const vector<Position>& ghostsMoves)
 	size_t totalGhosts = ghostsMoves.size();
 	size_t _height = m_Board.getHeight();
 	size_t _width = m_Board.getWidth();
-	
+
 	m_Ghosts.reserve(totalGhosts);
 	for (int i = 0; i < totalGhosts; i++)
 	{
 		initialPosition = ghostsMoves[i];
 		Ghost* _Ghost = new Ghost(Color::getColor(i), initialPosition, GameMode::BEST, _height, _width);
-		m_Ghosts.push_back(_Ghost); 
+		m_Ghosts.push_back(_Ghost);
 	}
 }
 void Game::CrossTunnel(const int yCoord, const int xCoord)
@@ -418,7 +418,7 @@ bool Game::FruitStepCheck(const int yCoord, const int xCoord)
 			if (cellValue == static_cast<char>(BoardObjects::WALL))
 				isValidStep = false;
 
-			else if (cellValue == static_cast<char>(BoardObjects::FOOD) || cellValue == static_cast<char>(BoardObjects::SPACE)|| cellValue == static_cast<char>(BoardObjects::LEGEND))
+			else if (cellValue == static_cast<char>(BoardObjects::FOOD) || cellValue == static_cast<char>(BoardObjects::SPACE) || cellValue == static_cast<char>(BoardObjects::LEGEND))
 			{
 				if (!CheckTunnel(yCoord, xCoord))
 				{
@@ -576,9 +576,9 @@ void Game::PlayGame()
 			if (key == 27)
 			{
 				m_gameStatus = eGameStatus::ESC_PRESSED;
-				
+
 			}
-			
+
 			MovePacman(key);
 		}
 		else
@@ -608,10 +608,10 @@ void Game::PlayGame()
 
 		Sleep(300);
 		m_TotalScore = GetTotalScore();
-		m_Board.GetLegend().printLegend(m_Pacman.GetCurrentLives(),m_TotalScore,m_IsColorful);
+		m_Board.GetLegend().printLegend(m_Pacman.GetCurrentLives(), m_TotalScore, m_IsColorful);
 	}
-	
-	
+
+
 
 }
 void Game::PauseGame()//change to popping message
@@ -627,7 +627,7 @@ void Game::PauseGame()//change to popping message
 	cout << "                                       " << endl;
 
 }
- void Game::userWon(bool color)
+void Game::userWon(bool color)
 {
 	clrscr();
 	if (color)
@@ -646,7 +646,7 @@ void Game::PauseGame()//change to popping message
 	while (!_kbhit()) {};
 	clrscr();
 }
- void Game::userLost(bool color)
+void Game::userLost(bool color)
 {
 	clrscr();
 	if (color)
@@ -712,9 +712,11 @@ void Game::ValidateDirection(Direction::eDirection& nextDirection, int ghost)
 		{
 		case GameMode::NOVICE:
 			nextDirection = static_cast<Direction::eDirection>(m_Ghosts[ghost]->GetCurrentDirection());
+			break;
 
 		default:
 			nextDirection = Direction::getRandDir();
+			break;
 		}
 	}
 }

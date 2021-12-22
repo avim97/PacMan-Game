@@ -38,7 +38,8 @@ Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, c
 				nextY > 0 &&
 				board[nextY - 1][nextX] != static_cast<char>(BoardObjects::WALL) &&
 				board[nextY - 1][nextX] != '%' &&
-				board[nextY - 1][nextX] != 'L')
+				board[nextY - 1][nextX] != 'L' &&
+				IsValidPosition({ nextY - 1,nextX }, otherGhostsPositions))
 			{
 				nextY--;
 			}
@@ -46,7 +47,8 @@ Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, c
 				nextY < height - 1 &&
 				board[nextY + 1][nextX] != static_cast<char>(BoardObjects::WALL) &&
 				board[nextY + 1][nextX] != '%' &&
-				board[nextY + 1][nextX] != 'L')
+				board[nextY + 1][nextX] != 'L' &&
+				IsValidPosition({ nextY + 1,nextX }, otherGhostsPositions))
 			{
 				nextY++;
 			}
@@ -55,7 +57,8 @@ Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, c
 				nextX > 0 &&
 				board[nextY][nextX - 1] != static_cast<char>(BoardObjects::WALL) &&
 				board[nextY][nextX - 1] != '%' &&
-				board[nextY][nextX - 1] != 'L')
+				board[nextY][nextX - 1] != 'L' &&
+				IsValidPosition({ nextY,nextX - 1 }, otherGhostsPositions))
 			{
 				nextX--;
 			}
@@ -63,7 +66,8 @@ Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, c
 			else if (nextX < width - 1 &&
 				board[nextY][nextX + 1] != static_cast<char>(BoardObjects::WALL) &&
 				board[nextY][nextX + 1] != '%' &&
-				board[nextY][nextX + 1] != 'L')
+				board[nextY][nextX + 1] != 'L' &&
+				IsValidPosition({ nextY,nextX + 1 }, otherGhostsPositions))
 			{
 				nextX++;
 			}

@@ -8,6 +8,7 @@ Direction::eDirection NoviceMovement::GetMove(GameBoard board, int currentGhost,
 	}
 	else
 	{
+
 		return Direction::eDirection::UNDEFINED;
 	}
 }
