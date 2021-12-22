@@ -83,9 +83,7 @@ bool FileActions::SpecificFileNameSearch(vector<string>& fileArr, string& fileNa
 	else
 	{
 		cout << "file not found, press any key to get back to menu" << endl;
-		cin.clear();
 		while (!_kbhit()){};
-		cin.clear();
 		clrscr();
 		return false;
 		
