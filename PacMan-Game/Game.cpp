@@ -65,7 +65,7 @@ void Game::InitializeGhostsVector(const vector<Position>& ghostsMoves)
 	size_t totalGhosts = ghostsMoves.size();
 	size_t _height = m_Board.getHeight();
 	size_t _width = m_Board.getWidth();
-
+	
 	m_Ghosts.reserve(totalGhosts);
 	for (int i = 0; i < totalGhosts; i++)
 	{

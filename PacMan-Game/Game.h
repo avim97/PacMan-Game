@@ -23,25 +23,28 @@ private:
 	eGameStatus m_gameStatus;
 	bool m_IsColorful;
 	int m_TotalScore;
+	GameMode m_GameMode;
 
 public:
-	Game(string& boardPath) :
+	Game(string& boardPath, GameMode mode) :
 		m_Board(boardPath),
 		m_Pacman(m_Board.getPacmanInitPos()),
 		m_Fruit(m_Board.GetRandomPosition()),
 		m_gameStatus(eGameStatus::RUNNING),
 		m_IsColorful(true),
-		m_TotalScore(0)
+		m_TotalScore(0),
+		m_GameMode(mode)
 	{
 		srand((unsigned int)time(nullptr)); InitializeGhostsVector(m_Board.getGhostInitPos());
 	};
-	Game(string& boardPath, int lives, int score) :
+	Game(string& boardPath, GameMode mode, int lives, int score) :
 		m_Board(boardPath),
 		m_Pacman(m_Board.getPacmanInitPos()),
 		m_Fruit(m_Board.GetRandomPosition()),
 		m_gameStatus(eGameStatus::RUNNING),
 		m_IsColorful(true),
-		m_TotalScore(score)
+		m_TotalScore(score),
+		m_GameMode(mode)
 	{
 		m_Pacman.UpdateLife(lives);
 		srand((unsigned int)time(nullptr)); InitializeGhostsVector(m_Board.getGhostInitPos());
@@ -55,9 +58,9 @@ public:
 
 	~Game();
 	void printBoard() { m_Board.printBoard(); initView(); }
-	void printBoard(bool wasPaused) { m_Board.printBoard(wasPaused); gotoxy(m_Pacman.GetXcoord(), m_Pacman.GetYcoord());m_Pacman.Draw(); /*initView();*/ }
+	void printBoard(bool wasPaused) { m_Board.printBoard(wasPaused); gotoxy(m_Pacman.GetXcoord(), m_Pacman.GetYcoord()); m_Pacman.Draw(); /*initView();*/ }
 
-	
+
 	void initView();
 	void initialGhostPos();
 	void initialPacmanPos();
@@ -82,7 +85,7 @@ public:
 	void InitializeGhostsVector(const vector<Position>& ghostsMoves);
 	void InitialFruitPosition();
 	void MoveGhost(int ghost, int& ghostsMoves);
-	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost); 
+	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost);
 	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject);
 	void LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, int currentGhost);
 	void ValidateDirection(Direction::eDirection& nextDirection);
@@ -97,7 +100,7 @@ public:
 	void PauseGame();
 	static void userWon(bool color);
 	static void userLost(bool color);
-	void SetGameStatus(eGameStatus status) {this->m_gameStatus = status;}
+	void SetGameStatus(eGameStatus status) { this->m_gameStatus = status; }
 
 
 };

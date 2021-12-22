@@ -134,6 +134,8 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 	else {
 
 		clrscr();
+		GameMode mode=GameModeChoice();
+		clrscr();
 		cout << "Please choose one of the following:" << endl;
 		cout << "(1) Load my own file by name" << endl;
 		cout << "(2) Load all existing files " << endl;
@@ -147,7 +149,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 		
 			if (FileActions::SpecificFileNameSearch(filePaths, fileName))
 			{
-				Game newGame(fileName);
+				Game newGame(fileName,mode);
 				clrscr();
 				newGame.printBoard();
 				while (newGame.getGameStatus() == eGameStatus::RUNNING )
@@ -170,7 +172,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 			bool color = NULL;
 			for (string& fileName = filePaths[0]; !filePaths.empty() && lives > 0;)
 			{
-				Game newGame(fileName, lives, score);
+				Game newGame(fileName, mode, lives, score);
 				if (color == NULL)
 					color = ApplyUserColorsChoiceToGame(newGame);
 				if (!color)
@@ -218,7 +220,6 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 					printGoodbyeMessage();
 					return true;
 				}
-
 			}
 			Game::userWon(color);
 			return false;
@@ -304,4 +305,39 @@ void GameController::PauseGame(Game& currentGame,bool isSingleGame)
 
 
 
+}
+GameMode GameController::GameModeChoice()
+{
+	clrscr();
+	cout << "Please choose game difficulty:" << endl;
+	cout << "(0) Novice" << endl;
+	cout << "(1) Good" << endl;
+	cout << "(2) Best" << endl;
+	bool validchoice = false;
+	while (!validchoice)
+	{
+		char choice;
+		choice = _getch();
+		switch (choice)
+		{
+		case static_cast<char>(GameMode::NOVICE)+'0':
+			return GameMode::NOVICE;
+			validchoice = true;
+			break;
+		case static_cast<char>(GameMode::GOOD) + '0':
+			return GameMode::NOVICE;
+			validchoice = true;
+			break;
+		case static_cast<char>(GameMode::BEST) + '0':
+			return GameMode::NOVICE;
+			validchoice = true;
+			break;
+		default:
+			cout << "wrong choice, please try again.";
+			break;
+		}
+	}
+
+	
+	
 }
