@@ -117,6 +117,7 @@ void GameController::printGoodbyeMessage()
 	clrscr();
 	printLogo(GoodbyeLogo);
 }
+
 bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later user choice from the user as a reference to functions argument
 {
 
@@ -225,6 +226,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 		}
 	}
 }
+
 bool GameController::ApplyUserColorsChoiceToGame(Game& game)
 {
 	char colorStyle = 0;

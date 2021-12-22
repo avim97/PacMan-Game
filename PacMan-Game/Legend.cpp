@@ -19,20 +19,24 @@ bool Legend::checkIfWithinRange(const int& start, const int& end, const int& val
 void Legend::printLegend(const int& lives, const  int& score, const bool& m_isColorful)const {
 	int y = m_Position.getXcoord();
 	int x = m_Position.getYcoord();
+	bool isColorful = (m_LivesColor.getColor() != static_cast<int>(Color::eColor::DEFAULT));
+
 	gotoxy(x, y);
 
-	if (m_LivesColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
+	if (isColorful)
 		Color::resetOutputColor();
 	cout << "Current score: ";
 
-	if (m_LivesColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
+	if (isColorful)
 		Color::applyOutputColor(Color::getColorValue(Color::eColor::BOLD_GREEN));
 	cout << score;
-	if (m_LivesColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
+
+	if (isColorful)
 		Color::resetOutputColor();
+
 	gotoxy(x, y + 1);
 	cout << "Lives Left:";
-	if (m_LivesColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
+	if (isColorful)
 		Color::applyOutputColor(Color::getColorValue(Color::eColor::RED));
 	gotoxy(x, y + 2);
 	for (int i = 0; i < 3; i++)
@@ -42,7 +46,11 @@ void Legend::printLegend(const int& lives, const  int& score, const bool& m_isCo
 	gotoxy(x, y + 2);
 	for (int i = 0; i < lives; i++)
 	{
-			cout << heart<<" ";
+			cout << heart<< " ";
 	}
+
+	if (isColorful)
+		Color::resetOutputColor();
+
 }
 
