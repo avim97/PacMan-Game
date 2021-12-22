@@ -70,7 +70,7 @@ void Game::InitializeGhostsVector(const vector<Position>& ghostsMoves)
 	for (int i = 0; i < totalGhosts; i++)
 	{
 		initialPosition = ghostsMoves[i];
-		Ghost* _Ghost = new Ghost(Color::getColor(i), initialPosition, GameMode::BEST, _height, _width);
+		Ghost* _Ghost = new Ghost(Color::getColor(i), initialPosition, m_GameMode, _height, _width);
 		m_Ghosts.push_back(_Ghost);
 	}
 }

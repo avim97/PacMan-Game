@@ -324,12 +324,14 @@ GameMode GameController::GameModeChoice()
 			return GameMode::NOVICE;
 			validchoice = true;
 			break;
+
 		case static_cast<char>(GameMode::GOOD) + '0':
-			return GameMode::NOVICE;
+			return GameMode::GOOD;
 			validchoice = true;
 			break;
+
 		case static_cast<char>(GameMode::BEST) + '0':
-			return GameMode::NOVICE;
+			return GameMode::BEST;
 			validchoice = true;
 			break;
 		default:
