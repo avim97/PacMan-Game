@@ -117,6 +117,7 @@ void GameController::printGoodbyeMessage()
 	clrscr();
 	printLogo(GoodbyeLogo);
 }
+
 bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later user choice from the user as a reference to functions argument
 {
 
@@ -213,8 +214,10 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				lives = newGame.getPacman().GetCurrentLives();
 				score = newGame.GetTotalScore();
 				if (newGame.getGameStatus() == eGameStatus::EXIT)
+				{
 					printGoodbyeMessage();
 					return true;
+				}
 
 			}
 			Game::userWon(color);
@@ -222,6 +225,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 		}
 	}
 }
+
 bool GameController::ApplyUserColorsChoiceToGame(Game& game)
 {
 	char colorStyle = 0;
