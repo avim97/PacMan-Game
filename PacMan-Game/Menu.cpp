@@ -18,6 +18,7 @@ void Menu::printMenu()
 void Menu::requestInput()
 {
 	char userChoice;
+	cin.clear();
 	cout << " Please choose:" << endl;
 	userChoice = _getch();
 	checkInput(userChoice);

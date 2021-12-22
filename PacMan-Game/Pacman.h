@@ -8,6 +8,7 @@ private:
 	int m_Lives;
 	int m_BreadcrumbsScore;
 	int m_FruitScore;
+	Legend legend;
 public:
 	Pacman(const Position& initialPosition) : 
 		GameCreature(
@@ -21,9 +22,10 @@ public:
 	{};
 	int GetCurrentLives() const { return m_Lives; };
 	void UpdateLife();
-	int GetCurrentScore() const { return m_BreadcrumbsScore; };
+	void UpdateLife(int lives);
+	int GetBreadcrumbScore() const { return m_BreadcrumbsScore; };
 	bool UpdateBreadcrumbScore(Board& board);
-	void UpdateFruitScore(int score) { m_BreadcrumbsScore += score; };
+	void UpdateFruitScore(int score) { m_FruitScore += score; };
 	bool IsAlive() const;
 	virtual void Erase(const int yCoord, const int xCoord, Board& board) const override;
 	int GetFruitScore() { return m_FruitScore; };

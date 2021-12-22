@@ -30,13 +30,10 @@ private:
 public:
 	Board(string& fileName) :m_wallColor(Color::eColor::DEFAULT), m_breadcrumbColor(Color::eColor::BOLD_GREEN) {
 		FileActions::updateBoardFromFile(fileName, board, HEIGHT, WIDTH);
-
-		initBoard(m_PacmanInitialPos, m_GhostInitialPos);
-
-	};
+		initBoard(m_PacmanInitialPos, m_GhostInitialPos);};
 	void initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos);
-	void createLegend(Position& legendLocation);
 	void printBoard();
+	void printBoard(bool wasPaused);
 	void ChangeLegendCells();
 
 	int getWidth() { return WIDTH; };
@@ -52,9 +49,11 @@ public:
 	Position GetRandomPosition();
 	const Position& getPacmanInitPos() const { return m_PacmanInitialPos; }
 	const vector<Position>& getGhostInitPos() const { return m_GhostInitialPos; };
-	void ChangeBoard(Board& board);
+
 	GameBoard GetBoard() { return board; };
 	Legend GetLegend() { return legend; };
+	void CheckLegendSpace();
+	bool CheckWithinBoardRange(int& x, int& y);
 };
 
 

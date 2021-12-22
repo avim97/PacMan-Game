@@ -2,6 +2,7 @@
 #include "io_utils.h"
 #include <fstream>
 #include <string>
+#include "eBoardObjects.h"
 
 
 using std::cout; using std::cin;

@@ -6,17 +6,19 @@ using std::cout;
 
 void GameController::Run()
 {
-	
-	eUserChoice userChoice = eUserChoice::UNDEFINED;
 
-	while(userChoice != eUserChoice::Exit)
+	eUserChoice userChoice = eUserChoice::UNDEFINED;
+	bool replay = true;
+	while (userChoice != eUserChoice::Exit && replay)
 	{
+		replay = false;
 		printLogo(GameLogo);
+
 		userChoice = activateMenu();
 
 		switch (userChoice)
 		{
-		case eUserChoice::NewGame:			userChoice = ChooseScreenOrVector(); 	break;
+		case eUserChoice::NewGame:			if (ChooseScreenOrVector(userChoice)) { replay = true; } break;
 
 		case eUserChoice::Instructions:		printInstructions();		break;
 
@@ -24,7 +26,7 @@ void GameController::Run()
 
 		}
 
-		_getch();
+		//_getch();
 
 	}
 
@@ -50,6 +52,8 @@ void GameController::printInstructions()
 
 void GameController::printLogo(int logo)
 {
+	clrscr();
+
 	switch (logo) {
 	case GameLogo:
 		cout << "  _ __   __ _  ___ _ __ ___   __ _ _ __  " << endl;
@@ -113,14 +117,18 @@ void GameController::printGoodbyeMessage()
 	clrscr();
 	printLogo(GoodbyeLogo);
 }
-eUserChoice GameController::ChooseScreenOrVector()
+bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later user choice from the user as a reference to functions argument
 {
-	eUserChoice userChoice;
-	vector<string> filePaths;
 
+	vector<string> filePaths;
+	eGameStatus KeyPressed;
 	if (!FileActions::DirFileList(filePaths))
+	{
 		userChoice = eUserChoice::UNDEFINED;
-		//this->Run();
+		return true;
+	}
+		
+	
 
 	else {
 
@@ -133,16 +141,28 @@ eUserChoice GameController::ChooseScreenOrVector()
 		{
 
 		case SpedificFile:
-		{string fileName;
-		if (FileActions::SpecificFileNameSearch(filePaths, fileName))
 		{
-			Game newGame(fileName);
-			clrscr();
-			newGame.printBoard();
-			while (newGame.getGameStatus() == eGameStatus::RUNNING)
-				newGame.PlayGame();
-		}
-		break;
+			string fileName;
+		
+			if (FileActions::SpecificFileNameSearch(filePaths, fileName))
+			{
+				Game newGame(fileName);
+				clrscr();
+				newGame.printBoard();
+				while (newGame.getGameStatus() == eGameStatus::RUNNING )
+				{
+					newGame.PlayGame();
+					KeyPressed = newGame.getGameStatus();
+					if (KeyPressed == eGameStatus::ESC_PRESSED)
+					{
+						newGame.SetGameStatus(eGameStatus::RUNNING);
+						PauseGame(newGame,true);
+					}
+				}
+			}
+			else
+				userChoice = eUserChoice::UNDEFINED;
+			break;
 		}
 		case  AllFiles:
 			int lives = 3, score = 0;
@@ -153,21 +173,54 @@ eUserChoice GameController::ChooseScreenOrVector()
 				if (color == NULL)
 					color = ApplyUserColorsChoiceToGame(newGame);
 				if (!color)
-					newGame.setDefaultColor();
+					newGame.SetDefaultColor();
 				filePaths.erase(filePaths.begin());
 				clrscr();
 				newGame.printBoard();
-				while (newGame.getGameStatus() == eGameStatus::RUNNING)
+				while (newGame.getGameStatus() == eGameStatus::RUNNING )
+				{
 					newGame.PlayGame();
+					KeyPressed = newGame.getGameStatus();
+					if (KeyPressed == eGameStatus::ESC_PRESSED)
+					{
+						newGame.SetGameStatus(eGameStatus::RUNNING);
+						PauseGame(newGame,false);
+					}
+				}
+
+
+				if (newGame.getGameStatus() == eGameStatus::LOST)
+				{
+					
+						Game::userLost(color);
+
+					return false;
+				}
+				if (newGame.getGameStatus() == eGameStatus::NEXT_BOARD)
+				{
+					if (filePaths.empty())
+					{
+						cout << "No other board found, press any key to exit "<<endl;
+						while (!_kbhit());
+						clrscr();
+
+						return false;
+								
+					}
+					
+				}
+
 				lives = newGame.getPacman().GetCurrentLives();
 				score = newGame.GetTotalScore();
+				if (newGame.getGameStatus() == eGameStatus::EXIT)
+					printGoodbyeMessage();
+					return true;
 
 			}
-			break;
+			Game::userWon(color);
+			return false;
 		}
 	}
-
-	return userChoice;
 }
 bool GameController::ApplyUserColorsChoiceToGame(Game& game)
 {
@@ -192,10 +245,59 @@ bool GameController::ApplyUserColorsChoiceToGame(Game& game)
 
 		}
 
-		else //wrong input- not 1 or 2
+		else //wrong input
 		{
 			cout << "Invalid choice, please choose again." << endl;
 		}
 	}
+
+}
+
+void GameController::PauseGame(Game& currentGame,bool isSingleGame)
+{
+
+	clrscr();
+	printLogo(GameLogo);
+
+	cout << "  The game Paused, please choose:" << endl;
+	cout << "(1)   Back to main menu " << endl;
+	if (!isSingleGame)
+	{
+		cout << "(2)   Play next board " << endl;
+	}
+		;	
+	cout << "(Esc) Continue Playing " << endl;
+
+
+	bool choice = false;
+	while (!choice)
+	{
+		char userchoice = _getch();
+		switch (userchoice) {
+		case '1':
+			currentGame.SetGameStatus(eGameStatus::EXIT);
+			clrscr();
+			choice = true;
+			break;
+
+		case '2':
+			currentGame.SetGameStatus(eGameStatus::NEXT_BOARD);
+			clrscr();
+			choice = true;
+			break;
+
+		case 27:
+			clrscr();
+			currentGame.printBoard(true);
+			choice = true;
+			break;
+
+		default:
+			cout << "Wrong choice, press any key and try again." << endl;
+			break;
+		}
+	}
+
+
 
 }

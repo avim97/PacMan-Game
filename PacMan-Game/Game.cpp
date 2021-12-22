@@ -62,12 +62,12 @@ void Game::InitialFruitPosition()
 void Game::InitializeGhostsVector(const vector<Position>& ghostsMoves)
 {
 	Position initialPosition;
-	for (int i = 0; i < ghostsMoves.size(); i++)
+	size_t totalGhosts = m_Ghosts.size();
+	m_Ghosts.reserve(totalGhosts);
+	for (int i = 0; i < totalGhosts; i++)
 	{
-		/*initialPosition.setXcoord(ghostsMoves[i].getXcoord());
-		initialPosition.setYcoord(ghostsMoves[i].getYcoord());*/
 		initialPosition = ghostsMoves[i];
-		Ghost _Ghost(Color::getColor(i), initialPosition);
+		Ghost _Ghost(Color::getColor(i), initialPosition,GameMode::BEST);
 		m_Ghosts.push_back(_Ghost);
 	}
 }
@@ -152,8 +152,8 @@ void Game::MoveGhost(int ghost)
 	int xCoord = m_Ghosts[ghost].GetXcoord();
 	while (!Moved)
 	{
-		Direction::eDirection ghostDir = m_Ghosts[ghost].GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost].GetPosition());
-
+		//Direction::eDirection ghostDir = m_Ghosts[ghost].GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost].GetPosition());
+		Direction::eDirection ghostDir = Direction::getRandDir();
 		switch (ghostDir)
 		{
 		case Direction::eDirection::UP:
@@ -301,9 +301,9 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 					m_Pacman.SetPosition(xCoord, yCoord);
 					eraseFood(yCoord, xCoord);
 				}
-
 				else
 					m_gameStatus = eGameStatus::WON;
+
 				break;
 
 			default:
@@ -404,7 +404,7 @@ bool Game::FruitStepCheck(const int yCoord, const int xCoord)
 			if (cellValue == static_cast<char>(BoardObjects::WALL))
 				isValidStep = false;
 
-			else if (cellValue == static_cast<char>(BoardObjects::FOOD) || cellValue == static_cast<char>(BoardObjects::SPACE))
+			else if (cellValue == static_cast<char>(BoardObjects::FOOD) || cellValue == static_cast<char>(BoardObjects::SPACE)|| cellValue == static_cast<char>(BoardObjects::LEGEND))
 			{
 				if (!CheckTunnel(yCoord, xCoord))
 				{
@@ -560,9 +560,10 @@ void Game::PlayGame()
 			key = _getch();
 			if (key == 27)
 			{
-				PauseGame();
+				m_gameStatus = eGameStatus::ESC_PRESSED;
+				
 			}
-
+			
 			MovePacman(key);
 		}
 		else
@@ -590,13 +591,11 @@ void Game::PlayGame()
 		}
 
 		Sleep(300);
-		ShowPlayerStatus();
+		m_TotalScore = GetTotalScore();
+		m_Board.GetLegend().printLegend(m_Pacman.GetCurrentLives(),m_TotalScore,m_IsColorful);
 	}
-
-	if (m_gameStatus == eGameStatus::WON)
-		userWon();
-	else
-		userLost();
+	
+	
 
 }
 void Game::PauseGame()//change to popping message
@@ -612,49 +611,49 @@ void Game::PauseGame()//change to popping message
 	cout << "                                       " << endl;
 
 }
-void Game::ShowPlayerStatus()
-{
-	int lives = m_Pacman.GetCurrentLives();
-	int score = m_Pacman.GetCurrentScore();
-
-	gotoxy(0, this->m_Board.getHeight() + 1);
-
-	if (this->m_IsColorful)
-		Color::resetOutputColor();
-
-	cout << "Current score: ";
-
-	if (this->m_IsColorful)
-		Color::applyOutputColor(Color::getColorValue(Color::eColor::BOLD_GREEN));
-	cout << score;
-
-	if (this->m_IsColorful)
-		Color::resetOutputColor();
-
-	gotoxy(this->m_Board.getWidth() - 20, this->m_Board.getHeight() + 1);
-
-	cout << "Lives Left:";
-
-	if (this->m_IsColorful)
-		Color::applyOutputColor(Color::getColorValue(Color::eColor::RED));
-
-	for (int i = 0; i < 3; i++)
-	{
-		if (lives > 0)
-		{
-			cout << " <3";
-			lives--;
-		}
-		else
-			cout << "   ";
-	}
-	if (this->m_IsColorful)
-		Color::resetOutputColor();
-}
-void Game::userWon()
+//void Game::ShowPlayerStatus()
+//{
+//	int lives = m_Pacman.GetCurrentLives();
+//	int score = m_Pacman.GetBreadcrumbScore();
+//
+//	gotoxy(0, this->m_Board.getHeight() + 1);
+//
+//	if (this->m_IsColorful)
+//		Color::resetOutputColor();
+//
+//	cout << "Current score: ";
+//
+//	if (this->m_IsColorful)
+//		Color::applyOutputColor(Color::getColorValue(Color::eColor::BOLD_GREEN));
+//	cout << score;
+//
+//	if (this->m_IsColorful)
+//		Color::resetOutputColor();
+//
+//	gotoxy(this->m_Board.getWidth() - 20, this->m_Board.getHeight() + 1);
+//
+//	cout << "Lives Left:";
+//
+//	if (this->m_IsColorful)
+//		Color::applyOutputColor(Color::getColorValue(Color::eColor::RED));
+//
+//	for (int i = 0; i < 3; i++)
+//	{
+//		if (lives > 0)
+//		{
+//			cout << " <3";
+//			lives--;
+//		}
+//		else
+//			cout << "   ";
+//	}
+//	if (this->m_IsColorful)
+//		Color::resetOutputColor();
+//}
+ void Game::userWon(bool color)
 {
 	clrscr();
-	if (this->m_IsColorful)
+	if (color)
 		Color::resetOutputColor();
 	cout << R"(
  __     __          __          __         _ 
@@ -670,10 +669,10 @@ void Game::userWon()
 	while (!_kbhit()) {};
 	clrscr();
 }
-void Game::userLost()
+ void Game::userLost(bool color)
 {
 	clrscr();
-	if (this->m_IsColorful)
+	if (color)
 		Color::resetOutputColor();
 	cout << R"(
  __     __           _               _   _ 
@@ -693,7 +692,7 @@ void Game::userLost()
 void Game::setColorStyle(bool isColorful)
 {
 	if (!isColorful)
-		setDefaultColor();
+		SetDefaultColor();
 	m_IsColorful = isColorful;
 }
 void Game::SetDefaultColor() //this function sets the default color (white) to all of the game and board objects.
@@ -718,6 +717,7 @@ bool Game::CheckBoardEdge(int xCoord, int yCoord)
 	else
 		return true;
 }
+
 //Updated functions for inheritence
 //bool Game::updateLife()
 //{

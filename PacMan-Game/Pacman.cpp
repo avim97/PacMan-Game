@@ -4,6 +4,10 @@ void Pacman::UpdateLife()
 {
 	m_Lives--;
 }
+void Pacman::UpdateLife(int lives)
+{
+	m_Lives = lives;
+}
 
 bool Pacman::UpdateBreadcrumbScore(Board& board)
 {

@@ -12,27 +12,28 @@ using std::endl;
 class GameCreature
 {
 public:
-	
+
 private:
+
 	char m_figure;
 	Color m_color;
 	Position m_initialPosition;
 	Position m_currentPosition;
 	unsigned char m_currDir;
 public:
-	GameCreature(const char figure, Color::eColor color, Position _initalPosition, unsigned char dir) : 
-		m_figure(figure), 
-		m_color(color), 
+	GameCreature(const char figure, Color::eColor color, Position _initalPosition, unsigned char dir) :
+		m_figure(figure),
+		m_color(color),
 		m_initialPosition(_initalPosition),
-		m_currentPosition(_initalPosition), 
-		m_currDir(dir) 
+		m_currentPosition(_initalPosition),
+		m_currDir(dir)
 	{};
 
 
 	//get functions
 	const char GetFigure() const { return m_figure; };
 	Color GetColor() const { return m_color; };
-	Position const&  GetPosition() const { return m_currentPosition; };
+	Position const& GetPosition() const { return m_currentPosition; };
 	int GetXcoord() const { return m_currentPosition.getXcoord(); };
 	int GetYcoord() const { return m_currentPosition.getYcoord(); };
 	char GetCurrentDirection() const { return m_currDir; };
@@ -56,6 +57,6 @@ public:
 	virtual void Erase(const int yCoord, const int xCoord, Board& board) const = 0;
 	void EraseFood(const int yCoord, const int xCoord, Board& board);
 
-	
+
 };
 
