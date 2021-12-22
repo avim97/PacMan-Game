@@ -9,8 +9,7 @@
 #include <cmath>
 
 using std::vector;
-typedef vector<Ghost> GhostsVector;
-
+typedef vector<Ghost*> GhostsVector;
 
 
 class Game
@@ -47,27 +46,30 @@ public:
 		m_Pacman.UpdateLife(lives);
 		srand((unsigned int)time(nullptr)); InitializeGhostsVector(m_Board.getGhostInitPos());
 	};
+
 	int GetTotalScore()
 	{
 		m_TotalScore = m_Pacman.GetFruitScore() + m_Pacman.GetBreadcrumbScore();
 		return m_TotalScore;
 	}
 
+	~Game();
 	void printBoard() { m_Board.printBoard(); initView(); }
 	void printBoard(bool wasPaused) { m_Board.printBoard(wasPaused); gotoxy(m_Pacman.GetXcoord(), m_Pacman.GetYcoord());m_Pacman.Draw(); /*initView();*/ }
+
+	
 	void initView();
 	void initialGhostPos();
 	void initialPacmanPos();
 	eGameStatus getGameStatus() { return m_gameStatus; };
-
 	bool CheckBoardEdge(int xCoord, int yCoord);
+
 	//------------- COLORS -------------
 	void setColorStyle(bool isColorful);
 	bool getColorStyle() { return m_IsColorful; };
 	void SetDefaultColor();
 
 	// ----------- PACMAN---------
-
 	bool CheckTunnel(const int yCoord, const int xCoord); //## - MOVED TO GAMECREATURE CLASS
 	bool PacmanStepCheck(const int yCoord, const int xCoord); //##
 	void CrossTunnel(const int yCoord, const int xCoord); //## - MOVED IT PACMAN CLASS
@@ -76,21 +78,19 @@ public:
 	bool CheckPacmanIntersection(const int yCoord, const int xCoord);
 	Pacman& getPacman() { return this->m_Pacman; }
 
-
-
 	// -------------- GHOST ----------
 	void InitializeGhostsVector(const vector<Position>& ghostsMoves);
 	void InitialFruitPosition();
-	void MoveGhost(int ghost);
-	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost);
+	void MoveGhost(int ghost, int& ghostsMoves);
+	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost); 
 	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject);
-
-
+	void LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, int currentGhost);
 
 	//------------FRUIT--------------
 	void MoveFruit();
 	bool FruitStepCheck(const int yCoord, const int xCoord);
 	bool CheckFruitIntersection(Position nextPosition, BoardObjects gameObject);
+
 	//---------- Playing the game ---------
 	void PlayGame();
 	void PauseGame();

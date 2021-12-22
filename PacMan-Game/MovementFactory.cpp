@@ -1,25 +1,20 @@
 #include "MovementFactory.h"
 
-Movement* MovementFactory::Create(GameMode gameMode)
+Movement* MovementFactory::Create(GameMode gameMode, int _height, int _width)
 {
-	Movement* movement = nullptr;
+
 	switch (gameMode)
 	{
 	case GameMode::NOVICE:
-		movement = new NoviceMovement;
-		break;
+		return new NoviceMovement;
+
 
 	case GameMode::GOOD:
-		movement = new GoodMovement;
-		break;
-
-	default:
-		movement = new BestMovement;
-		break;
+		return new GoodMovement(_height, _width);
 
 
+	default: // meaning "BEST" game mode was chosen
+		return new BestMovement(_height, _width);
 
 	}
-
-	return movement;
 }

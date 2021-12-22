@@ -13,7 +13,9 @@ void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitial
 			{
 			case '@':
 				pacmanInitialPos = { j,i };
+				board[i][j] = static_cast<char>(BoardObjects::SPACE);
 				break;
+
 			case '$':
 				ghostInitialPos.push_back({ j,i });
 				board[i][j] = static_cast<char>(BoardObjects::FOOD);
@@ -22,13 +24,15 @@ void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitial
 				board[i][j] = static_cast<char>(BoardObjects::WALL);
 				break;
 			case '%':
-				board[i][j] = static_cast<char>(BoardObjects::SPACE);
+				//board[i][j] = static_cast<char>(BoardObjects::SPACE);
 				break;
 			case '&':
 				legend.SetPosition({ i,j });
 				break;
+
 			case 'L':
 				break;
+
 			default:
 				board[i][j] = static_cast<char>(BoardObjects::FOOD);
 				this->totalBreadcrumbs++;
@@ -87,7 +91,8 @@ void Board::printBoard()
 			{
 				if (this->m_breadcrumbColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
 					m_breadcrumbColor.applyOutputColor(m_breadcrumbColor.getColor());
-				if (board[i][j] == 'L')
+
+				if (board[i][j] == 'L' || board[i][j] == '%')										// ADD THESE CHARS TO AN ENUM LATER
 					std::cout << static_cast<char>(BoardObjects::SPACE);
 				else
 					std::cout << board[i][j];
@@ -97,7 +102,8 @@ void Board::printBoard()
 			{
 				if (this->m_breadcrumbColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
 					m_wallColor.resetOutputColor();
-				if (board[i][j] == 'L')
+
+				if (board[i][j] == 'L' || board[i][j] == '%')
 					std::cout << static_cast<char>(BoardObjects::SPACE);
 				else
 					std::cout << board[i][j];
@@ -111,13 +117,13 @@ void Board::printBoard()
 Position Board::GetRandomPosition()
 {
 
-	int randomX = 1 + (rand() % WIDTH - 1);
-	int randomY = 1 + (rand() % HEIGHT - 1);
+	int randomX = rand() % WIDTH;
+	int randomY = rand() % HEIGHT;
 	Position randomPosition;
 	while (board[randomY][randomX] == static_cast<char>(BoardObjects::WALL))
 	{
-		randomX = 1 + (rand() % WIDTH - 1);
-		randomY = 1 + (rand() % HEIGHT - 1);
+		randomX = rand() % WIDTH;
+		randomY = rand() % HEIGHT;
 	}
 	randomPosition.setYcoord(randomY);
 	randomPosition.setXcoord(randomX);

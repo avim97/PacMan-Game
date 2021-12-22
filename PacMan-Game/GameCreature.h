@@ -33,7 +33,7 @@ public:
 	//get functions
 	const char GetFigure() const { return m_figure; };
 	Color GetColor() const { return m_color; };
-	Position const& GetPosition() const { return m_currentPosition; };
+	const Position&  GetPosition() const { return m_currentPosition; };
 	int GetXcoord() const { return m_currentPosition.getXcoord(); };
 	int GetYcoord() const { return m_currentPosition.getYcoord(); };
 	char GetCurrentDirection() const { return m_currDir; };

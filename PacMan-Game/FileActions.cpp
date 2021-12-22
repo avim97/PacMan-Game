@@ -23,7 +23,7 @@ bool FileActions::DirFileList(vector<string>& fileArr)
 	{
 		clrscr();
 		cout << "No suitable files found. Please load Files to project folder and try again." << endl;
-		cout << "Press any ket to get back to menu." << endl;
+		cout << "Press any key to get back to menu." << endl;
 		while (!_kbhit());
 		clrscr();
 		return false;
