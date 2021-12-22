@@ -10,7 +10,7 @@ Movement* MovementFactory::Create(GameMode gameMode, int _height, int _width)
 
 
 	case GameMode::GOOD:
-		return new GoodMovement;
+		return new GoodMovement(_height, _width);
 
 
 	default: // meaning "BEST" game mode was chosen

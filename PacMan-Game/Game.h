@@ -44,12 +44,13 @@ public:
 	{
 		srand((unsigned int)time(nullptr)); InitializeGhostsVector(m_Board.getGhostInitPos());
 	};
+
 	int GetTotalScore()
 	{
 		m_TotalScore = m_Pacman.GetFruitScore() + m_Pacman.GetCurrentScore();
 		return m_TotalScore;
 	}
-	void RunNextBoard(string& nextBoard);
+
 	~Game();
 	void printBoard() { m_Board.printBoard(); initView();}
 	void initView();
@@ -75,7 +76,7 @@ public:
 	// -------------- GHOST ----------
 	void InitializeGhostsVector(const vector<Position>& ghostsMoves);
 	void InitialFruitPosition();
-	void MoveGhost(int ghost);
+	void MoveGhost(int ghost, int& ghostsMoves);
 	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost); 
 	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject);
 	void LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, int currentGhost);

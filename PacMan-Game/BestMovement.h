@@ -32,11 +32,11 @@ public:
 	void InitializeVisitedPaths(GameBoard board, const Position& destination, const Position& source, PositionsVector otherGhostsPositions); //change to vector later 
 	void SetSource(const Position& sourcePos);
 	void SetDestination(const Position& destPos);
-	Direction::eDirection GetMove(GameBoard board, int currentGhost, const Position& destination, const Position& source, PositionsVector otherGhostsPositions) override;
+	Direction::eDirection GetMove(GameBoard board, int currentGhost, const Position& destination, const Position& source, PositionsVector otherGhostsPositions, int& ghostsMoves) override;
 	int GetMinDistance(GameBoard board, const Position& destination, const Position& source, PositionsVector otherGhostsPositions);
-	bool isEdge(int xCoord, int yCoord, Direction::eDirection currentDirection);
 	bool IsValidPosition(Position position, int rows, int cols);
 	bool IsValidPosition(const Position& currentPosition, PositionsVector otherGhostsPositions);
+	AvailablePaths GetPaths() { return m_Paths; };
 
 
 	void BestMovmentPrintDEBUG(int rows, int cols);

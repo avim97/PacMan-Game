@@ -24,8 +24,8 @@ void Game::initialGhostPos()
 
 	for (int i = 0; i < ghostsNumber; i++)
 	{
-		CurrentPosition = this-> m_Ghosts[i]->GetPosition();
-		InitialPosition = this-> m_Ghosts[i]->GetInitialPosition();
+		CurrentPosition = this->m_Ghosts[i]->GetPosition();
+		InitialPosition = this->m_Ghosts[i]->GetInitialPosition();
 
 		xCoord = CurrentPosition.getXcoord();
 		yCoord = CurrentPosition.getYcoord();
@@ -73,7 +73,7 @@ void Game::InitializeGhostsVector(const vector<Position>& ghostsMoves)
 		/*initialPosition.setXcoord(ghostsMoves[i].getXcoord());
 		initialPosition.setYcoord(ghostsMoves[i].getYcoord());*/
 		initialPosition = ghostsMoves[i];
-		Ghost* _Ghost = new Ghost(Color::getColor(i), initialPosition, GameMode::BEST, _height, _width);
+		Ghost* _Ghost = new Ghost(Color::getColor(i), initialPosition, GameMode::NOVICE, _height, _width);
 		m_Ghosts.push_back(_Ghost); // change here to * or delete
 	}
 }
@@ -149,18 +149,19 @@ void Game::MovePacman(char nextDir)
 		break;
 	}
 }
-void Game::MoveGhost(int ghost)
+void Game::MoveGhost(int ghost, int& ghostsMoves)
 {
 	char Moved = false;
 	int yCoord = m_Ghosts[ghost]->GetYcoord();
 	int xCoord = m_Ghosts[ghost]->GetXcoord();
 	PositionsVector ghostsCurrentPositions;
 	LoadGhostsPositions(ghostsCurrentPositions, m_Ghosts, ghost);
-	
+
 	while (!Moved)
 	{
 
-		Direction::eDirection ghostDir = m_Ghosts[ghost]->GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost]->GetPosition(), ghostsCurrentPositions);
+		Direction::eDirection ghostDir = m_Ghosts[ghost]->GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost]->GetPosition(), ghostsCurrentPositions, ghostsMoves);
+		if (ghostDir == Direction::eDirection::UNDEFINED) { ghostDir = Direction::Convert(m_Ghosts[ghost]->GetCurrentDirection()); ghostsMoves++; }
 
 		switch (ghostDir)
 		{
@@ -184,6 +185,7 @@ void Game::MoveGhost(int ghost)
 			break;
 		}
 
+		if (Moved) { m_Ghosts[ghost]->SetDirection(static_cast<char>(ghostDir)); }
 	}
 
 }
@@ -342,6 +344,7 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 		{
 			m_gameStatus = eGameStatus::LOST;
 		}
+		IsValidStep = false;
 	}
 
 
@@ -350,7 +353,7 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 		IsValidStep = false;
 	}
 
-	
+
 
 	else //there is not pacman or ghost in the next direction
 	{
@@ -555,7 +558,7 @@ void Game::eraseFood(const int yCoord, const int xCoord)
 void Game::PlayGame()
 {
 	char key = 'S';
-	int pacmanMoves = 0, fruitMoves = 0;
+	int pacmanMoves = 0, fruitMoves = 0, ghostsMoves = 0;
 
 	if (!getColorStyle())
 		SetDefaultColor();
@@ -583,8 +586,9 @@ void Game::PlayGame()
 		{
 			for (int i = 0; i < m_Ghosts.size(); i++)
 			{
-				MoveGhost(i);
+				MoveGhost(i, ghostsMoves);
 			}
+			ghostsMoves++;
 		}
 
 		else if (pacmanMoves % 5 == 0)
@@ -727,15 +731,15 @@ bool Game::CheckBoardEdge(int xCoord, int yCoord)
 	else
 		return true;
 }
-void Game::LoadGhostsPositions(PositionsVector& positions,GhostsVector ghosts, int currentGhost)
+void Game::LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, int currentGhost)
 {
 	size_t totalGhosts = ghosts.size();
-	for (size_t i = 0 ; i < totalGhosts; i++)
+	for (size_t i = 0; i < totalGhosts; i++)
 	{
 		if (i != currentGhost)
 			positions.push_back(ghosts[i]->GetPosition());
 	}
-	
+
 }
 //Updated functions for inheritence
 //bool Game::updateLife()

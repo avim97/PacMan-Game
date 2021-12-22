@@ -37,7 +37,7 @@ void BestMovement::SetDestination(const Position& destPos)
 	int yCoord = destPos.getYcoord();
 	m_Paths[yCoord][xCoord] = DESTINATION;
 }
-Direction::eDirection BestMovement::GetMove(GameBoard board, int ghostInd, const Position& destination, const Position& source, PositionsVector otherGhostsPositions)
+Direction::eDirection BestMovement::GetMove(GameBoard board, int ghostInd, const Position& destination, const Position& source, PositionsVector otherGhostsPositions, int& ghostsMoves)
 {
 	Direction::eDirection shortestDirection = Direction::eDirection::UNDEFINED;
 	Position nextPosition;
@@ -100,52 +100,6 @@ Direction::eDirection BestMovement::GetMove(GameBoard board, int ghostInd, const
 		}
 
 	}
-
-	// the first MinDistance would always be smaller than all the board's squares number
-
-/*int MinDistance = GetMinDistance(board, destination, source, 1000000000);
-int currentBFS = 0;
-
-Direction::eDirection NextDir = Direction::eDirection::UP;
-
-if (board[source.getYcoord()][source.getXcoord()] == static_cast<char>(BoardObjects::WALL) && !isEdge(source.getXcoord(), source.getYcoord(), Direction::eDirection::UP))
-{
-	currentBFS = GetMinDistance(board, destination, {source.getXcoord(), source.getYcoord() - 1}, MinDistance);
-	if (currentBFS < MinDistance)
-	{
-		NextDir = Direction::eDirection::UP;
-		MinDistance = currentBFS;
-	}
-}
-
-if (!isWall(b, source.getX(), source.getY() + 1) && !isEdge(source.getX(), source.getY(), Direction::DOWN))
-{
-	currentBFS = bfs(FurtherChecking(Direction::DOWN, source), dest, b, MinDistance);
-	if (currentBFS < MinDistance)
-	{
-		NextDir = Direction::DOWN;
-		MinDistance = currentBFS;
-	}
-}
-
-if (!isWall(b, source.getX() - 1, source.getY()) && !isEdge(source.getX(), source.getY(), Direction::LEFT))
-{
-	currentBFS = bfs(FurtherChecking(Direction::LEFT, source), dest, b, MinDistance);
-	if (currentBFS < MinDistance)
-	{
-		NextDir = Direction::LEFT;
-		MinDistance = currentBFS;
-	}
-}
-if (!isWall(b, source.getX() + 1, source.getY()) && !isEdge(source.getX(), source.getY(), Direction::RIGHT))
-{
-	currentBFS = bfs(FurtherChecking(Direction::RIGHT, source), dest, b, MinDistance);
-	if (currentBFS < MinDistance)
-	{
-		NextDir = Direction::RIGHT;
-		MinDistance = currentBFS;
-	}
-}*/
 
 	return shortestDirection;
 }
@@ -227,24 +181,6 @@ int BestMovement::GetMinDistance(GameBoard board, const Position& destination, c
 
 	return NOT_FOUND;
 
-}
-
-
-bool BestMovement::isEdge(int xCoord, int yCoord, Direction::eDirection currentDirection)
-{
-	size_t rows = m_Paths.size();
-	size_t cols = m_Paths[0].size();
-
-	if (currentDirection == Direction::eDirection::UP && yCoord == 0)
-		return 1;
-	if (currentDirection == Direction::eDirection::DOWN && yCoord == rows - 1)
-		return 1;
-	if (currentDirection == Direction::eDirection::LEFT && xCoord == 0)
-		return 1;
-	if (currentDirection == Direction::eDirection::RIGHT && xCoord == cols - 1)
-		return 1;
-
-	return 0;
 }
 
 bool BestMovement::IsValidPosition(Position position, int rows, int cols)

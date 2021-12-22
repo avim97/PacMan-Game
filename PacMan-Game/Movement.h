@@ -11,6 +11,6 @@ typedef vector<Position> PositionsVector;
 class Movement
 {
 public:
-	virtual Direction::eDirection GetMove(GameBoard board, int currentGhost, const Position& destination, const Position& source, PositionsVector otherGhostsPositions) = 0;
+	virtual Direction::eDirection GetMove(GameBoard board, int currentGhost, const Position& destination, const Position& source, PositionsVector otherGhostsPositions, int& fruitMoves) = 0;
 };
 
