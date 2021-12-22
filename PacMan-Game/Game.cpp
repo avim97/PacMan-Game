@@ -158,7 +158,7 @@ void Game::MoveGhost(int ghost, int& ghostsMoves)
 	{
 
 		Direction::eDirection ghostDir = m_Ghosts[ghost]->GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost]->GetPosition(), ghostsCurrentPositions, ghostsMoves);
-		ValidateDirection(ghostDir);
+		ValidateDirection(ghostDir, ghost);
 		if (ghostDir == Direction::eDirection::UNDEFINED) { ghostDir = Direction::Convert(m_Ghosts[ghost]->GetCurrentDirection()); ghostsMoves++; }
 
 		switch (ghostDir)
@@ -184,6 +184,7 @@ void Game::MoveGhost(int ghost, int& ghostsMoves)
 		}
 
 		if (Moved) { m_Ghosts[ghost]->SetDirection(static_cast<char>(ghostDir)); }
+		else { ghostDir = Direction::eDirection::UNDEFINED; };
 	}
 
 }
@@ -344,7 +345,7 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 			m_gameStatus = eGameStatus::LOST;
 		}
 
-		IsValidStep = false;
+		//IsValidStep = false;
 	}
 
 
@@ -703,13 +704,17 @@ void Game::LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, 
 	}
 
 }
-void Game::ValidateDirection(Direction::eDirection& nextDirection)
+void Game::ValidateDirection(Direction::eDirection& nextDirection, int ghost)
 {
 	if (nextDirection == Direction::eDirection::UNDEFINED)
 	{
-		switch ()
+		switch (m_GameMode)
 		{
+		case GameMode::NOVICE:
+			nextDirection = static_cast<Direction::eDirection>(m_Ghosts[ghost]->GetCurrentDirection());
 
+		default:
+			nextDirection = Direction::getRandDir();
 		}
 	}
 }

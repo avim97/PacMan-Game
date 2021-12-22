@@ -88,7 +88,7 @@ public:
 	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost);
 	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject);
 	void LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, int currentGhost);
-	void ValidateDirection(Direction::eDirection& nextDirection);
+	void ValidateDirection(Direction::eDirection& nextDirection, int ghost);
 
 	//------------FRUIT--------------
 	void MoveFruit();
