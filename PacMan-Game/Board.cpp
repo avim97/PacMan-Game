@@ -146,8 +146,10 @@ void Board::printBoard(bool wasPaused) {
 			{
 				if (this->m_breadcrumbColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
 					m_breadcrumbColor.applyOutputColor(m_breadcrumbColor.getColor());
-				if (board[i][j] == 'L')
+
+				if (board[i][j] == 'L' || board[i][j] == '%')
 					std::cout << static_cast<char>(BoardObjects::SPACE);
+
 				else
 					std::cout << board[i][j];
 			}
@@ -159,7 +161,7 @@ void Board::printBoard(bool wasPaused) {
 			{
 				if (this->m_breadcrumbColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
 					m_wallColor.resetOutputColor();
-				if (board[i][j] == 'L')
+				if (board[i][j] == 'L' || board[i][j] == '%')
 					std::cout << static_cast<char>(BoardObjects::SPACE);
 				else
 					std::cout << board[i][j];

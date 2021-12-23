@@ -53,7 +53,7 @@ public:
 
 	~Game();
 	void printBoard() { m_Board.printBoard(); initView(); }
-	void printBoard(bool wasPaused) { m_Board.printBoard(wasPaused); gotoxy(m_Pacman.GetXcoord(), m_Pacman.GetYcoord()); m_Pacman.Draw(); /*initView();*/ }
+	void printBoard(bool wasPaused) { m_Board.printBoard(wasPaused); gotoxy(m_Pacman.GetXcoord(), m_Pacman.GetYcoord()); m_Pacman.Draw(); }
 
 
 	void initView();

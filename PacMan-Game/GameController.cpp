@@ -13,29 +13,25 @@ void GameController::Run()
 	{
 		clearInputBuffer();
 		replay = false;
-		printLogo(GameLogo);
+		PrintLogo(GameLogo);
 
-		userChoice = activateMenu();
+		userChoice = ActivateMenu();
 
 		switch (userChoice)
 		{
 		case eUserChoice::NewGame:			if (ChooseScreenOrVector(userChoice)) { replay = true; } break;
 
-		case eUserChoice::Instructions:		printInstructions();		break;
+		case eUserChoice::Instructions:		PrintInstructions();		break;
 
 		default:							printGoodbyeMessage();		break;
 
 		}
 
-		//_getch();
-
 	}
-
-
 };
 
 
-void GameController::printInstructions()
+void GameController::PrintInstructions()
 {
 	clrscr();
 	cout << endl;
@@ -47,11 +43,11 @@ void GameController::printInstructions()
 	cout << "            -------------------------------------------              " << endl;
 	cout << "           Press any key to go back to the main menu..." << endl;
 
-	while (!_kbhit()) {};
+	while (!_kbhit());
 	clrscr();
 }
 
-void GameController::printLogo(int logo)
+void GameController::PrintLogo(int logo)
 {
 	clrscr();
 
@@ -101,7 +97,7 @@ void GameController::printLogo(int logo)
 
 }
 
-eUserChoice GameController::activateMenu()
+eUserChoice GameController::ActivateMenu()
 {
 	Menu gameMenu;
 
@@ -118,7 +114,7 @@ eUserChoice GameController::activateMenu()
 void GameController::printGoodbyeMessage()
 {
 	clrscr();
-	printLogo(GoodbyeLogo);
+	PrintLogo(GoodbyeLogo);
 }
 
 bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later user choice from the user as a reference to functions argument
@@ -137,13 +133,17 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 	else {
 
 		clrscr();
+
 		GameMode mode = GameModeChoice();
+
 		clrscr();
 
 		cout << "Please choose one of the following:" << endl;
 		cout << "(1) Load my own file by name" << endl;
 		cout << "(2) Load all existing files " << endl;
+
 		char choice = _getch();
+
 		switch (choice)
 		{
 
@@ -263,10 +263,12 @@ bool GameController::ApplyUserColorsChoiceToGame(Game& game)
 }
 void GameController::GameRun(string& fileName, GameMode mode, Game& game)
 {
-	eGameStatus KeyPressed;
+	eGameStatus KeyPressed = eGameStatus::RUNNING;
 
 	clrscr();
+
 	game.printBoard();
+
 	while (game.getGameStatus() == eGameStatus::RUNNING)
 	{
 		game.PlayGame();
@@ -284,7 +286,7 @@ void GameController::PauseGame(Game& currentGame, bool isSingleGame)
 {
 
 	clrscr();
-	printLogo(GameLogo);
+	PrintLogo(GameLogo);
 
 	cout << "  The game Paused, please choose:" << endl;
 	cout << "(1)   Back to main menu " << endl;
@@ -301,6 +303,7 @@ void GameController::PauseGame(Game& currentGame, bool isSingleGame)
 	{
 		char userchoice = _getch();
 		switch (userchoice) {
+
 		case '1':
 			currentGame.SetGameStatus(eGameStatus::EXIT);
 			clrscr();

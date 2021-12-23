@@ -12,9 +12,9 @@ class GameController
 private:
 	enum { GameLogo = 1, WinnigLogo = 2, GoodbyeLogo = 3 };
 	enum { AllFiles = '2', SpedificFile = '1' };
-	eUserChoice activateMenu();
-	void printLogo(int logo);
-	void printInstructions();
+	eUserChoice ActivateMenu();
+	void PrintLogo(int logo);
+	void PrintInstructions();
 	void printGoodbyeMessage();
 	bool ChooseScreenOrVector(eUserChoice& userChoice);
 	bool ApplyUserColorsChoiceToGame(Game& game);
