@@ -9,14 +9,14 @@ bool Legend::checkIfWithinLegendRange(const Position& position) const
 	else
 		return true;
 }
-bool Legend::checkIfWithinRange(const int& start, const int& end, const int& value)const
+bool Legend::checkIfWithinRange(const int& start, const int& end, const int& value) const
 {
 	if (value >= start && value <= end)
 		return true;
 	else
 		return false;
 }
-void Legend::printLegend(const int& lives, const  int& score, const bool& m_isColorful)const {
+void Legend::printLegend(const int& lives, const  int& score, const bool& m_isColorful) const {
 	int y = m_Position.getXcoord();
 	int x = m_Position.getYcoord();
 	bool isColorful = (m_LivesColor.getColor() != static_cast<int>(Color::eColor::DEFAULT));

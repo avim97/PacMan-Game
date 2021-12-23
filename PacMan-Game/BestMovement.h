@@ -39,6 +39,5 @@ public:
 	AvailablePaths GetPaths() { return m_Paths; };
 
 
-	void BestMovmentPrintDEBUG(int rows, int cols);
 };
 

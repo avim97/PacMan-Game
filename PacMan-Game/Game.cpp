@@ -148,43 +148,46 @@ void Game::MovePacman(char nextDir)
 }
 void Game::MoveGhost(int ghost, int& ghostsMoves)
 {
+	Direction::eDirection nextDirection, lastDirection = Direction::eDirection::VALID;
 	char Moved = false;
 	int yCoord = m_Ghosts[ghost]->GetYcoord();
 	int xCoord = m_Ghosts[ghost]->GetXcoord();
 	PositionsVector ghostsCurrentPositions;
+
 	LoadGhostsPositions(ghostsCurrentPositions, m_Ghosts, ghost);
 
 	while (!Moved)
 	{
-
-		Direction::eDirection ghostDir = m_Ghosts[ghost]->GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost]->GetPosition(), ghostsCurrentPositions, ghostsMoves);
-		ValidateDirection(ghostDir, ghost);
-		if (ghostDir == Direction::eDirection::UNDEFINED) { ghostDir = Direction::Convert(m_Ghosts[ghost]->GetCurrentDirection()); ghostsMoves++; }
-
-		switch (ghostDir)
+		if (ValidateDirection(lastDirection, ghost, ghostsMoves) == true)
 		{
-		case Direction::eDirection::UP:
-			Moved = GhostStepCheck(yCoord - 1, xCoord, ghost);
-			break;
+			nextDirection = m_Ghosts[ghost]->GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost]->GetPosition(), ghostsCurrentPositions, ghostsMoves);
 
-		case Direction::eDirection::DOWN:
-			Moved = GhostStepCheck(yCoord + 1, xCoord, ghost);
-			break;
+			switch (nextDirection)
+			{
+			case Direction::eDirection::UP:
+				Moved = GhostStepCheck(yCoord - 1, xCoord, ghost);
+				break;
 
-		case Direction::eDirection::LEFT:
-			Moved = GhostStepCheck(yCoord, xCoord - 1, ghost);
-			break;
+			case Direction::eDirection::DOWN:
+				Moved = GhostStepCheck(yCoord + 1, xCoord, ghost);
+				break;
 
-		case Direction::eDirection::RIGHT:
-			Moved = GhostStepCheck(yCoord, xCoord + 1, ghost);
-			break;
+			case Direction::eDirection::LEFT:
+				Moved = GhostStepCheck(yCoord, xCoord - 1, ghost);
+				break;
 
-		default:
-			break;
+			case Direction::eDirection::RIGHT:
+				Moved = GhostStepCheck(yCoord, xCoord + 1, ghost);
+				break;
+
+			default:
+				break;
+			}
+
+			if (Moved) { m_Ghosts[ghost]->SetDirection(static_cast<char>(nextDirection)); }
+			else { lastDirection = Direction::eDirection::UNDEFINED; }
+
 		}
-
-		if (Moved) { m_Ghosts[ghost]->SetDirection(static_cast<char>(ghostDir)); }
-		else { ghostDir = Direction::eDirection::UNDEFINED; };
 	}
 
 }
@@ -675,9 +678,9 @@ void Game::setColorStyle(bool isColorful)
 void Game::SetDefaultColor() //this function sets the default color (white) to all of the game and board objects.
 {
 	size_t ghostsNumber = m_Ghosts.size();
-	m_Board.setBreadcrumColor(Color::eColor::DEFAULT);
-	m_Board.setWallColor(Color::eColor::DEFAULT);
+	m_Board.ResetColors();
 	m_Pacman.SetColor(Color::eColor::DEFAULT);
+	m_Fruit.SetColor(Color::eColor::DEFAULT);
 	for (int i = 0; i < ghostsNumber; i++)
 	{
 		m_Ghosts[i]->SetColor(Color::eColor::DEFAULT);
@@ -704,19 +707,30 @@ void Game::LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, 
 	}
 
 }
-void Game::ValidateDirection(Direction::eDirection& nextDirection, int ghost)
+bool Game::ValidateDirection(Direction::eDirection& lastDirection, int ghost, int& ghostMoves)
 {
-	if (nextDirection == Direction::eDirection::UNDEFINED)
+
+
+	if (lastDirection == Direction::eDirection::UNDEFINED)
 	{
 		switch (m_GameMode)
 		{
 		case GameMode::NOVICE:
-			nextDirection = static_cast<Direction::eDirection>(m_Ghosts[ghost]->GetCurrentDirection());
+			lastDirection = static_cast<Direction::eDirection>(m_Ghosts[ghost]->GetCurrentDirection());
 			break;
 
 		default:
-			nextDirection = Direction::getRandDir();
+			lastDirection = Direction::getRandDir();
 			break;
 		}
+		ghostMoves++;
+		
 	}
+
+	return true;
+}
+int Game::GetTotalScore()
+{
+	m_TotalScore = m_Pacman.GetFruitScore() + m_Pacman.GetBreadcrumbScore();
+	return m_TotalScore;
 }

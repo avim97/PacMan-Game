@@ -2,22 +2,10 @@
 
 Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, const Position& destination, const Position& source, PositionsVector otherGhostsPositions, int& ghostsMoves)
 {
-	Direction::eDirection direction;
+	Direction::eDirection direction = Direction::eDirection::UNDEFINED;
 	AvailablePaths m_Paths = GetPaths();
-	if (ghostsMoves % m_SwitchNumber == 0)
-	{
-		if (m_SwitchCounter == 5)
-		{
-			direction = Direction::getRandDir();
-			m_SwitchCounter = 0;
-		}
-		else
-		{
-			direction = Direction::eDirection::UNDEFINED;
-			m_SwitchCounter++;
-		}
-	}
-	else
+
+	if (m_IsSmart && ghostsMoves % m_SwitchNumber != 0)
 	{
 		Direction::eDirection shortestDirection = Direction::eDirection::UNDEFINED;
 		Position nextPosition;
@@ -39,7 +27,7 @@ Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, c
 				board[nextY - 1][nextX] != static_cast<char>(BoardObjects::WALL) &&
 				board[nextY - 1][nextX] != '%' &&
 				board[nextY - 1][nextX] != 'L' &&
-				IsValidPosition({ nextY - 1,nextX }, otherGhostsPositions))
+				IsValidPosition({ nextX ,nextY - 1 }, otherGhostsPositions))
 			{
 				nextY--;
 			}
@@ -48,7 +36,7 @@ Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, c
 				board[nextY + 1][nextX] != static_cast<char>(BoardObjects::WALL) &&
 				board[nextY + 1][nextX] != '%' &&
 				board[nextY + 1][nextX] != 'L' &&
-				IsValidPosition({ nextY + 1,nextX }, otherGhostsPositions))
+				IsValidPosition({ nextX,nextY + 1 }, otherGhostsPositions))
 			{
 				nextY++;
 			}
@@ -58,7 +46,7 @@ Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, c
 				board[nextY][nextX - 1] != static_cast<char>(BoardObjects::WALL) &&
 				board[nextY][nextX - 1] != '%' &&
 				board[nextY][nextX - 1] != 'L' &&
-				IsValidPosition({ nextY,nextX - 1 }, otherGhostsPositions))
+				IsValidPosition({ nextX - 1,nextY }, otherGhostsPositions))
 			{
 				nextX--;
 			}
@@ -67,10 +55,13 @@ Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, c
 				board[nextY][nextX + 1] != static_cast<char>(BoardObjects::WALL) &&
 				board[nextY][nextX + 1] != '%' &&
 				board[nextY][nextX + 1] != 'L' &&
-				IsValidPosition({ nextY,nextX + 1 }, otherGhostsPositions))
+				IsValidPosition({ nextX + 1,nextY }, otherGhostsPositions))
 			{
 				nextX++;
 			}
+
+			else
+				continue;
 
 
 
@@ -85,8 +76,35 @@ Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, c
 
 		}
 
-		return shortestDirection;
+		direction = shortestDirection;
 	}
+
+	else // ghosts is moving at a random/constat position
+	{
+
+		if (ghostsMoves % m_SwitchNumber == 0) //chagne between smart/random movement
+		{
+			if (!m_IsSmart)
+			{
+				if (m_SwitchCounter == 5)
+				{
+					direction = Direction::getRandDir();
+					m_SwitchCounter = 0;
+					ActivateSmartMovement();
+				}
+			}
+
+			else
+			{
+				direction = Direction::getRandDir();
+				m_SwitchCounter++;
+				DeActivateSmartMovement();
+			}
+
+			m_SwitchCounter++;
+		}
+	}
+
 
 	return direction;
 }

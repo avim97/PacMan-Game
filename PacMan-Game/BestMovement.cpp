@@ -48,6 +48,7 @@ Direction::eDirection BestMovement::GetMove(GameBoard board, int ghostInd, const
 	size_t height = m_Paths.size() - 1;
 	size_t width = m_Paths[0].size();
 
+
 	for (int i = 1; i <= TOTAL_MOVES; i++)
 	{
 		int nextX = xCoord;
@@ -59,7 +60,7 @@ Direction::eDirection BestMovement::GetMove(GameBoard board, int ghostInd, const
 			board[nextY - 1][nextX] != static_cast<char>(BoardObjects::WALL) &&
 			board[nextY - 1][nextX] != '%' &&
 			board[nextY - 1][nextX] != 'L' &&
-			IsValidPosition({ nextY - 1,nextX }, otherGhostsPositions))
+			IsValidPosition({ nextX ,nextY - 1 }, otherGhostsPositions))
 		{
 			nextY--;
 		}
@@ -68,7 +69,7 @@ Direction::eDirection BestMovement::GetMove(GameBoard board, int ghostInd, const
 			board[nextY + 1][nextX] != static_cast<char>(BoardObjects::WALL) &&
 			board[nextY + 1][nextX] != '%' &&
 			board[nextY + 1][nextX] != 'L' &&
-			IsValidPosition({ nextY + 1,nextX }, otherGhostsPositions))
+			IsValidPosition({ nextX,nextY + 1 }, otherGhostsPositions))
 		{
 			nextY++;
 		}
@@ -78,7 +79,7 @@ Direction::eDirection BestMovement::GetMove(GameBoard board, int ghostInd, const
 			board[nextY][nextX - 1] != static_cast<char>(BoardObjects::WALL) &&
 			board[nextY][nextX - 1] != '%' &&
 			board[nextY][nextX - 1] != 'L' &&
-			IsValidPosition({ nextY,nextX - 1 }, otherGhostsPositions))
+			IsValidPosition({ nextX -1,nextY }, otherGhostsPositions))
 		{
 			nextX--;
 		}
@@ -87,7 +88,7 @@ Direction::eDirection BestMovement::GetMove(GameBoard board, int ghostInd, const
 			board[nextY][nextX + 1] != static_cast<char>(BoardObjects::WALL) &&
 			board[nextY][nextX + 1] != '%' &&
 			board[nextY][nextX + 1] != 'L' &&
-			IsValidPosition({ nextY,nextX + 1 }, otherGhostsPositions))
+			IsValidPosition({ nextX + 1,nextY }, otherGhostsPositions))
 		{
 			nextX++;
 		}
@@ -108,7 +109,6 @@ Direction::eDirection BestMovement::GetMove(GameBoard board, int ghostInd, const
 
 	return shortestDirection;
 }
-
 int BestMovement::GetMinDistance(GameBoard board, const Position& destination, const Position& source, PositionsVector otherGhostsPositions)
 {
 
@@ -187,7 +187,6 @@ int BestMovement::GetMinDistance(GameBoard board, const Position& destination, c
 	return NOT_FOUND;
 
 }
-
 bool BestMovement::IsValidPosition(Position position, int rows, int cols)
 {
 	if ((position.getXcoord() < cols && position.getYcoord() < rows) &&
@@ -206,16 +205,4 @@ bool BestMovement::IsValidPosition(const Position& currentPosition, PositionsVec
 
 	return true;
 }
-void BestMovement::BestMovmentPrintDEBUG(int rows, int cols)
-{
-	//// DEBUG
-	clrscr();
-	for (int i = 0; i < rows; i++)
-		for (int j = 0; j < cols; j++)
-		{
-			std::cout << m_Paths[i][j];
-			if (j == cols - 1)
-				std::cout << std::endl;
-		}
-	// DEBUG
-}
+

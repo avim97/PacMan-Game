@@ -19,9 +19,12 @@ public:
 	Legend() :
 		m_LivesColor(Color::eColor::RED),
 		m_ScoreColor(Color::eColor::YELLOW) {};
+
 	bool checkIfWithinLegendRange(const Position& position)const;
 	bool checkIfWithinRange(const int& start, const int& end, const int& value)const;
 	void printLegend(const int& lives, const  int& score, const bool& m_isColorful) const;
 	void SetPosition(const Position& position) { m_Position = position; };
 	Position& GetPosition() { return m_Position; };
+	void SetLivesColor(Color::eColor color) { m_LivesColor.setColor(color); };
+	void SetScoreColor(Color::eColor color) { m_ScoreColor.setColor(color); };
 };

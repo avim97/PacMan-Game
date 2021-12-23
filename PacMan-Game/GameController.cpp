@@ -11,6 +11,7 @@ void GameController::Run()
 	bool replay = true;
 	while (userChoice != eUserChoice::Exit && replay)
 	{
+		clearInputBuffer();
 		replay = false;
 		printLogo(GameLogo);
 
@@ -103,7 +104,9 @@ void GameController::printLogo(int logo)
 eUserChoice GameController::activateMenu()
 {
 	Menu gameMenu;
+
 	gameMenu.printMenu();
+
 	while (gameMenu.getUserChoice() == eUserChoice::UNDEFINED)
 	{
 		gameMenu.requestInput();
@@ -154,9 +157,12 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				Game newGame(fileName, mode);
 				if (color == NULL)
 					color = ApplyUserColorsChoiceToGame(newGame);
+
 				if (!color)
 					newGame.SetDefaultColor();
+
 				clrscr();
+
 				GameRun(fileName, mode, newGame);
 
 				if (newGame.getGameStatus() == eGameStatus::LOST)
@@ -165,6 +171,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 					return true;
 				}
 			}
+
 			else
 			{
 				return true;
@@ -175,6 +182,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 		case  AllFiles:
 			int lives = 3, score = 0;
 			bool color = NULL;
+
 			for (string& fileName = filePaths[0]; !filePaths.empty() && lives > 0;)
 			{
 				Game newGame(fileName, mode, lives, score);
@@ -186,19 +194,25 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 
 				clrscr();
 				newGame.printBoard();
+
 				GameRun(fileName, mode,newGame);
+
 				if (newGame.getGameStatus() == eGameStatus::LOST)
 				{
 					Game::userLost(color);
 					return true;
 				}
+
 				if (newGame.getGameStatus() == eGameStatus::NEXT_BOARD)
 				{
 					if (filePaths.empty())
 					{
 						cout << "No other board found, press any key to exit " << endl;
-						while (!_kbhit());
+
+						while (!_kbhit()){};
+
 						clrscr();
+
 						return false;
 					}
 				}
@@ -210,8 +224,9 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				lives = newGame.getPacman().GetCurrentLives();
 				score = newGame.GetTotalScore();
 			}
+
 			Game::userWon(color);
-			return false;
+			return true;
 		}
 	}
 }

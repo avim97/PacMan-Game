@@ -19,7 +19,7 @@ private:
 	Position m_PacmanInitialPos = { 0,0 };
 	Position m_FruitInitialPos = { 0,0 };
 	vector<Position> m_GhostInitialPos = {};
-	Legend legend;
+	Legend m_Legend;
 
 	GameBoard board;
 	Color m_wallColor;
@@ -46,12 +46,13 @@ public:
 	void setChar(const int xCoord, const int yCoord, char ch) { board[yCoord][xCoord] = ch; };
 	void setWallColor(Color::eColor color) { m_wallColor.setColor(color); };
 	void setBreadcrumColor(Color::eColor color) { m_breadcrumbColor.setColor(color); };
+	void ResetColors();
 	Position GetRandomPosition();
 	const Position& getPacmanInitPos() const { return m_PacmanInitialPos; }
 	const vector<Position>& getGhostInitPos() const { return m_GhostInitialPos; };
 
 	GameBoard GetBoard() { return board; };
-	Legend GetLegend() { return legend; };
+	Legend GetLegend() { return m_Legend; };
 	void CheckLegendSpace();
 	bool CheckWithinBoardRange(int& x, int& y);
 };

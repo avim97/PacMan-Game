@@ -30,15 +30,15 @@ void Menu::checkInput(const char choice)
 
 	switch (choice)
 	{
-	case (char)eUserChoice::NewGame:
+	case static_cast<char>(eUserChoice::NewGame):
 		setUserChoice(eUserChoice::NewGame);
 		break;
 
-	case (char)eUserChoice::Instructions:
+	case static_cast<char>(eUserChoice::Instructions):
 		setUserChoice(eUserChoice::Instructions);
 		break;
 
-	case (char)eUserChoice::Exit:
+	case static_cast<char>(eUserChoice::Exit):
 		setUserChoice(eUserChoice::Exit);
 		break;
 

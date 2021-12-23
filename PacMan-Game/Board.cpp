@@ -27,7 +27,7 @@ void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitial
 				//board[i][j] = static_cast<char>(BoardObjects::SPACE);
 				break;
 			case '&':
-				legend.SetPosition({ i,j });
+				m_Legend.SetPosition({ i,j });
 				break;
 
 			case 'L':
@@ -45,8 +45,8 @@ void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitial
 void Board::CheckLegendSpace()
 {
 
-	int y = (legend.GetPosition().getXcoord());
-	int x = (legend.GetPosition().getYcoord());
+	int y = (m_Legend.GetPosition().getXcoord());
+	int x = (m_Legend.GetPosition().getYcoord());
 	int maxHeight = HEIGHT;
 	int expectedRows = y + 2 + 1;
 	int expectedCols = x + 19 + 1;
@@ -71,8 +71,8 @@ void Board::CheckLegendSpace()
 }
 void Board::ChangeLegendCells()
 {
-	int startX = legend.GetPosition().getXcoord();
-	int startY = legend.GetPosition().getYcoord();
+	int startX = m_Legend.GetPosition().getXcoord();
+	int startY = m_Legend.GetPosition().getYcoord();
 
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 20; j++)
@@ -172,15 +172,10 @@ void Board::printBoard(bool wasPaused) {
 
 	}
 }
-//void Board::ChangeBoard(Board& newBoard)
-//{
-//	this->board = newBoard.GetBoard();
-//	this->HEIGHT = newBoard.HEIGHT;
-//	this->WIDTH = newBoard.WIDTH;
-//	this->totalBreadcrumbs = newBoard.totalBreadcrumbs;
-//	this->m_FruitInitialPos = newBoard.m_FruitInitialPos;
-//	this->m_GhostInitialPos = newBoard.m_GhostInitialPos;
-//	this->m_PacmanInitialPos = newBoard.m_PacmanInitialPos;
-//	this->legend.SetPosition(newBoard.legend.GetPosition());
-//	delete &newBoard;
-
+void Board::ResetColors()
+{
+	m_wallColor.setColor(Color::eColor::DEFAULT);
+	m_breadcrumbColor.setColor(Color::eColor::DEFAULT);
+	m_Legend.SetLivesColor(Color::eColor::DEFAULT);
+	m_Legend.SetScoreColor(Color::eColor::DEFAULT);
+}

@@ -8,7 +8,7 @@ private:
 	int m_Lives;
 	int m_BreadcrumbsScore;
 	int m_FruitScore;
-	Legend legend;
+	Legend m_Legend;
 public:
 	Pacman(const Position& initialPosition) : 
 		GameCreature(
