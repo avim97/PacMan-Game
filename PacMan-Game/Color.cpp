@@ -34,7 +34,7 @@ Color::eColor Color::getColor(const int colorValue)
 		break;
 
 	default:
-			break;
+		break;
 
 	}
 

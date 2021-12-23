@@ -257,7 +257,7 @@ void Game::MoveFruit()
 	}
 }
 
-//StepChecks Functions
+
 bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 {
 
@@ -348,7 +348,7 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 			m_gameStatus = eGameStatus::LOST;
 		}
 
-		//IsValidStep = false;
+	
 	}
 
 
@@ -360,7 +360,7 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 
 
 
-	else //there is not pacman or ghost in the next direction
+	else 
 	{
 		if (CheckBoardEdge(xCoord, yCoord)) {
 			int CurrentXCoord = m_Ghosts[ghost]->GetXcoord();
@@ -617,7 +617,7 @@ void Game::PlayGame()
 
 
 }
-void Game::PauseGame()//change to popping message
+void Game::PauseGame()
 {
 	do {
 		gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
@@ -724,7 +724,7 @@ bool Game::ValidateDirection(Direction::eDirection& lastDirection, int ghost, in
 			break;
 		}
 		ghostMoves++;
-		
+
 	}
 
 	return true;

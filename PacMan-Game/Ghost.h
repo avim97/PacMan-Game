@@ -21,5 +21,5 @@ public:
 	~Ghost() { delete m_Movement; };
 	void AssignMovement(GameMode _mode, int _height, int _width) { m_Movement = factory.Create(_mode, _height, _width); };
 	void Erase(const int yCoord, const int xCoord, Board& board) const override;
-	Direction::eDirection GetMovement(GameBoard board , int ghostInd, const Position& destination,const Position& source, PositionsVector ghostsPositions, int& ghostsMoves) { return m_Movement->GetMove(board, ghostInd, destination, source, ghostsPositions, ghostsMoves); };
+	Direction::eDirection GetMovement(GameBoard board, int ghostInd, const Position& destination, const Position& source, PositionsVector ghostsPositions, int& ghostsMoves) { return m_Movement->GetMove(board, ghostInd, destination, source, ghostsPositions, ghostsMoves); };
 };

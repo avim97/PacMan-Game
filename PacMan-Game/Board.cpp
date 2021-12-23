@@ -24,7 +24,6 @@ void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitial
 				board[i][j] = static_cast<char>(BoardObjects::WALL);
 				break;
 			case '%':
-				//board[i][j] = static_cast<char>(BoardObjects::SPACE);
 				break;
 			case '&':
 				m_Legend.SetPosition({ i,j });
@@ -92,7 +91,7 @@ void Board::printBoard()
 				if (this->m_breadcrumbColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
 					m_breadcrumbColor.applyOutputColor(m_breadcrumbColor.getColor());
 
-				if (board[i][j] == 'L' || board[i][j] == '%')										// ADD THESE CHARS TO AN ENUM LATER
+				if (board[i][j] == 'L' || board[i][j] == '%')										
 					std::cout << static_cast<char>(BoardObjects::SPACE);
 				else
 					std::cout << board[i][j];
@@ -135,6 +134,7 @@ bool Board::CheckWithinBoardRange(int& x, int& y)
 	if (x >= 0 && x < WIDTH)
 		if (y >= 0 && y < HEIGHT)
 			return true;
+
 		else return false;
 }
 void Board::printBoard(bool wasPaused) {

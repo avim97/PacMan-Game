@@ -6,7 +6,7 @@
 class Color
 {
 public:
-	enum class eColor { BLUE = 1, BOLD_GREEN, CYAN, RED, PURPLE,YELLOW, FAINT_YELLOW = 14, DEFAULT };
+	enum class eColor { BLUE = 1, BOLD_GREEN, CYAN, RED, PURPLE, YELLOW, FAINT_YELLOW = 14, DEFAULT };
 private:
 	eColor m_currColor;
 public:
@@ -18,10 +18,6 @@ public:
 	static int getColorValue(eColor color) { return static_cast<int>(color); };
 	static void applyOutputColor(int color);
 	static void resetOutputColor();
-	
+
 };
-
-// we need to change the color of the breadcrumbs and lifes and score to white when chosen no color and in the end to find a
-// way to not use the function applyColorOutput at all if the user chose "not colorful" (maybe use inheritence ?)
-
 

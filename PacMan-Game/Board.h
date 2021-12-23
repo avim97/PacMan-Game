@@ -18,24 +18,24 @@ private:
 	unsigned int totalBreadcrumbs = 0;
 	Position m_PacmanInitialPos = { 0,0 };
 	Position m_FruitInitialPos = { 0,0 };
-	vector<Position> m_GhostInitialPos = {};
-	Legend m_Legend;
-
-	GameBoard board;
 	Color m_wallColor;
 	Color m_breadcrumbColor;
+	vector<Position> m_GhostInitialPos = {};
+	Legend m_Legend;
+	GameBoard board;
+	
 
 
 
 public:
 	Board(string& fileName) :m_wallColor(Color::eColor::DEFAULT), m_breadcrumbColor(Color::eColor::BOLD_GREEN) {
 		FileActions::updateBoardFromFile(fileName, board, HEIGHT, WIDTH);
-		initBoard(m_PacmanInitialPos, m_GhostInitialPos);};
+		initBoard(m_PacmanInitialPos, m_GhostInitialPos);
+	};
 	void initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos);
 	void printBoard();
 	void printBoard(bool wasPaused);
 	void ChangeLegendCells();
-
 	int getWidth() { return WIDTH; };
 	int getHeight() { return HEIGHT; };
 	int getMaxScore() { return totalBreadcrumbs; };
@@ -50,7 +50,6 @@ public:
 	Position GetRandomPosition();
 	const Position& getPacmanInitPos() const { return m_PacmanInitialPos; }
 	const vector<Position>& getGhostInitPos() const { return m_GhostInitialPos; };
-
 	GameBoard GetBoard() { return board; };
 	Legend GetLegend() { return m_Legend; };
 	void CheckLegendSpace();

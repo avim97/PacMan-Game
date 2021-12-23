@@ -16,7 +16,7 @@ typedef queue<QItem> Queue;
 class BestMovement : public Movement
 {
 private:
-	enum { TRAVELABLE = '*',NOT_TRAVELABLE = '0', DESTINATION = 'D', SOURCE = 'S' , NOT_FOUND = -1, TOTAL_MOVES = 4};
+	enum { TRAVELABLE = '*', NOT_TRAVELABLE = '0', DESTINATION = 'D', SOURCE = 'S', NOT_FOUND = -1, TOTAL_MOVES = 4 };
 	AvailablePaths m_Paths;
 	int m_ShortestPath;
 public:
@@ -27,7 +27,9 @@ public:
 
 	BestMovement(int _height, int _width) :
 		m_ShortestPath(0)
-	{ m_Paths.resize(_height, vector<char>(_width)); };
+	{
+		m_Paths.resize(_height, vector<char>(_width));
+	};
 
 	void InitializeVisitedPaths(GameBoard board, const Position& destination, const Position& source, PositionsVector otherGhostsPositions);
 	void SetSource(const Position& sourcePos);

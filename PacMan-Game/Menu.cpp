@@ -9,7 +9,7 @@ void Menu::printMenu()
 	cout << " (8) Present instructions and keys               " << endl;
 	cout << " (9) EXIT                                        " << endl;
 
-	 while (userChoice != eUserChoice::UNDEFINED)
+	while (userChoice != eUserChoice::UNDEFINED)
 	{
 		requestInput();
 	}
@@ -26,7 +26,7 @@ void Menu::requestInput()
 
 void Menu::checkInput(const char choice)
 {
-	//eUserChoice userChoice;
+	
 
 	switch (choice)
 	{

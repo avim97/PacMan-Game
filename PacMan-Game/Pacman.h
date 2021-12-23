@@ -10,7 +10,7 @@ private:
 	int m_FruitScore;
 	Legend m_Legend;
 public:
-	Pacman(const Position& initialPosition) : 
+	Pacman(const Position& initialPosition) :
 		GameCreature(
 			static_cast<int>(BoardObjects::PACMAN),
 			Color::eColor::YELLOW,

@@ -30,7 +30,7 @@ bool FileActions::DirFileList(vector<string>& fileArr)
 
 			return false;
 		}
-		
+
 	}
 	else
 	{
@@ -83,10 +83,10 @@ bool FileActions::SpecificFileNameSearch(vector<string>& fileArr, string& fileNa
 	else
 	{
 		cout << "file not found, press any key to get back to menu" << endl;
-		while (!_kbhit()){};
+		while (!_kbhit()) {};
 		clrscr();
 		return false;
-		
+
 	}
-		
+
 }

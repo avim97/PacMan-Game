@@ -7,7 +7,7 @@ private:
 	int yCoord;
 	int xCoord;
 public:
-	Position() : xCoord(0), yCoord(0){};
+	Position() : xCoord(0), yCoord(0) {};
 	Position(const int _xCoord, const int _yCoord) : xCoord(_xCoord), yCoord(_yCoord) {};
 	bool operator==(const Position& _Position) const;
 	void setPosition(const int _xCoord, const int _yCoord) { xCoord = _xCoord; yCoord = _yCoord; };

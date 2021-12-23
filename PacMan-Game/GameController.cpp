@@ -19,9 +19,9 @@ void GameController::Run()
 
 		switch (userChoice)
 		{
-		case eUserChoice::NewGame:			if (ChooseScreenOrVector(userChoice)) { replay = true; } break;
+		case eUserChoice::NewGame:			if (ChooseScreenOrVector(userChoice)) replay = true;  break;
 
-		case eUserChoice::Instructions:		PrintInstructions();		break;
+		case eUserChoice::Instructions:		PrintInstructions(); replay = true;		break;
 
 		default:							printGoodbyeMessage();		break;
 
@@ -121,7 +121,6 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 {
 
 	vector<string> filePaths;
-	eGameStatus KeyPressed;
 	if (!FileActions::DirFileList(filePaths))
 	{
 		userChoice = eUserChoice::UNDEFINED;
@@ -163,7 +162,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 
 				clrscr();
 
-				GameRun(fileName, mode, newGame);
+				GameRun(fileName, mode, newGame, true);
 
 				if (newGame.getGameStatus() == eGameStatus::LOST)
 				{
@@ -176,7 +175,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 			{
 				return true;
 			}
-				
+
 			break;
 		}
 		case  AllFiles:
@@ -195,7 +194,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				clrscr();
 				newGame.printBoard();
 
-				GameRun(fileName, mode,newGame);
+				GameRun(fileName, mode, newGame, false);
 
 				if (newGame.getGameStatus() == eGameStatus::LOST)
 				{
@@ -209,7 +208,7 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 					{
 						cout << "No other board found, press any key to exit " << endl;
 
-						while (!_kbhit()){};
+						while (!_kbhit()) {};
 
 						clrscr();
 
@@ -249,7 +248,7 @@ bool GameController::ApplyUserColorsChoiceToGame(Game& game)
 
 		else if (colorStyle == '2')
 		{
-			//game.setDefaultColor();
+			
 			return false;
 
 		}
@@ -261,7 +260,7 @@ bool GameController::ApplyUserColorsChoiceToGame(Game& game)
 	}
 
 }
-void GameController::GameRun(string& fileName, GameMode mode, Game& game)
+void GameController::GameRun(string& fileName, GameMode mode, Game& game, bool isSingleGame)
 {
 	eGameStatus KeyPressed = eGameStatus::RUNNING;
 
@@ -276,7 +275,7 @@ void GameController::GameRun(string& fileName, GameMode mode, Game& game)
 		if (KeyPressed == eGameStatus::ESC_PRESSED)
 		{
 			game.SetGameStatus(eGameStatus::RUNNING);
-			PauseGame(game, true);
+			PauseGame(game, isSingleGame);
 		}
 	}
 

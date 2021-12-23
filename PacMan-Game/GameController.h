@@ -24,7 +24,7 @@ private:
 public:
 	void Run();
 	GameMode GameModeChoice();
-	void GameRun(string& fileName, GameMode mode, Game& game);
+	void GameRun(string& fileName, GameMode mode, Game& game, bool isSingleGame);
 };
 
 

@@ -48,7 +48,7 @@ Direction::eDirection Direction::getRandDir()
 
 	case 2:
 		return eDirection::RIGHT;
-		
+
 	case 3:
 		return eDirection::UP;
 

@@ -41,12 +41,12 @@ void Legend::printLegend(const int& lives, const  int& score, const bool& m_isCo
 	gotoxy(x, y + 2);
 	for (int i = 0; i < 3; i++)
 	{
-		cout  << "   ";
+		cout << "   ";
 	}
 	gotoxy(x, y + 2);
 	for (int i = 0; i < lives; i++)
 	{
-			cout << heart<< " ";
+		cout << heart << " ";
 	}
 
 	if (isColorful)

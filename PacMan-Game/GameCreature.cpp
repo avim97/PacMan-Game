@@ -39,7 +39,7 @@ void GameCreature::Move(const Position _position) const
 		this->Draw();
 
 }
-void GameCreature::EraseFood( int yCoord,  int xCoord, Board& board)
+void GameCreature::EraseFood(int yCoord, int xCoord, Board& board)
 {
 	board.setChar(xCoord, yCoord, static_cast<char>(BoardObjects::SPACE));
 }

@@ -7,7 +7,7 @@ int main()
 {
 
 	GameController Game;
-	
+
 	Game.Run();
 
 }

@@ -12,7 +12,7 @@ void BestMovement::InitializeVisitedPaths(GameBoard board, const Position& desti
 			if (board[i][j] != static_cast<char>(BoardObjects::WALL) &&
 				board[i][j] != 'L' &&
 				board[i][j] != '%' &&
-				IsValidPosition({j,i}, otherGhostsPositions)) 
+				IsValidPosition({ j,i }, otherGhostsPositions))
 				m_Paths[i][j] = TRAVELABLE;
 
 			else
@@ -79,7 +79,7 @@ Direction::eDirection BestMovement::GetMove(GameBoard board, int ghostInd, const
 			board[nextY][nextX - 1] != static_cast<char>(BoardObjects::WALL) &&
 			board[nextY][nextX - 1] != '%' &&
 			board[nextY][nextX - 1] != 'L' &&
-			IsValidPosition({ nextX -1,nextY }, otherGhostsPositions))
+			IsValidPosition({ nextX - 1,nextY }, otherGhostsPositions))
 		{
 			nextX--;
 		}

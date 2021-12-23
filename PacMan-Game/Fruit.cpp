@@ -19,7 +19,7 @@ void Fruit::Erase(const int yCoord, const int xCoord, Board& board) const
 {
 	int color;
 
-	gotoxy(xCoord, yCoord); //there is a problem here it prints no on the right location
+	gotoxy(xCoord, yCoord);
 
 	if (board.getCellValue(xCoord, yCoord) == static_cast<char>(BoardObjects::FOOD))
 	{
@@ -34,7 +34,7 @@ void Fruit::Erase(const int yCoord, const int xCoord, Board& board) const
 			cout << static_cast<char>(BoardObjects::FOOD);
 
 	}
-	else // there was a space before
+	else 
 	{
 		cout << static_cast<char>(BoardObjects::SPACE);
 	}
