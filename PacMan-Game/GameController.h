@@ -16,7 +16,7 @@ private:
 	void PrintLogo(int logo);
 	void PrintInstructions();
 	void printGoodbyeMessage();
-	bool ChooseScreenOrVector(eUserChoice& userChoice);
+	void ChooseScreenOrVector(eUserChoice& userChoice);
 	bool ApplyUserColorsChoiceToGame(Game& game);
 	void PauseGame(Game& currentGame, bool issingleGame);
 

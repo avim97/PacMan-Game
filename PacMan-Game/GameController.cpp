@@ -9,17 +9,20 @@ void GameController::Run()
 
 	eUserChoice userChoice = eUserChoice::UNDEFINED;
 	bool replay = true;
+
 	while (userChoice != eUserChoice::Exit && replay)
 	{
 		clearInputBuffer();
+
 		replay = false;
+
 		PrintLogo(GameLogo);
 
 		userChoice = ActivateMenu();
 
 		switch (userChoice)
 		{
-		case eUserChoice::NewGame:			if (ChooseScreenOrVector(userChoice)) replay = true;  break;
+		case eUserChoice::NewGame:			ChooseScreenOrVector(userChoice); replay = true;  break;
 
 		case eUserChoice::Instructions:		PrintInstructions(); replay = true;		break;
 
@@ -117,14 +120,13 @@ void GameController::printGoodbyeMessage()
 	PrintLogo(GoodbyeLogo);
 }
 
-bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later user choice from the user as a reference to functions argument
+void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later user choice from the user as a reference to functions argument
 {
 
 	vector<string> filePaths;
 	if (!FileActions::DirFileList(filePaths))
 	{
 		userChoice = eUserChoice::UNDEFINED;
-		return true;
 	}
 
 
@@ -167,28 +169,31 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				if (newGame.getGameStatus() == eGameStatus::LOST)
 				{
 					Game::userLost(color);
-					return true;
 				}
-			}
 
-			else
-			{
-				return true;
+				else if (newGame.getGameStatus() == eGameStatus::WON)
+				{
+					Game::userWon(color);
+				}
+
 			}
 
 			break;
 		}
+
 		case  AllFiles:
 			int lives = 3, score = 0;
-			bool color = NULL;
+			bool color = false;
 
 			for (string& fileName = filePaths[0]; !filePaths.empty() && lives > 0;)
 			{
 				Game newGame(fileName, mode, lives, score);
 				filePaths.erase(filePaths.begin());
-				if (color == NULL)
+
+				if (color)
 					color = ApplyUserColorsChoiceToGame(newGame);
-				if (!color)
+
+				else
 					newGame.SetDefaultColor();
 
 				clrscr();
@@ -199,8 +204,9 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				if (newGame.getGameStatus() == eGameStatus::LOST)
 				{
 					Game::userLost(color);
-					return true;
+					return;
 				}
+
 
 				if (newGame.getGameStatus() == eGameStatus::NEXT_BOARD)
 				{
@@ -211,21 +217,20 @@ bool GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 						while (!_kbhit()) {};
 
 						clrscr();
-
-						return false;
 					}
 				}
+
 				if (newGame.getGameStatus() == eGameStatus::EXIT)
 				{
-					return true;
+					return;
 				}
 
 				lives = newGame.getPacman().GetCurrentLives();
 				score = newGame.GetTotalScore();
 			}
 
+
 			Game::userWon(color);
-			return true;
 		}
 	}
 }
@@ -248,7 +253,7 @@ bool GameController::ApplyUserColorsChoiceToGame(Game& game)
 
 		else if (colorStyle == '2')
 		{
-			
+
 			return false;
 
 		}
