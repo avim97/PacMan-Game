@@ -215,8 +215,10 @@ void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				else
 					newGame.SetDefaultColor();
 
-				clrscr();
+				/*clrscr();
+
 				newGame.PrintBoard();
+				newGame.initView();*/
 
 				PlayUserDrivenGame(fileName, mode, newGame, false);
 
@@ -244,7 +246,7 @@ void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 					return;
 				}
 
-				lives = newGame.getPacman().GetCurrentLives();
+				lives = newGame.GetCurrentLives();
 				score = newGame.GetTotalScore();
 			}
 
@@ -261,6 +263,7 @@ void GameController::PlayUserDrivenGame(string& fileName, GameMode mode, Game& g
 	clrscr();
 
 	game.PrintBoard();
+	game.initView();
 
 	while (game.getGameStatus() == eGameStatus::RUNNING)
 	{

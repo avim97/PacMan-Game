@@ -12,7 +12,7 @@ void Game::initView()
 {
 	initialPacmanPos();
 	initialGhostPos();
-	InitialFruitPosition();
+	InitializeFruitPosition();
 
 }
 void Game::initialGhostPos()
@@ -54,7 +54,7 @@ void Game::initialPacmanPos()
 	m_Pacman.Move();
 
 }
-void Game::InitialFruitPosition()
+void Game::InitializeFruitPosition()
 {
 	m_Fruit.DeActivateFruit(m_Board);
 	m_Fruit.ActivateFruit(m_Board.GetRandomPosition());
@@ -312,7 +312,7 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 				if (m_Pacman.UpdateBreadcrumbScore(m_Board))
 				{
 					m_Pacman.SetPosition(xCoord, yCoord);
-					eraseFood(yCoord, xCoord);
+					EraseFood(yCoord, xCoord);
 				}
 				else
 					m_gameStatus = eGameStatus::WON;
@@ -416,12 +416,15 @@ bool Game::FruitStepCheck(const int yCoord, const int xCoord)
 
 		char cellValue = m_Board.getCellValue(xCoord, yCoord);
 
-		if (!CheckFruitIntersection({ yCoord, xCoord }, BoardObjects::PACMAN) && !CheckFruitIntersection({ yCoord, xCoord }, BoardObjects::GHOST))
+		if (!CheckFruitIntersection({ yCoord, xCoord }, BoardObjects::PACMAN) &&
+			!CheckFruitIntersection({ yCoord, xCoord }, BoardObjects::GHOST))
 		{
 			if (cellValue == static_cast<char>(BoardObjects::WALL))
 				isValidStep = false;
 
-			else if (cellValue == static_cast<char>(BoardObjects::FOOD) || cellValue == static_cast<char>(BoardObjects::SPACE) || cellValue == static_cast<char>(BoardObjects::LEGEND))
+			else if (cellValue == static_cast<char>(BoardObjects::FOOD) ||
+					cellValue == static_cast<char>(BoardObjects::SPACE) ||
+					cellValue == static_cast<char>(BoardObjects::LEGEND))
 			{
 				if (!CheckTunnel(yCoord, xCoord))
 				{
@@ -471,6 +474,7 @@ bool Game::CheckFruitIntersection(Position nextPosition, BoardObjects gameObject
 
 	return Intersected;
 }
+
 bool Game::CheckPacmanIntersection(const int yCoord, const int xCoord)
 {
 	bool IsIntersecting = false;
@@ -526,10 +530,6 @@ bool Game::CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObj
 }
 bool Game::CheckTunnel(const int yCoord, const int xCoord)
 {
-
-
-
-
 	int boardWidth = m_Board.getWidth() - 1;
 	int boardHeight = m_Board.getHeight() - 1;
 	int otherSide;
@@ -557,7 +557,7 @@ bool Game::CheckTunnel(const int yCoord, const int xCoord)
 		return false;
 
 }
-void Game::eraseFood(const int yCoord, const int xCoord)
+void Game::EraseFood(const int yCoord, const int xCoord)
 {
 	m_Board.setChar(xCoord, yCoord, static_cast<char>(BoardObjects::SPACE));
 }
@@ -566,7 +566,7 @@ void Game::PlayGame()
 	char key = 'S';
 	int pacmanMoves = 0, fruitMoves = 0, ghostsMoves = 0;
 
-	if (!getColorStyle())
+	if (!GetColorStyle())
 		SetDefaultColor();
 
 	hideCursor();
@@ -669,7 +669,7 @@ void Game::userLost(bool color)
 	while (!_kbhit()) {};
 	clrscr();
 }
-void Game::setColorStyle(bool isColorful)
+void Game::SetColorStyle(bool isColorful)
 {
 	if (!isColorful)
 		SetDefaultColor();

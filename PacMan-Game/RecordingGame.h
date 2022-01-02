@@ -1,6 +1,7 @@
 #pragma once
-class RecordingGame
+#include "Game.h"
+
+class RecordingGame : public Game
 {
 
 };
-
