@@ -153,6 +153,7 @@
     <ClCompile Include="GameFiles.cpp" />
     <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="GoodMovement.cpp" />
+    <ClCompile Include="InteractiveGame.cpp" />
     <ClCompile Include="LoadedGame.cpp" />
     <ClCompile Include="Movement.cpp" />
     <ClCompile Include="MovementFactory.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Fruit.h" />
     <ClInclude Include="GameFiles.h" />
     <ClInclude Include="Ghost.h" />
+    <ClInclude Include="InteractiveGame.h" />
     <ClInclude Include="Legend.h" />
     <ClInclude Include="GoodMovement.h" />
     <ClInclude Include="LoadedGame.h" />

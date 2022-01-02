@@ -22,6 +22,7 @@ public:
 	void ActivateFruit(Position position);
 	void DeActivateFruit(Board& board);
 	void SetActivationMode(bool actived) { m_IsActive = actived; };
+	void SetScoreValue(int value) { m_ScoreValue = value; };
 	int GetRandomScoreValue() { m_ScoreValue = 10 - (1 + (rand() % 5)); return m_ScoreValue; };
 	char GetFruitFigure(int value) const;
 	void Erase(const int yCoord, const int xCoord, Board& board) const override;
