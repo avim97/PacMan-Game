@@ -29,3 +29,7 @@ bool GameFiles::ArgumentValidator(int argc, char* argv[])
 
 	return areValid;
 }
+void GameFiles::FileNameCut() {
+	size_t suffixeIndex = filename.find_last_of(".");
+	filename = filename.substr(0, suffixeIndex);
+}
