@@ -142,13 +142,18 @@
   <ItemGroup>
     <ClCompile Include="BestMovement.cpp" />
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="BoardFiles.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="eGameMode.cpp" />
+    <ClCompile Include="GameType.cpp" />
     <ClCompile Include="FileActions.cpp" />
+    <ClCompile Include="FileService.cpp" />
     <ClCompile Include="Fruit.cpp" />
+    <ClCompile Include="GameFiles.cpp" />
     <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="GoodMovement.cpp" />
+    <ClCompile Include="LoadedGame.cpp" />
     <ClCompile Include="Movement.cpp" />
     <ClCompile Include="MovementFactory.cpp" />
     <ClCompile Include="NoviceMovement.cpp" />
@@ -161,21 +166,27 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="QItem.cpp" />
+    <ClCompile Include="RecordingGame.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BestMovement.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardFiles.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="eBoardObjects.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="eGameMode.h" />
     <ClInclude Include="eGameStatus.h" />
+    <ClInclude Include="GameType.h" />
     <ClInclude Include="FileActions.h" />
+    <ClInclude Include="FileService.h" />
     <ClInclude Include="Fruit.h" />
+    <ClInclude Include="GameFiles.h" />
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="Legend.h" />
     <ClInclude Include="GoodMovement.h" />
+    <ClInclude Include="LoadedGame.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="MovementFactory.h" />
     <ClInclude Include="NoviceMovement.h" />
@@ -188,6 +199,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="QItem.h" />
+    <ClInclude Include="RecordingGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

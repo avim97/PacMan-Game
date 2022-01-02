@@ -1,11 +1,32 @@
 ﻿#include "GameController.h"
-
 #include <iostream>
+
 using std::cout;
 
 
-void GameController::Run()
+void GameController::Run(GameType::eType type)
 {
+	// do a switch case here that activates a specific game depends on the type (load/load silent/save/interactive)
+	// ---------------------------------------------------------
+	//switch (type)
+	//{
+	//case GameType::LOAD:
+	//	ActivateLoadGame(args here... (add a mode that indicates if silent or not));
+	//	break;
+
+	//case GameType::SILENT_LOAD:
+	//	ActivateLoadGame(args here(add a mode that indicates if silent or not))
+
+	//case GameType::SAVE:
+	//	ActivateRecordingGame(args here....);
+	//	break;
+
+	//default: //No argument were entered, meaning the game if gonna be a regular game
+	//	PlayUserDrivenGame(args here....);
+	//	break;
+	//}
+
+	//------------------------------------------------------------------
 
 	eUserChoice userChoice = eUserChoice::UNDEFINED;
 	bool replay = true;
@@ -16,7 +37,7 @@ void GameController::Run()
 
 		replay = false;
 
-		PrintLogo(GameLogo);
+		PrintLogo(GAME_LOGO);
 
 		userChoice = ActivateMenu();
 
@@ -26,13 +47,12 @@ void GameController::Run()
 
 		case eUserChoice::Instructions:		PrintInstructions(); replay = true;		break;
 
-		default:							printGoodbyeMessage();		break;
+		default:							PrintGoodbyeMessage();		break;
 
 		}
 
 	}
 };
-
 
 void GameController::PrintInstructions()
 {
@@ -49,13 +69,12 @@ void GameController::PrintInstructions()
 	while (!_kbhit());
 	clrscr();
 }
-
 void GameController::PrintLogo(int logo)
 {
 	clrscr();
 
 	switch (logo) {
-	case GameLogo:
+	case GAME_LOGO:
 		cout << "  _ __   __ _  ___ _ __ ___   __ _ _ __  " << endl;
 		Sleep(200);
 		cout << " | '_ \\ / _` |/ __| '_ ` _ \\ / _` | '_ \\ " << endl;
@@ -81,7 +100,7 @@ void GameController::PrintLogo(int logo)
 
 		break;
 
-	case GoodbyeLogo:
+	case GOODBYE_LOGO:
 		cout << "  _____                 _ _                _   " << endl;
 		cout << " / ____|               | | |              | |  " << endl;
 		cout << "| |  __  ___   ___   __| | |__  _   _  ___| |  " << endl;
@@ -99,35 +118,35 @@ void GameController::PrintLogo(int logo)
 
 
 }
-
 eUserChoice GameController::ActivateMenu()
 {
 	Menu gameMenu;
 
-	gameMenu.printMenu();
+	gameMenu.Print();
 
-	while (gameMenu.getUserChoice() == eUserChoice::UNDEFINED)
+	while (gameMenu.GetUserChoice() == eUserChoice::UNDEFINED)
 	{
-		gameMenu.requestInput();
+		gameMenu.RequestInput();
 	}
 
-	return gameMenu.getUserChoice();
-}
-
-void GameController::printGoodbyeMessage()
+	return gameMenu.GetUserChoice();
+} //Moved to menu class
+void GameController::PrintGoodbyeMessage()
 {
 	clrscr();
-	PrintLogo(GoodbyeLogo);
+	PrintLogo(GOODBYE_LOGO);
 }
-
 void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later user choice from the user as a reference to functions argument
 {
 
 	vector<string> filePaths;
+
 	if (!FileActions::DirFileList(filePaths))
 	{
 		userChoice = eUserChoice::UNDEFINED;
-	}
+	} // tranfer this method to FileService class;
+
+
 
 
 
@@ -135,7 +154,7 @@ void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 
 		clrscr();
 
-		GameMode mode = GameModeChoice();
+		GameMode mode = RequestGameMode();
 
 		clrscr();
 
@@ -148,7 +167,7 @@ void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 		switch (choice)
 		{
 
-		case SpedificFile:
+		case SPECIFIC_FILE:
 		{
 			string fileName;
 			bool color = NULL;
@@ -157,14 +176,14 @@ void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 			{
 				Game newGame(fileName, mode);
 				if (color == NULL)
-					color = ApplyUserColorsChoiceToGame(newGame);
+					color = RequestColorMode(newGame);
 
 				if (!color)
 					newGame.SetDefaultColor();
 
 				clrscr();
 
-				GameRun(fileName, mode, newGame, true);
+				PlayUserDrivenGame(fileName, mode, newGame, true);
 
 				if (newGame.getGameStatus() == eGameStatus::LOST)
 				{
@@ -181,7 +200,7 @@ void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 			break;
 		}
 
-		case  AllFiles:
+		case  ALL_FILES:
 			int lives = 3, score = 0;
 			bool color = false;
 
@@ -191,15 +210,15 @@ void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				filePaths.erase(filePaths.begin());
 
 				if (color)
-					color = ApplyUserColorsChoiceToGame(newGame);
+					color = RequestColorMode(newGame);
 
 				else
 					newGame.SetDefaultColor();
 
 				clrscr();
-				newGame.printBoard();
+				newGame.PrintBoard();
 
-				GameRun(fileName, mode, newGame, false);
+				PlayUserDrivenGame(fileName, mode, newGame, false);
 
 				if (newGame.getGameStatus() == eGameStatus::LOST)
 				{
@@ -231,52 +250,23 @@ void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 
 
 			Game::userWon(color);
+			break;
 		}
 	}
 }
-
-bool GameController::ApplyUserColorsChoiceToGame(Game& game)
-{
-	char colorStyle = 0;
-	clrscr();
-
-	cout << " Please choose: " << endl << " (1) Colorful " << endl << " (2) Not Colorful " << endl;
-
-	while (colorStyle != '1' && colorStyle != '2')
-	{
-		colorStyle = _getch();
-
-		if (colorStyle == '1')
-		{
-			return true;
-		}
-
-		else if (colorStyle == '2')
-		{
-
-			return false;
-
-		}
-
-		else //wrong input
-		{
-			cout << "Invalid choice, please choose again." << endl;
-		}
-	}
-
-}
-void GameController::GameRun(string& fileName, GameMode mode, Game& game, bool isSingleGame)
+void GameController::PlayUserDrivenGame(string& fileName, GameMode mode, Game& game, bool isSingleGame)
 {
 	eGameStatus KeyPressed = eGameStatus::RUNNING;
 
 	clrscr();
 
-	game.printBoard();
+	game.PrintBoard();
 
 	while (game.getGameStatus() == eGameStatus::RUNNING)
 	{
 		game.PlayGame();
 		KeyPressed = game.getGameStatus();
+
 		if (KeyPressed == eGameStatus::ESC_PRESSED)
 		{
 			game.SetGameStatus(eGameStatus::RUNNING);
@@ -285,18 +275,17 @@ void GameController::GameRun(string& fileName, GameMode mode, Game& game, bool i
 	}
 
 }
-
 void GameController::PauseGame(Game& currentGame, bool isSingleGame)
 {
 
 	clrscr();
-	PrintLogo(GameLogo);
+	PrintLogo(GAME_LOGO);
 
-	cout << "  The game Paused, please choose:" << endl;
+	cout << "Game paused, please choose:" << endl;
 	cout << "(1)   Back to main menu " << endl;
 	if (!isSingleGame)
 	{
-		cout << "(2)   Play next board " << endl;
+		cout << "(2)   Move to the next board " << endl;
 	}
 	;
 	cout << "(Esc) Continue Playing " << endl;
@@ -322,7 +311,7 @@ void GameController::PauseGame(Game& currentGame, bool isSingleGame)
 
 		case 27:
 			clrscr();
-			currentGame.printBoard(true);
+			currentGame.PrintBoard(true);
 			choice = true;
 			break;
 
@@ -335,40 +324,99 @@ void GameController::PauseGame(Game& currentGame, bool isSingleGame)
 
 
 }
-GameMode GameController::GameModeChoice()
+bool GameController::RequestColorMode(Game& game)
 {
+	char colorStyle = 0;
+	bool isColorful = true;
+
 	clrscr();
+
+	cout << " Please choose: " << endl << " (1) Colorful " << endl << " (2) Not Colorful " << endl;
+
+	while (colorStyle != '1' && colorStyle != '2')
+	{
+
+		colorStyle = _getch();
+
+		if (colorStyle == '2')
+		{
+
+			isColorful = false;
+
+		}
+
+		else //wrong input
+		{
+			cout << "Invalid choice, please choose again." << endl;
+		}
+	}
+
+	return isColorful;
+
+}
+GameMode GameController::RequestGameMode()
+{
+
+	GameMode mode = GameMode::UNDEFINED;
+	clrscr();
+
 	cout << "Please choose game difficulty:" << endl;
 	cout << "(1) Novice" << endl;
 	cout << "(2) Good" << endl;
 	cout << "(3) Best" << endl;
-	bool validchoice = false;
-	while (!validchoice)
+
+	while (mode == GameMode::UNDEFINED)
 	{
 		char choice;
 		choice = _getch();
 		switch (choice)
 		{
 		case static_cast<char>(GameMode::NOVICE) + '0':
-			return GameMode::NOVICE;
-			validchoice = true;
+			mode = GameMode::NOVICE;
 			break;
 
 		case static_cast<char>(GameMode::GOOD) + '0':
-			return GameMode::GOOD;
-			validchoice = true;
+			mode = GameMode::GOOD;
 			break;
 
 		case static_cast<char>(GameMode::BEST) + '0':
-			return GameMode::BEST;
-			validchoice = true;
+			mode = GameMode::BEST;
 			break;
+
 		default:
-			cout << "wrong choice, please try again.";
+			cout << "Wrong choice, please try again." << endl;
 			break;
 		}
 	}
 
+	return mode;
+}
+void GameController::ActivateRecordingGame()
+{
+	Menu gameMenu;
+	bool replay = true;
+	eUserChoice userChoice = eUserChoice::UNDEFINED;
 
+	while (userChoice != eUserChoice::Exit && replay)
+	{
+		clearInputBuffer();
 
+		replay = false;
+
+		PrintLogo(GAME_LOGO);
+
+		gameMenu.Activate();
+		userChoice = gameMenu.GetUserChoice();
+
+		switch (userChoice)
+		{
+		case eUserChoice::NewGame:			ChooseScreenOrVector(userChoice); replay = true;  break;
+
+		case eUserChoice::Instructions:		PrintInstructions(); replay = true;		break;
+
+		default:							PrintGoodbyeMessage();		break;
+
+		}
+
+	}
 }

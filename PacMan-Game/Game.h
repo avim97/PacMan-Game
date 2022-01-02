@@ -4,9 +4,11 @@
 #include "Pacman.h"
 #include "Ghost.h"
 #include "Fruit.h"
-#include <vector>
+#include "GameType.h" //tranfer this later to Game class when will used inheritence ....
 #include "eGameStatus.h"
+#include <vector>
 #include <cmath>
+
 
 using std::vector;
 typedef vector<Ghost*> GhostsVector;
@@ -52,8 +54,8 @@ public:
 
 
 	~Game();
-	void printBoard() { m_Board.printBoard(); initView(); }
-	void printBoard(bool wasPaused) { m_Board.printBoard(wasPaused); gotoxy(m_Pacman.GetXcoord(), m_Pacman.GetYcoord()); m_Pacman.Draw(); }
+	void PrintBoard() { m_Board.PrintBoard(); initView(); }
+	void PrintBoard(bool wasPaused) { m_Board.PrintBoard(wasPaused); gotoxy(m_Pacman.GetXcoord(), m_Pacman.GetYcoord()); m_Pacman.Draw(); }
 
 
 	void initView();

@@ -7,14 +7,14 @@ using namespace std;
 
 class Menu {
 private:
-	eUserChoice userChoice;
-
+	eUserChoice m_UserChoice;
 
 public:
-	Menu() : userChoice(eUserChoice::UNDEFINED) {};
-	void printMenu();
-	void requestInput();
-	void checkInput(const char choice);
-	eUserChoice getUserChoice() { return userChoice; };
-	void setUserChoice(eUserChoice choice) { userChoice = choice; };
+	Menu() : m_UserChoice(eUserChoice::UNDEFINED) {};
+	void Activate();
+	void Print();
+	void RequestInput();
+	void CheckInput(const char choice);
+	eUserChoice GetUserChoice() { return m_UserChoice; };
+	void SetUserChoice(eUserChoice choice) { m_UserChoice = choice; };
 };

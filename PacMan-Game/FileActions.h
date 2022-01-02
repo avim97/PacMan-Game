@@ -13,8 +13,8 @@ typedef vector<vector<char>> GameBoard;
 
 class FileActions {
 public:
-	static bool  DirFileList(vector<string>& fileArr);
-	static void sortBoardFileNames(vector<string>& fileArr);
-	static void updateBoardFromFile(string& fileName, GameBoard& board, int& HEIGHT, int& WIDTH);
-	static bool SpecificFileNameSearch(vector<string>& fileArr, string& fileName);
+	static bool  DirFileList(vector<string>& fileArr); // moved to FileService
+	static void sortBoardFileNames(vector<string>& fileArr); //moved to FileService
+	static void updateBoardFromFile(string& fileName, GameBoard& board, int& HEIGHT, int& WIDTH); //need to move to board files
+	static bool SpecificFileNameSearch(vector<string>& fileArr, string& fileName); //moved to FileService
 };

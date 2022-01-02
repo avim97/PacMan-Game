@@ -6,12 +6,11 @@
 void FileActions::sortBoardFileNames(vector<string>& fileArr)
 {
 	sort(fileArr.begin(), fileArr.end());
-
 }
-
 bool FileActions::DirFileList(vector<string>& fileArr)
 {
 	string pathStr;
+	bool listCreated = false;
 
 	for (const auto& entry : std::filesystem::directory_iterator(std::filesystem::current_path()))
 	{
@@ -19,31 +18,32 @@ bool FileActions::DirFileList(vector<string>& fileArr)
 		if (pathStr.size() > 7 && pathStr.size() - 7 == pathStr.rfind(".screen"))
 			fileArr.push_back(pathStr);
 	}
+
 	if (fileArr.empty())
 	{
 		clrscr();
-		cout << "No suitable files found. Please load Files to project folder and try again." << endl;
-		cout << "Press any key to get back to menu." << endl;
+		cout << "No suitable files found. Please upload the required files to working directory and try again." << endl;
+		cout << "Press any key to go back to the main menu." << endl;
 		if (_kbhit())
 		{
 			clrscr();
-
-			return false;
 		}
-
 	}
+
 	else
 	{
 		sortBoardFileNames(fileArr);
-		return true;
+		listCreated = true;
 	}
 
+	return listCreated;
 }
 void FileActions::updateBoardFromFile(string& fileName, GameBoard& board, int& HEIGHT, int& WIDTH)
 {
 	bool firstRow = true;
 	string readLine;
 	std::ifstream readFile(fileName);
+
 	while (!readFile.eof())
 	{
 		getline(readFile, readLine);
@@ -69,7 +69,6 @@ void FileActions::updateBoardFromFile(string& fileName, GameBoard& board, int& H
 	readFile.close();
 
 }
-
 bool FileActions::SpecificFileNameSearch(vector<string>& fileArr, string& fileName)
 {
 	clrscr();

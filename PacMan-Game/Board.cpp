@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos)
+void Board::InitializeBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos)
 {
 
 	for (int i = 0; i < HEIGHT; i++)
@@ -20,16 +20,16 @@ void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitial
 				ghostInitialPos.push_back({ j,i });
 				board[i][j] = static_cast<char>(BoardObjects::FOOD);
 				break;
+
 			case '#':
 				board[i][j] = static_cast<char>(BoardObjects::WALL);
 				break;
-			case '%':
-				break;
-			case '&':
-				m_Legend.SetPosition({ i,j });
+
+			case '%' || 'L':
 				break;
 
-			case 'L':
+			case '&':
+				m_Legend.SetPosition({ i,j });
 				break;
 
 			default:
@@ -41,6 +41,7 @@ void Board::initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitial
 	ChangeLegendCells();
 
 }
+
 void Board::CheckLegendSpace()
 {
 
@@ -49,6 +50,7 @@ void Board::CheckLegendSpace()
 	int maxHeight = HEIGHT;
 	int expectedRows = y + 2 + 1;
 	int expectedCols = x + 19 + 1;
+
 	if (expectedRows - HEIGHT > 0)
 	{
 		maxHeight = expectedRows;
@@ -60,14 +62,15 @@ void Board::CheckLegendSpace()
 			board.push_back(temp);
 		}
 	}
+
 	if (expectedCols - WIDTH > 0)
 	{
 		for (int i = 0; i < maxHeight; i++)
 			for (int j = 0; j < expectedCols - WIDTH; j++)
 				board[i].push_back(static_cast<char>(BoardObjects::SPACE));
 	}
-
 }
+
 void Board::ChangeLegendCells()
 {
 	int startX = m_Legend.GetPosition().getXcoord();
@@ -80,7 +83,7 @@ void Board::ChangeLegendCells()
 		}
 }
 
-void Board::printBoard()
+void Board::PrintBoard()
 {
 	for (int i = 0; i < HEIGHT; i++)
 	{
@@ -91,7 +94,7 @@ void Board::printBoard()
 				if (this->m_breadcrumbColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
 					m_breadcrumbColor.applyOutputColor(m_breadcrumbColor.getColor());
 
-				if (board[i][j] == 'L' || board[i][j] == '%')										
+				if (board[i][j] == 'L' || board[i][j] == '%')
 					std::cout << static_cast<char>(BoardObjects::SPACE);
 				else
 					std::cout << board[i][j];
@@ -113,6 +116,7 @@ void Board::printBoard()
 		std::cout << '\n';
 	}
 }
+
 Position Board::GetRandomPosition()
 {
 
@@ -129,15 +133,21 @@ Position Board::GetRandomPosition()
 
 	return randomPosition;
 }
+
 bool Board::CheckWithinBoardRange(int& x, int& y)
 {
-	if (x >= 0 && x < WIDTH)
-		if (y >= 0 && y < HEIGHT)
-			return true;
+	bool inRange = false;
 
-		else return false;
+	if ((x >= 0 && x < WIDTH) &&
+		(y >= 0 && y < HEIGHT))
+	{
+		inRange = true;
+	}
+
+	return inRange;
 }
-void Board::printBoard(bool wasPaused) {
+
+void Board::PrintBoard(bool wasPaused) {
 	for (int i = 0; i < HEIGHT; i++)
 	{
 		for (int j = 0; j < WIDTH; j++)
@@ -153,10 +163,12 @@ void Board::printBoard(bool wasPaused) {
 				else
 					std::cout << board[i][j];
 			}
+
 			else if (board[i][j] == static_cast<char>(BoardObjects::PACMAN))
 			{
 				std::cout << static_cast<char>(BoardObjects::SPACE);
 			}
+
 			else
 			{
 				if (this->m_breadcrumbColor.getColor() != static_cast<int>(Color::eColor::DEFAULT))
@@ -171,9 +183,9 @@ void Board::printBoard(bool wasPaused) {
 		}
 		std::cout << '\n';
 
-
 	}
 }
+
 void Board::ResetColors()
 {
 	m_wallColor.setColor(Color::eColor::DEFAULT);

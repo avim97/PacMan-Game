@@ -9,7 +9,7 @@ Direction::eDirection GoodMovement::GetMove(GameBoard board, int currentGhost, c
 	{
 		Direction::eDirection shortestDirection = Direction::eDirection::UNDEFINED;
 		Position nextPosition;
-		int shortestPath = m_Paths.size() * 100;
+		size_t shortestPath = m_Paths.size() * 100;
 		int currentPath = NOT_FOUND;
 		int xCoord = source.getXcoord();
 		int yCoord = source.getYcoord();

@@ -30,11 +30,12 @@ private:
 public:
 	Board(string& fileName) :m_wallColor(Color::eColor::DEFAULT), m_breadcrumbColor(Color::eColor::BOLD_GREEN) {
 		FileActions::updateBoardFromFile(fileName, board, HEIGHT, WIDTH);
-		initBoard(m_PacmanInitialPos, m_GhostInitialPos);
+		InitializeBoard(m_PacmanInitialPos, m_GhostInitialPos);
 	};
-	void initBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos);
-	void printBoard();
-	void printBoard(bool wasPaused);
+
+	void InitializeBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos);
+	void PrintBoard();
+	void PrintBoard(bool wasPaused);
 	void ChangeLegendCells();
 	int getWidth() { return WIDTH; };
 	int getHeight() { return HEIGHT; };
