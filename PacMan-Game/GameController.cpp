@@ -327,7 +327,6 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 					return;
 				}
 
-
 				if (newGame->getGameStatus() == eGameStatus::NEXT_BOARD)
 				{
 					if (filePaths.empty())
@@ -355,7 +354,7 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 		}
 	}
 }
-void GameController::PlayUserDrivenGame(string& fileName,Game* game, bool isSingleGame)
+void GameController::PlayUserDrivenGame(string& fileName, Game* game, bool isSingleGame)
 {
 	eGameStatus KeyPressed = eGameStatus::RUNNING;
 
