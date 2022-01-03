@@ -158,7 +158,7 @@ void Game::MoveGhost(int ghost, int& ghostsMoves)
 
 	while (!Moved)
 	{
-		if (ValidateDirection(lastDirection, ghost, ghostsMoves) == true)
+		if (DirectionValidator(lastDirection, ghost, ghostsMoves) == true)
 		{
 			nextDirection = m_Ghosts[ghost]->GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost]->GetPosition(), ghostsCurrentPositions, ghostsMoves);
 
@@ -474,7 +474,6 @@ bool Game::CheckFruitIntersection(Position nextPosition, BoardObjects gameObject
 
 	return Intersected;
 }
-
 bool Game::CheckPacmanIntersection(const int yCoord, const int xCoord)
 {
 	bool IsIntersecting = false;
@@ -617,19 +616,6 @@ void Game::PlayGame()
 
 
 }
-void Game::PauseGame()
-{
-	do {
-		gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
-		if (this->m_IsColorful)
-			Color::resetOutputColor();
-		cout << " Game Paused, press ESC to continue.";
-
-	} while (!_kbhit() || _getch() != 27);
-	gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
-	cout << "                                       " << endl;
-
-}
 void Game::userWon(bool color)
 {
 	clrscr();
@@ -707,7 +693,7 @@ void Game::LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, 
 	}
 
 }
-bool Game::ValidateDirection(Direction::eDirection& lastDirection, int ghost, int& ghostMoves)
+bool Game::DirectionValidator(Direction::eDirection& lastDirection, int ghost, int& ghostMoves)
 {
 
 

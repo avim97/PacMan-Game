@@ -1,57 +1,31 @@
 ﻿#include "GameController.h"
-#include <iostream>
-
-using std::cout;
-
 
 void GameController::Run(GameType::eType type)
 {
 	// do a switch case here that activates a specific game depends on the type (load/load silent/save/interactive)
 	// ---------------------------------------------------------
-	//switch (type)
-	//{
-	//case GameType::LOAD:
-	//	ActivateLoadGame(args here... (add a mode that indicates if silent or not));
-	//	break;
+	switch (type)
+	{
+	case GameType::eType::LOAD:
+		//	ActivateLoadGame(args here... (add a mode that indicates if silent or not));
+		break;
 
-	//case GameType::SILENT_LOAD:
-	//	ActivateLoadGame(args here(add a mode that indicates if silent or not))
+	case GameType::eType::SILENT_LOAD:
+		//	ActivateLoadGame(args here(add a mode that indicates if silent or not))
+		break;
 
-	//case GameType::SAVE:
-	//	ActivateRecordingGame(args here....);
-	//	break;
+	case GameType::eType::SAVE:
+		//	ActivateRecordingGame(args here....);
+		break;
 
-	//default: //No argument were entered, meaning the game if gonna be a regular game
-	//	PlayUserDrivenGame(args here....);
-	//	break;
-	//}
+	default: //No argument were entered, meaning the game if gonna be a regular game
+		ActivateInteractiveGame();
+		break;
+	}
 
 	//------------------------------------------------------------------
 
-	eUserChoice userChoice = eUserChoice::UNDEFINED;
-	bool replay = true;
 
-	while (userChoice != eUserChoice::Exit && replay)
-	{
-		clearInputBuffer();
-
-		replay = false;
-
-		PrintLogo(GAME_LOGO);
-
-		userChoice = ActivateMenu();
-
-		switch (userChoice)
-		{
-		case eUserChoice::NewGame:			ChooseScreenOrVector(userChoice); replay = true;  break;
-
-		case eUserChoice::Instructions:		PrintInstructions(); replay = true;		break;
-
-		default:							PrintGoodbyeMessage();		break;
-
-		}
-
-	}
 };
 
 void GameController::PrintInstructions()
@@ -118,19 +92,21 @@ void GameController::PrintLogo(int logo)
 
 
 }
-eUserChoice GameController::ActivateMenu()
-{
-	Menu gameMenu;
 
-	gameMenu.Print();
+//eUserChoice GameController::ActivateMenu()
+//{
+//	Menu gameMenu;
+//
+//	gameMenu.Print();
+//
+//	while (gameMenu.GetUserChoice() == eUserChoice::UNDEFINED)
+//	{
+//		gameMenu.RequestInput();
+//	}
+//
+//	return gameMenu.GetUserChoice();
+//} //Moved to menu class
 
-	while (gameMenu.GetUserChoice() == eUserChoice::UNDEFINED)
-	{
-		gameMenu.RequestInput();
-	}
-
-	return gameMenu.GetUserChoice();
-} //Moved to menu class
 void GameController::PrintGoodbyeMessage()
 {
 	clrscr();
@@ -174,7 +150,8 @@ void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 
 			if (FileActions::SpecificFileNameSearch(filePaths, fileName))
 			{
-				Game newGame(fileName, mode);
+				InteractiveGame newGame(fileName, mode);
+
 				if (color == NULL)
 					color = RequestColorMode(newGame);
 
@@ -250,8 +227,8 @@ void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later 
 				score = newGame.GetTotalScore();
 			}
 
-
 			Game::userWon(color);
+
 			break;
 		}
 	}
@@ -410,6 +387,34 @@ void GameController::ActivateRecordingGame()
 
 		gameMenu.Activate();
 		userChoice = gameMenu.GetUserChoice();
+
+		switch (userChoice)
+		{
+		case eUserChoice::NewGame:			ChooseScreenOrVector(userChoice); replay = true;  break;
+
+		case eUserChoice::Instructions:		PrintInstructions(); replay = true;		break;
+
+		default:							PrintGoodbyeMessage();		break;
+
+		}
+
+	}
+}
+void GameController::ActivateInteractiveGame()
+{
+	eUserChoice userChoice = eUserChoice::UNDEFINED;
+	bool replay = true;
+
+	while (userChoice != eUserChoice::Exit && replay)
+	{
+		clearInputBuffer();
+
+		replay = false;
+
+		PrintLogo(GAME_LOGO);
+
+		m_Menu.Activate();
+		userChoice = m_Menu.GetUserChoice();
 
 		switch (userChoice)
 		{

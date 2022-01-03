@@ -1,5 +1,53 @@
 #include "LoadedGame.h"
 
+void LoadedGame::PlayGame()
+{
+	char nextDirection = 'S';
+	int pacmanMoves = 0, fruitMoves = 0, ghostsMoves = 0;
+
+	if (m_GameType != GameType::eType::SILENT_LOAD)
+	{
+		if (!GetColorStyle()) { SetDefaultColor(); }
+		hideCursor();
+	}
+
+
+	while (getGameStatus() == eGameStatus::RUNNING)
+	{
+		//nextDirection = GetPacmanNextDirection(); ----- MAKE THIS METHOD
+			MovePacman(nextDirection);
+
+		pacmanMoves++;
+
+		if (pacmanMoves % 2 == 0)
+		{
+			for (int i = 0; i < m_Ghosts.size(); i++)
+			{
+				MoveGhost(i, ghostsMoves);
+			}
+			ghostsMoves++;
+		}
+
+		else if (pacmanMoves % 5 == 0)
+		{
+			MoveFruit();
+			fruitMoves++;
+		}
+
+		else if (fruitMoves % 10 == 0)
+		{
+			m_Fruit.DeActivateFruit(m_Board);
+		}
+
+		if (m_GameType != GameType::eType::SILENT_LOAD)
+		{
+			Sleep(100);
+			m_Board.GetLegend().printLegend(m_Pacman.GetCurrentLives(), GetTotalScore(), GetColorStyle());
+		}
+
+	}
+}
+
 void LoadedGame::initialGhostPos()
 {
 	size_t ghostsNumber = m_Ghosts.size();
@@ -112,7 +160,7 @@ bool LoadedGame::PacmanStepCheck(const int yCoord, const int xCoord)
 			SetGameStatus(eGameStatus::LOST);
 		}
 
-		else if(!isSilentLoad)
+		else if (!isSilentLoad)
 		{
 			initView();
 		}
@@ -131,11 +179,12 @@ bool LoadedGame::PacmanStepCheck(const int yCoord, const int xCoord)
 		{
 			char nextPos = m_Board.getCellValue(xCoord, yCoord);
 
-			if (nextPosition == m_Fruit.GetPosition() &&
-				!isSilentLoad)
+			if (nextPosition == m_Fruit.GetPosition())
 			{
 				m_Pacman.UpdateFruitScore(m_Fruit.GetScoreValue());
-				m_Fruit.DeActivateFruit(m_Board);
+				m_Fruit.SetActivationMode(false);
+				if (!isSilentLoad)
+					m_Fruit.Erase(nextPosition.getYcoord(), nextPosition.getXcoord(), m_Board);
 			}
 
 			switch (nextPos)
@@ -151,15 +200,13 @@ bool LoadedGame::PacmanStepCheck(const int yCoord, const int xCoord)
 				break;
 
 			case static_cast<char>(BoardObjects::FOOD):
-				if (m_Pacman.UpdateBreadcrumbScore(m_Board) &&
-					!isSilentLoad)
+				if (m_Pacman.UpdateBreadcrumbScore(m_Board))
 				{
 					m_Pacman.SetPosition(xCoord, yCoord);
-					EraseFood(yCoord, xCoord);
+					if (!isSilentLoad) { EraseFood(yCoord, xCoord); }
 				}
 				else
 					SetGameStatus(eGameStatus::WON);
-
 				break;
 
 			default:
@@ -208,35 +255,269 @@ void LoadedGame::MoveGhost(int ghost, int& ghostsMoves)
 
 	while (!Moved)
 	{
-		if (ValidateDirection(lastDirection, ghost, ghostsMoves) == true)
-		{
+		//if (DirectionValidator(lastDirection, ghost, ghostsMoves) == true)
+		//{
 			//nextDirection = GetGhostNextMove(ghost); THIS METHOD WILL GET NEXT GHOST'S (BY INDEX) DIRECTION
 
-			switch (nextDirection)
-			{
-			case Direction::eDirection::UP:
-				Moved = GhostStepCheck(yCoord - 1, xCoord, ghost);
+		switch (nextDirection)
+		{
+		case Direction::eDirection::UP:
+			Moved = GhostStepCheck(yCoord - 1, xCoord, ghost);
+			break;
+
+		case Direction::eDirection::DOWN:
+			Moved = GhostStepCheck(yCoord + 1, xCoord, ghost);
+			break;
+
+		case Direction::eDirection::LEFT:
+			Moved = GhostStepCheck(yCoord, xCoord - 1, ghost);
+			break;
+
+		case Direction::eDirection::RIGHT:
+			Moved = GhostStepCheck(yCoord, xCoord + 1, ghost);
+			break;
+
+		default:
+			break;
+		}
+
+		if (Moved) { m_Ghosts[ghost]->SetDirection(static_cast<char>(nextDirection)); }
+		else { lastDirection = Direction::eDirection::UNDEFINED; }
+
+		/*}*/
+	}
+}
+
+bool LoadedGame::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
+{
+	bool IsValidStep = true, isSilentLoad = m_GameType == GameType::eType::SILENT_LOAD;
+
+	if (CheckGhostIntersection(ghost, yCoord, xCoord, BoardObjects::PACMAN))
+	{
+		m_Pacman.UpdateLife();
+		if (m_Pacman.IsAlive())
+		{
+			initView();
+		}
+		else
+		{
+			SetGameStatus(eGameStatus::LOST);
+		}
+
+
+	}
+
+
+	else if (CheckGhostIntersection(ghost, yCoord, xCoord, BoardObjects::GHOST))
+	{
+
+		IsValidStep = false;
+	}
+
+
+
+	else
+	{
+		if (CheckBoardEdge(xCoord, yCoord)) {
+			int CurrentXCoord = m_Ghosts[ghost]->GetXcoord();
+			int CurrentYCoord = m_Ghosts[ghost]->GetYcoord();
+
+			char nextPos = m_Board.getCellValue(xCoord, yCoord);
+
+			CheckGhostIntersection(ghost, yCoord, xCoord, BoardObjects::FRUIT);
+
+			switch (nextPos) {
+			case static_cast<char>(BoardObjects::WALL) || '%' || 'L':
+				IsValidStep = false;
 				break;
 
-			case Direction::eDirection::DOWN:
-				Moved = GhostStepCheck(yCoord + 1, xCoord, ghost);
+			case static_cast<char>(BoardObjects::SPACE):
+				m_Ghosts[ghost]->Erase(CurrentYCoord, CurrentXCoord, m_Board);
+				m_Ghosts[ghost]->SetPosition(xCoord, yCoord);
+				if (!isSilentLoad) m_Ghosts[ghost]->Move();
 				break;
 
-			case Direction::eDirection::LEFT:
-				Moved = GhostStepCheck(yCoord, xCoord - 1, ghost);
-				break;
+			case static_cast<char>(BoardObjects::FOOD):
+				if (!CheckTunnel(yCoord, xCoord))
+				{
+					m_Ghosts[ghost]->Erase(CurrentYCoord, CurrentXCoord, m_Board);
+					m_Ghosts[ghost]->SetPosition(xCoord, yCoord);
 
-			case Direction::eDirection::RIGHT:
-				Moved = GhostStepCheck(yCoord, xCoord + 1, ghost);
+					if (!isSilentLoad) m_Ghosts[ghost]->Move();
+				}
+
+				else
+				{
+					IsValidStep = false;
+				}
+
 				break;
 
 			default:
 				break;
+
 			}
-
-			if (Moved) { m_Ghosts[ghost]->SetDirection(static_cast<char>(nextDirection)); }
-			else { lastDirection = Direction::eDirection::UNDEFINED; }
-
 		}
+
+		else
+			IsValidStep = false;
 	}
+
+	return IsValidStep;
+}
+
+void LoadedGame::MoveFruit()
+{
+	bool Moved = false, isSilentLoad = (m_GameType == GameType::eType::SILENT_LOAD);
+	Direction::eDirection fruitDirection;
+	int yCoord;
+	int xCoord;
+	//Position& nextPosition = GetFruitNextPosition(); // MAKE THIS METHOD
+
+	/*if (!m_Fruit.IsActive())
+	{
+
+		m_Fruit.ActivateFruit(nextPosition);
+	}*/
+
+	yCoord = m_Fruit.GetYcoord();
+	xCoord = m_Fruit.GetXcoord();
+
+	while (!Moved && m_Fruit.IsActive())
+	{
+		fruitDirection = Direction::getRandDir();
+		switch (fruitDirection)
+		{
+		case Direction::eDirection::UP:
+			if (FruitStepCheck(yCoord - 1, xCoord))
+			{
+				if (!isSilentLoad)
+				{
+					m_Fruit.Erase(yCoord, xCoord, m_Board);
+					m_Fruit.Move();
+				}
+
+				Moved = true;
+			}
+			break;
+
+		case Direction::eDirection::DOWN:
+			if (FruitStepCheck(yCoord + 1, xCoord))
+			{
+				if (!isSilentLoad)
+				{
+					m_Fruit.Erase(yCoord, xCoord, m_Board);
+					m_Fruit.Move();
+				}
+				Moved = true;
+			}
+			break;
+
+		case Direction::eDirection::LEFT:
+			if (FruitStepCheck(yCoord, xCoord - 1))
+			{
+				if (!isSilentLoad)
+				{
+					m_Fruit.Erase(yCoord, xCoord, m_Board);
+					m_Fruit.Move();
+				}
+				Moved = true;
+			}
+			break;
+
+		case Direction::eDirection::RIGHT:
+			if (FruitStepCheck(yCoord, xCoord + 1))
+			{
+				if (!isSilentLoad)
+				{
+					m_Fruit.Erase(yCoord, xCoord, m_Board);
+					m_Fruit.Move();
+				}
+				Moved = true;
+			}
+			break;
+
+		default:
+			break;
+		}
+
+	}
+}
+
+bool LoadedGame::FruitStepCheck(const int yCoord, const int xCoord)
+{
+	bool isValidStep = true;
+
+	if (CheckBoardEdge(xCoord, yCoord))
+	{
+		char cellValue = m_Board.getCellValue(xCoord, yCoord);
+
+		if (!CheckFruitIntersection({ yCoord, xCoord }, BoardObjects::PACMAN) &&
+			!CheckFruitIntersection({ yCoord, xCoord }, BoardObjects::GHOST))
+		{
+			if (cellValue == static_cast<char>(BoardObjects::WALL))
+				isValidStep = false;
+
+			else if (cellValue == static_cast<char>(BoardObjects::FOOD) ||
+				cellValue == static_cast<char>(BoardObjects::SPACE) ||
+				cellValue == static_cast<char>(BoardObjects::LEGEND))
+			{
+				if (!CheckTunnel(yCoord, xCoord))
+				{
+					m_Fruit.SetPosition(xCoord, yCoord);
+				}
+
+				else
+					isValidStep = false;
+			}
+		}
+		else
+
+			isValidStep = false;
+	}
+	else isValidStep = false;
+
+	return isValidStep;
+
+}
+
+bool LoadedGame::CheckFruitIntersection(Position nextPosition, BoardObjects gameObject)
+{
+	char Intersected = false;
+	switch (gameObject)
+	{
+	case BoardObjects::PACMAN:
+		if (nextPosition == m_Pacman.GetPosition())
+		{
+			m_Pacman.UpdateFruitScore(m_Fruit.GetScoreValue());
+			if (m_GameType != GameType::eType::SILENT_LOAD)
+			{
+				Position currentPosition = m_Fruit.GetPosition();
+				m_Fruit.Erase(currentPosition.getYcoord(), currentPosition.getXcoord(), m_Board);
+			}
+			m_Fruit.SetActivationMode(false);
+			Intersected = true;
+		}
+		break;
+
+
+	case BoardObjects::GHOST:
+		size_t ghostsNumber = m_Ghosts.size();
+		for (int i = 0; i < ghostsNumber && !Intersected; i++)
+		{
+			if (nextPosition == m_Ghosts[i]->GetPosition())
+			{
+				if (m_GameType != GameType::eType::SILENT_LOAD)
+				{
+					Position currentPosition = m_Fruit.GetPosition();
+					m_Fruit.Erase(currentPosition.getYcoord(), currentPosition.getXcoord(), m_Board);
+				}
+				m_Fruit.SetActivationMode(false);
+				Intersected = true;
+			}
+		}
+		break;
+	}
+
+	return Intersected;
 }

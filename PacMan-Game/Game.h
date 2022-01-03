@@ -39,7 +39,7 @@ public:
 		m_TotalScore(0),
 		m_GameMode(mode)
 	{
-		srand((unsigned int)time(nullptr)); InitializeGhostsVector(m_Board.getGhostInitPos());
+		/*srand((unsigned int)time(nullptr));*/ InitializeGhostsVector(m_Board.getGhostInitPos());
 	};
 
 	Game(string& boardPath, GameMode mode, int lives, int score) :
@@ -52,7 +52,7 @@ public:
 		m_GameMode(mode)
 	{
 		m_Pacman.UpdateLife(lives);
-		srand((unsigned int)time(nullptr)); InitializeGhostsVector(m_Board.getGhostInitPos());
+		/*srand((unsigned int)time(nullptr));*/ InitializeGhostsVector(m_Board.getGhostInitPos());
 	};
 
 
@@ -84,26 +84,24 @@ public:
 	// -------------- GHOST ----------
 	virtual void InitializeFruitPosition(); //DONE
 	void InitializeGhostsVector(const vector<Position>& ghostsMoves); //DONE
-	virtual void MoveGhost(int ghost, int& ghostsMoves); 
-	bool GhostStepCheck(const int yCoord, const int xCoord, int ghost);
-	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject);
-	void LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, int currentGhost);
-	bool ValidateDirection(Direction::eDirection& lastDirection, int ghost, int& ghostMoves);
+	virtual void MoveGhost(int ghost, int& ghostsMoves); //DONE
+	virtual bool GhostStepCheck(const int yCoord, const int xCoord, int ghost); //DONE
+	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject); //DONE
+	void LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, int currentGhost); //DONE
+	bool DirectionValidator(Direction::eDirection& lastDirection, int ghost, int& ghostMoves); //MOVE TO SAVE AND INTERACTIVE MODE !!
 
 	//------------FRUIT--------------
-	void MoveFruit();
-	bool FruitStepCheck(const int yCoord, const int xCoord);
-	bool CheckFruitIntersection(Position nextPosition, BoardObjects gameObject);
+	virtual void MoveFruit(); //DONE
+	virtual bool FruitStepCheck(const int yCoord, const int xCoord); //DONE
+	virtual bool CheckFruitIntersection(Position nextPosition, BoardObjects gameObject); //DONE
 
 	//---------- Playing the game ---------
-	void PlayGame();
-	void PauseGame();
-	static void userWon(bool color);
-	static void userLost(bool color);
-	char GetCellValue(Position currentPosition) { m_Board.getCellValue(currentPosition); };
-	int GetTotalScore();
-	int GetCurrentLives() const { return m_Pacman.GetCurrentLives(); }
-	void SetGameStatus(eGameStatus status) { this->m_gameStatus = status; }
+	virtual void PlayGame(); //DONE
+	static void userWon(bool color); //DONE
+	static void userLost(bool color); //DONE
+	int GetTotalScore(); //DONE
+	int GetCurrentLives() const { return m_Pacman.GetCurrentLives(); } //DONE
+	void SetGameStatus(eGameStatus status) { this->m_gameStatus = status; } //DONE
 
 
 };
