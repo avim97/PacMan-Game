@@ -4,6 +4,7 @@
 void Menu::Activate()
 {
 	Print();
+	SetUserChoice(eUserChoice::UNDEFINED);
 	while (m_UserChoice == eUserChoice::UNDEFINED)
 	{
 		RequestInput();
@@ -22,14 +23,13 @@ void Menu::RequestInput()
 {
 	char userChoice;
 	cin.clear();
-	cout << " Choice:" << endl;
 	userChoice = _getch();
 	CheckInput(userChoice); //think about tranferring to exception class later
 }
 
 void Menu::CheckInput(const char choice)
 {
-	
+
 
 	switch (choice)
 	{

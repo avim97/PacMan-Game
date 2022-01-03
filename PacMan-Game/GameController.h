@@ -35,7 +35,7 @@ private:
 	void PrintGoodbyeMessage(); //will not be used in load silent mode
 	void PauseGame(Game* currentGame, bool issingleGame); //will not be used in load silent mode
 	bool RequestColorMode(Game* game);
-	void PlayUserDrivenGame(string& fileName, GameMode mode, Game* game, bool isSingleGame); // was "GameRun" before
+	void PlayUserDrivenGame(string& fileName, Game* game, bool isSingleGame); // was "GameRun" before
 	void CreateNewUserDrivenGame(eUserChoice& userChoice);
 
 public:

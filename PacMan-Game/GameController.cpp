@@ -255,7 +255,7 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 
 		clrscr();
 
-		GameMode mode = RequestGameMode();
+		m_GameMode = RequestGameMode();
 
 		clrscr();
 
@@ -285,7 +285,7 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 
 				clrscr();
 
-				PlayUserDrivenGame(fileName, mode, newGame, true);
+				PlayUserDrivenGame(fileName, newGame, true);
 
 				if (newGame->getGameStatus() == eGameStatus::LOST)
 				{
@@ -318,7 +318,7 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 				else
 					newGame->SetDefaultColor();
 
-				PlayUserDrivenGame(fileName, mode, newGame, false);
+				PlayUserDrivenGame(fileName, newGame, false);
 
 				if (newGame->getGameStatus() == eGameStatus::LOST)
 				{
@@ -326,7 +326,6 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 					delete newGame;
 					return;
 				}
-
 
 				if (newGame->getGameStatus() == eGameStatus::NEXT_BOARD)
 				{
@@ -355,7 +354,7 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 		}
 	}
 }
-void GameController::PlayUserDrivenGame(string& fileName, GameMode mode, Game* game, bool isSingleGame)
+void GameController::PlayUserDrivenGame(string& fileName, Game* game, bool isSingleGame)
 {
 	eGameStatus KeyPressed = eGameStatus::RUNNING;
 
