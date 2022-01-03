@@ -25,8 +25,9 @@ public:
 	void StepsFileCreation() { Stepsfile.open(filename + ".steps", std::ofstream::trunc); };
 	void ResultFileCreation() { Stepsfile.open(filename + ".result", std::ofstream::trunc); };
 	void InsertGameColorTOFile(bool isColorful) { Stepsfile << ("%b", isColorful)<<endl; clearInputBuffer(); };
-	void InsertStringToStepsFile(string& string) { Stepsfile << string << endl; };
-	void InsertResultToStepsFile(string& string) { Resultfile << string << endl; };
+	void InsertStringToStepsFile(string& string) { Stepsfile << string << endl; clearInputBuffer();};
+	void InsertResultToStepsFile(string& string) { Resultfile << string << endl; clearInputBuffer();
+	};
 	
 };
 
