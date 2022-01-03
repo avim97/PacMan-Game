@@ -595,6 +595,7 @@ void Game::PlayGame()
 				MoveGhost(i, ghostsMoves);
 			}
 			ghostsMoves++;
+
 		}
 
 		else if (pacmanMoves % 5 == 0)
