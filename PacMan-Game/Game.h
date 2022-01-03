@@ -38,9 +38,7 @@ public:
 		m_IsColorful(true),
 		m_TotalScore(0),
 		m_GameMode(mode)
-	{
-		/*srand((unsigned int)time(nullptr));*/ InitializeGhostsVector(m_Board.getGhostInitPos());
-	};
+	{};
 
 	Game(string& boardPath, GameMode mode, int lives, int score) :
 		m_Board(boardPath),
@@ -50,10 +48,7 @@ public:
 		m_IsColorful(true),
 		m_TotalScore(score),
 		m_GameMode(mode)
-	{
-		m_Pacman.UpdateLife(lives);
-		/*srand((unsigned int)time(nullptr));*/ InitializeGhostsVector(m_Board.getGhostInitPos());
-	};
+	{};
 
 
 	virtual ~Game();
