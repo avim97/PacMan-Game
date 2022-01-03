@@ -4,30 +4,58 @@ void GameController::Run(GameType::eType type)
 {
 	// do a switch case here that activates a specific game depends on the type (load/load silent/save/interactive)
 	// ---------------------------------------------------------
-	switch (type)
+
+	m_GameType = type;
+	if (type == GameType::eType::INTERACTIVE ||
+		type == GameType::eType::SAVE)
 	{
-	case GameType::eType::LOAD:
-		//	ActivateLoadGame(args here... (add a mode that indicates if silent or not));
-		break;
-
-	case GameType::eType::SILENT_LOAD:
-		//	ActivateLoadGame(args here(add a mode that indicates if silent or not))
-		break;
-
-	case GameType::eType::SAVE:
-		//	ActivateRecordingGame(args here....);
-		break;
-
-	default: //No argument were entered, meaning the game if gonna be a regular game
-		ActivateInteractiveGame();
-		break;
+		ActivateUserDrivenGame();
 	}
+	else // LOAD or SILENT_LOAD mode
+	{
 
-	//------------------------------------------------------------------
+	}
+}
+void GameController::ActivateMachineDrivenGame()
+{
+	Menu gameMenu;
+	bool replay = true;
 
+	while (replay)
+	{
+		clearInputBuffer();
+		replay = false;
 
-};
+	}
+}
+void GameController::ActivateUserDrivenGame()
+{
+	eUserChoice userChoice = eUserChoice::UNDEFINED;
+	bool replay = true;
 
+	while (userChoice != eUserChoice::Exit && replay)
+	{
+		clearInputBuffer();
+
+		replay = false;
+
+		PrintLogo(GAME_LOGO);
+
+		m_Menu.Activate();
+		userChoice = m_Menu.GetUserChoice();
+
+		switch (userChoice)
+		{
+		case eUserChoice::NewGame:			CreateNewUserDrivenGame(userChoice); replay = true;  break;
+
+		case eUserChoice::Instructions:		PrintInstructions(); replay = true;		break;
+
+		default:							PrintGoodbyeMessage();		break;
+
+		}
+
+	}
+}
 void GameController::PrintInstructions()
 {
 	clrscr();
@@ -92,170 +120,12 @@ void GameController::PrintLogo(int logo)
 
 
 }
-
-//eUserChoice GameController::ActivateMenu()
-//{
-//	Menu gameMenu;
-//
-//	gameMenu.Print();
-//
-//	while (gameMenu.GetUserChoice() == eUserChoice::UNDEFINED)
-//	{
-//		gameMenu.RequestInput();
-//	}
-//
-//	return gameMenu.GetUserChoice();
-//} //Moved to menu class
-
 void GameController::PrintGoodbyeMessage()
 {
 	clrscr();
 	PrintLogo(GOODBYE_LOGO);
 }
-void GameController::ChooseScreenOrVector(eUserChoice& userChoice) // add later user choice from the user as a reference to functions argument
-{
-
-	vector<string> filePaths;
-
-	if (!FileActions::DirFileList(filePaths))
-	{
-		userChoice = eUserChoice::UNDEFINED;
-	} // tranfer this method to FileService class;
-
-
-
-
-
-	else {
-
-		clrscr();
-
-		GameMode mode = RequestGameMode();
-
-		clrscr();
-
-		cout << "Please choose one of the following:" << endl;
-		cout << "(1) Load my own file by name" << endl;
-		cout << "(2) Load all existing files " << endl;
-
-		char choice = _getch();
-
-		switch (choice)
-		{
-
-		case SPECIFIC_FILE:
-		{
-			string fileName;
-			bool color = NULL;
-
-			if (FileActions::SpecificFileNameSearch(filePaths, fileName))
-			{
-				InteractiveGame newGame(fileName, mode);
-
-				if (color == NULL)
-					color = RequestColorMode(newGame);
-
-				if (!color)
-					newGame.SetDefaultColor();
-
-				clrscr();
-
-				PlayUserDrivenGame(fileName, mode, newGame, true);
-
-				if (newGame.getGameStatus() == eGameStatus::LOST)
-				{
-					Game::userLost(color);
-				}
-
-				else if (newGame.getGameStatus() == eGameStatus::WON)
-				{
-					Game::userWon(color);
-				}
-
-			}
-
-			break;
-		}
-
-		case  ALL_FILES:
-			int lives = 3, score = 0;
-			bool color = false;
-
-			for (string& fileName = filePaths[0]; !filePaths.empty() && lives > 0;)
-			{
-				Game newGame(fileName, mode, lives, score);
-				filePaths.erase(filePaths.begin());
-
-				if (color)
-					color = RequestColorMode(newGame);
-
-				else
-					newGame.SetDefaultColor();
-
-				/*clrscr();
-
-				newGame.PrintBoard();
-				newGame.initView();*/
-
-				PlayUserDrivenGame(fileName, mode, newGame, false);
-
-				if (newGame.getGameStatus() == eGameStatus::LOST)
-				{
-					Game::userLost(color);
-					return;
-				}
-
-
-				if (newGame.getGameStatus() == eGameStatus::NEXT_BOARD)
-				{
-					if (filePaths.empty())
-					{
-						cout << "No other board found, press any key to exit " << endl;
-
-						while (!_kbhit()) {};
-
-						clrscr();
-					}
-				}
-
-				if (newGame.getGameStatus() == eGameStatus::EXIT)
-				{
-					return;
-				}
-
-				lives = newGame.GetCurrentLives();
-				score = newGame.GetTotalScore();
-			}
-
-			Game::userWon(color);
-
-			break;
-		}
-	}
-}
-void GameController::PlayUserDrivenGame(string& fileName, GameMode mode, Game& game, bool isSingleGame)
-{
-	eGameStatus KeyPressed = eGameStatus::RUNNING;
-
-	clrscr();
-
-	game.PrintBoard();
-	game.initView();
-
-	while (game.getGameStatus() == eGameStatus::RUNNING)
-	{
-		game.PlayGame();
-		KeyPressed = game.getGameStatus();
-
-		if (KeyPressed == eGameStatus::ESC_PRESSED)
-		{
-			game.SetGameStatus(eGameStatus::RUNNING);
-			PauseGame(game, isSingleGame);
-		}
-	}
-
-}
-void GameController::PauseGame(Game& currentGame, bool isSingleGame)
+void GameController::PauseGame(Game* currentGame, bool isSingleGame)
 {
 
 	clrscr();
@@ -278,20 +148,20 @@ void GameController::PauseGame(Game& currentGame, bool isSingleGame)
 		switch (userchoice) {
 
 		case '1':
-			currentGame.SetGameStatus(eGameStatus::EXIT);
+			currentGame->SetGameStatus(eGameStatus::EXIT);
 			clrscr();
 			choice = true;
 			break;
 
 		case '2':
-			currentGame.SetGameStatus(eGameStatus::NEXT_BOARD);
+			currentGame->SetGameStatus(eGameStatus::NEXT_BOARD);
 			clrscr();
 			choice = true;
 			break;
 
 		case 27:
 			clrscr();
-			currentGame.PrintBoard(true);
+			currentGame->PrintBoard(true);
 			choice = true;
 			break;
 
@@ -304,7 +174,7 @@ void GameController::PauseGame(Game& currentGame, bool isSingleGame)
 
 
 }
-bool GameController::RequestColorMode(Game& game)
+bool GameController::RequestColorMode(Game* game)
 {
 	char colorStyle = 0;
 	bool isColorful = true;
@@ -371,60 +241,139 @@ GameMode GameController::RequestGameMode()
 
 	return mode;
 }
-void GameController::ActivateRecordingGame()
+void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add later user choice from the user as a reference to functions argument
 {
-	Menu gameMenu;
-	bool replay = true;
-	eUserChoice userChoice = eUserChoice::UNDEFINED;
 
-	while (userChoice != eUserChoice::Exit && replay)
+	vector<string> filePaths;
+
+	if (!m_BoardFilesService.GetDirectoryFilesNames(filePaths, m_BoardFilesService.GetFileSuffix()))
 	{
-		clearInputBuffer();
+		userChoice = eUserChoice::UNDEFINED;
+	}
 
-		replay = false;
+	else {
 
-		PrintLogo(GAME_LOGO);
+		clrscr();
 
-		gameMenu.Activate();
-		userChoice = gameMenu.GetUserChoice();
+		GameMode mode = RequestGameMode();
 
-		switch (userChoice)
+		clrscr();
+
+		cout << "Please choose one of the following:" << endl;
+		cout << "(1) Load my own file by name" << endl;
+		cout << "(2) Load all existing files " << endl;
+
+		char choice = _getch();
+
+		switch (choice)
 		{
-		case eUserChoice::NewGame:			ChooseScreenOrVector(userChoice); replay = true;  break;
 
-		case eUserChoice::Instructions:		PrintInstructions(); replay = true;		break;
+		case SPECIFIC_FILE:
+		{
+			string fileName;
+			bool color = NULL;
 
-		default:							PrintGoodbyeMessage();		break;
+			if (FileActions::SpecificFileNameSearch(filePaths, fileName))
+			{
+				Game* newGame = m_Factory.Create(fileName, m_GameMode, m_GameType);
 
+				if (color == NULL)
+					color = RequestColorMode(newGame);
+
+				if (!color)
+					newGame->SetDefaultColor();
+
+				clrscr();
+
+				PlayUserDrivenGame(fileName, mode, newGame, true);
+
+				if (newGame->getGameStatus() == eGameStatus::LOST)
+				{
+					Game::userLost(color);
+				}
+
+				else if (newGame->getGameStatus() == eGameStatus::WON)
+				{
+					Game::userWon(color);
+				}
+
+				delete newGame;
+			}
+
+			break;
 		}
 
+		case  ALL_FILES:
+			int lives = 3, score = 0;
+			bool color = false;
+
+			for (string& fileName = filePaths[0]; !filePaths.empty() && lives > 0;)
+			{
+				Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType);
+				filePaths.erase(filePaths.begin());
+
+				if (color)
+					color = RequestColorMode(newGame);
+
+				else
+					newGame->SetDefaultColor();
+
+				PlayUserDrivenGame(fileName, mode, newGame, false);
+
+				if (newGame->getGameStatus() == eGameStatus::LOST)
+				{
+					Game::userLost(color);
+					delete newGame;
+					return;
+				}
+
+
+				if (newGame->getGameStatus() == eGameStatus::NEXT_BOARD)
+				{
+					if (filePaths.empty())
+					{
+						cout << "No other board found, press any key to exit " << endl;
+
+						while (!_kbhit()) {};
+
+						clrscr();
+					}
+				}
+
+				if (newGame->getGameStatus() == eGameStatus::EXIT)
+				{
+					delete newGame;
+					return;
+				}
+
+				lives = newGame->GetCurrentLives();
+				score = newGame->GetTotalScore();
+			}
+
+			Game::userWon(color);
+			break;
+		}
 	}
 }
-void GameController::ActivateInteractiveGame()
+void GameController::PlayUserDrivenGame(string& fileName, GameMode mode, Game* game, bool isSingleGame)
 {
-	eUserChoice userChoice = eUserChoice::UNDEFINED;
-	bool replay = true;
+	eGameStatus KeyPressed = eGameStatus::RUNNING;
 
-	while (userChoice != eUserChoice::Exit && replay)
+	clrscr();
+
+	game->PrintBoard();
+	game->initView();
+
+	while (game->getGameStatus() == eGameStatus::RUNNING)
 	{
-		clearInputBuffer();
+		game->PlayGame();
+		KeyPressed = game->getGameStatus();
 
-		replay = false;
-
-		PrintLogo(GAME_LOGO);
-
-		m_Menu.Activate();
-		userChoice = m_Menu.GetUserChoice();
-
-		switch (userChoice)
+		if (KeyPressed == eGameStatus::ESC_PRESSED)
 		{
-		case eUserChoice::NewGame:			ChooseScreenOrVector(userChoice); replay = true;  break;
-
-		case eUserChoice::Instructions:		PrintInstructions(); replay = true;		break;
-
-		default:							PrintGoodbyeMessage();		break;
-
+			game->SetGameStatus(eGameStatus::RUNNING);
+			PauseGame(game, isSingleGame);
 		}
-
 	}
+
 }

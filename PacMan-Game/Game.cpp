@@ -595,10 +595,10 @@ void Game::PlayGame()
 				MoveGhost(i, ghostsMoves);
 			}
 			ghostsMoves++;
-
 		}
+		
 
-		else if (pacmanMoves % 5 == 0)
+		if (pacmanMoves % 5 == 0)
 		{
 			MoveFruit();
 			fruitMoves++;
@@ -614,9 +614,6 @@ void Game::PlayGame()
 		m_Board.GetLegend().printLegend(m_Pacman.GetCurrentLives(), m_TotalScore, m_IsColorful);
 
 	}
-
-
-
 }
 void Game::userWon(bool color)
 {
