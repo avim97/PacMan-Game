@@ -18,12 +18,12 @@ class Game
 {
 
 private:
-	eGameStatus m_gameStatus;
 	bool m_IsColorful;
 	int m_TotalScore;
-	GameMode m_GameMode;
 
 protected:
+	GameMode m_GameMode;
+	eGameStatus m_gameStatus;
 	Board m_Board;
 	GhostsVector m_Ghosts;
 	Pacman m_Pacman;
