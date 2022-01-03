@@ -198,12 +198,12 @@ void Game::MoveFruit()
 	Direction::eDirection fruitDirection;
 	int yCoord;
 	int xCoord;
-	bool activeFruit = rand() % 2;
+	bool activateFruit = rand() % 2;
 
-	if (activeFruit && !m_Fruit.IsActive())
+	if (activateFruit && !m_Fruit.IsActive())
 	{
-
 		m_Fruit.ActivateFruit(m_Board.GetRandomPosition());
+
 	}
 
 	yCoord = m_Fruit.GetYcoord();
@@ -612,6 +612,7 @@ void Game::PlayGame()
 		Sleep(300);
 		m_TotalScore = GetTotalScore();
 		m_Board.GetLegend().printLegend(m_Pacman.GetCurrentLives(), m_TotalScore, m_IsColorful);
+
 	}
 
 
