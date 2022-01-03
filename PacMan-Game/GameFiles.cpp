@@ -33,3 +33,4 @@ void GameFiles::FileNameCut() {
 	size_t suffixeIndex = filename.find_last_of(".");
 	filename = filename.substr(0, suffixeIndex);
 }
+
