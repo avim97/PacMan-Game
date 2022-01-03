@@ -9,7 +9,7 @@ char Fruit::GetFruitFigure(int value) const
 
 	else if (value == 8)
 		figure = '8';
-
+	
 	else
 		figure = '9';
 
@@ -39,11 +39,20 @@ void Fruit::Erase(const int yCoord, const int xCoord, Board& board) const
 		cout << static_cast<char>(BoardObjects::SPACE);
 	}
 }
+void Fruit::SetActivationMode(bool activate)
+{
+	m_IsActive = activate;
+	if (activate)
+		m_ReActivated = true;
+
+	else
+		m_ReActivated = false;
+}
 void Fruit::ActivateFruit(Position position)
 {
 	int scoreValue;
 
-	m_IsActive = true;
+	SetActivationMode(true);
 	scoreValue = GetRandomScoreValue();
 	SetFigure(GetFruitFigure(scoreValue));
 	SetPosition(position);
@@ -51,7 +60,8 @@ void Fruit::ActivateFruit(Position position)
 }
 void Fruit::DeActivateFruit(Board& board)
 {
+	
 	Position currentPosition = GetPosition();
-	m_IsActive = false;
+	SetActivationMode(false);
 	Erase(currentPosition.getYcoord(), currentPosition.getXcoord(), board);
 }

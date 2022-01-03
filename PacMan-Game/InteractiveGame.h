@@ -16,4 +16,5 @@ public:
 	{
 		srand((unsigned int)time(nullptr));
 	};
+	void PauseGame();
 };

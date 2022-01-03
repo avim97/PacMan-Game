@@ -158,7 +158,7 @@ void Game::MoveGhost(int ghost, int& ghostsMoves)
 
 	while (!Moved)
 	{
-		if (ValidateDirection(lastDirection, ghost, ghostsMoves) == true)
+		if (DirectionValidator(lastDirection, ghost, ghostsMoves) == true)
 		{
 			nextDirection = m_Ghosts[ghost]->GetMovement(m_Board.GetBoard(), ghost, m_Pacman.GetPosition(), m_Ghosts[ghost]->GetPosition(), ghostsCurrentPositions, ghostsMoves);
 
@@ -198,12 +198,12 @@ void Game::MoveFruit()
 	Direction::eDirection fruitDirection;
 	int yCoord;
 	int xCoord;
-	bool activeFruit = rand() % 2;
+	bool activateFruit = rand() % 2;
 
-	if (activeFruit && !m_Fruit.IsActive())
+	if (activateFruit && !m_Fruit.IsActive())
 	{
-
 		m_Fruit.ActivateFruit(m_Board.GetRandomPosition());
+
 	}
 
 	yCoord = m_Fruit.GetYcoord();
@@ -474,7 +474,6 @@ bool Game::CheckFruitIntersection(Position nextPosition, BoardObjects gameObject
 
 	return Intersected;
 }
-
 bool Game::CheckPacmanIntersection(const int yCoord, const int xCoord)
 {
 	bool IsIntersecting = false;
@@ -596,6 +595,7 @@ void Game::PlayGame()
 				MoveGhost(i, ghostsMoves);
 			}
 			ghostsMoves++;
+
 		}
 
 		else if (pacmanMoves % 5 == 0)
@@ -612,22 +612,10 @@ void Game::PlayGame()
 		Sleep(300);
 		m_TotalScore = GetTotalScore();
 		m_Board.GetLegend().printLegend(m_Pacman.GetCurrentLives(), m_TotalScore, m_IsColorful);
+
 	}
 
 
-
-}
-void Game::PauseGame()
-{
-	do {
-		gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
-		if (this->m_IsColorful)
-			Color::resetOutputColor();
-		cout << " Game Paused, press ESC to continue.";
-
-	} while (!_kbhit() || _getch() != 27);
-	gotoxy(this->m_Board.getWidth() / 4, this->m_Board.getHeight() + 2);
-	cout << "                                       " << endl;
 
 }
 void Game::userWon(bool color)
@@ -707,7 +695,7 @@ void Game::LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, 
 	}
 
 }
-bool Game::ValidateDirection(Direction::eDirection& lastDirection, int ghost, int& ghostMoves)
+bool Game::DirectionValidator(Direction::eDirection& lastDirection, int ghost, int& ghostMoves)
 {
 
 
