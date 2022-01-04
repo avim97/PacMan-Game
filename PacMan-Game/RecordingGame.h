@@ -2,6 +2,7 @@
 #include "InteractiveGame.h"
 #include "GameFiles.h"
 
+
 class RecordingGame : public Game
 {
 private:

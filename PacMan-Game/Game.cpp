@@ -217,6 +217,7 @@ void Game::MoveFruit()
 		case Direction::eDirection::UP:
 			if (FruitStepCheck(yCoord - 1, xCoord))
 			{
+				m_Fruit.SetDirection(static_cast<char>(fruitDirection));
 				m_Fruit.Erase(yCoord, xCoord, m_Board);
 				m_Fruit.Move();
 				Moved = true;
@@ -226,6 +227,7 @@ void Game::MoveFruit()
 		case Direction::eDirection::DOWN:
 			if (FruitStepCheck(yCoord + 1, xCoord))
 			{
+				m_Fruit.SetDirection(static_cast<char>(fruitDirection));
 				m_Fruit.Erase(yCoord, xCoord, m_Board);
 				m_Fruit.Move();
 				Moved = true;
@@ -235,6 +237,7 @@ void Game::MoveFruit()
 		case Direction::eDirection::LEFT:
 			if (FruitStepCheck(yCoord, xCoord - 1))
 			{
+				m_Fruit.SetDirection(static_cast<char>(fruitDirection));
 				m_Fruit.Erase(yCoord, xCoord, m_Board);
 				m_Fruit.Move();
 				Moved = true;
@@ -244,6 +247,7 @@ void Game::MoveFruit()
 		case Direction::eDirection::RIGHT:
 			if (FruitStepCheck(yCoord, xCoord + 1))
 			{
+				m_Fruit.SetDirection(static_cast<char>(fruitDirection));
 				m_Fruit.Erase(yCoord, xCoord, m_Board);
 				m_Fruit.Move();
 				Moved = true;
@@ -255,6 +259,7 @@ void Game::MoveFruit()
 		}
 
 	}
+
 }
 
 

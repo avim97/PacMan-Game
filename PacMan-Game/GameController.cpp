@@ -23,7 +23,7 @@ void GameController::ActivateMachineDrivenGame()
 
 	while (replay)
 	{
-		clearInputBuffer();
+		ClearInputBuffer();
 		
 
 	}
@@ -35,7 +35,7 @@ void GameController::ActivateUserDrivenGame()
 
 	while (userChoice != eUserChoice::Exit && replay)
 	{
-		clearInputBuffer();
+		ClearInputBuffer();
 
 		replay = false;
 
@@ -251,7 +251,7 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 		userChoice = eUserChoice::UNDEFINED;
 	}
 
-	else {
+	else { // IN SAVE MODE THE USER CAN RUN ONLY ALL EXITING FILES OPTIONS - ADJUST THIS 
 
 		clrscr();
 

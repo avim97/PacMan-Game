@@ -14,7 +14,7 @@
 void hideCursor();
 void gotoxy(const int x, const int y);
 void clrscr();
-void clearInputBuffer();
+void ClearInputBuffer();
 
 //class IO_UTILS
 //{
@@ -22,5 +22,5 @@ void clearInputBuffer();
 //	static void hideCursor();
 //	static void gotoxy(const int x, const int y);
 //	static void clrscr();
-//	static void clearInputBuffer();
+//	static void ClearInputBuffer();
 //}; //think later about transferring this to class

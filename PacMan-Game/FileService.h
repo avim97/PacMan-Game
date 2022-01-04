@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sstream>
 #include "io_utils.h"
 #include "eBoardObjects.h"
 
@@ -10,6 +11,7 @@ using std::string; using std::vector;
 using std::cout; using std::cin;
 using std::endl; using std::char_traits;
 using std::sort;
+using std::stringstream;
 
 class FileService
 {

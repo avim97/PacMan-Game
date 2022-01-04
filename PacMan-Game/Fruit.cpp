@@ -42,6 +42,7 @@ void Fruit::Erase(const int yCoord, const int xCoord, Board& board) const
 void Fruit::SetActivationMode(bool activate)
 {
 	m_IsActive = activate;
+
 	if (activate)
 		m_ReActivated = true;
 

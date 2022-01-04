@@ -7,6 +7,7 @@
 #include <fstream>
 #include <stdlib.h>
 
+
 using std::ofstream;
 
 class GameFiles :public FileService
@@ -26,9 +27,9 @@ public:
 
 	void CreateStepsFile() { m_StepsFile.open(m_FileName + ".steps", std::ofstream::trunc); };
 	void CreateResultFile() { m_ResultFile.open(m_FileName + ".result", std::ofstream::trunc); };
-	void InsertGameColorTOFile(bool isColorful) { m_StepsFile << ("%b", isColorful) << endl; clearInputBuffer(); };
-	void InsertStringToStepsFile(string& string) { m_StepsFile << string << endl; clearInputBuffer(); };
-	void InsertStringToResultFile(string& string) { m_ResultFile << string << endl; clearInputBuffer(); };
+	void InsertGameColorToFile(bool isColorful); 
+	void InsertStringToStepsFile(stringstream& string);
+	void InsertStringToResultFile(stringstream& string);
 	void CreateRecordingFiles();
 	void CloseFiles() { m_StepsFile.close(); m_ResultFile.close(); };
 };

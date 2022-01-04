@@ -10,6 +10,7 @@ void RecordingGame::PlayGame()
 		SetDefaultColor();
 
 	m_GameFiles.CreateRecordingFiles();
+	m_GameFiles.InsertGameColorToFile(GetColorStyle());
 
 	hideCursor();
 
@@ -46,7 +47,7 @@ void RecordingGame::PlayGame()
 		{
 			MoveFruit();
 			fruitMoves++;
-			fruitMoved = true;
+			fruitMoved = m_Fruit.IsActive();
 		}
 
 		else if (fruitMoves % 10 == 0)
@@ -65,67 +66,89 @@ void RecordingGame::PlayGame()
 			currLives = m_Pacman.GetCurrentLives();
 			UpdateResultFile(pacmanMoves);
 		}
-	}m_GameFiles.CloseFiles();
+	}
+
+
+	m_GameFiles.CloseFiles();
 
 }
 void RecordingGame::RecordSteps(bool& ghostsMoved, bool& fruitMoved)
 {
 	string currGameFrame;
-	//pacman
-	currGameFrame = "Pacman " + ("%s", m_Pacman.GetCurrentDirection()) + ' ';
+	stringstream outputString;
+
+	outputString << "Pacman " << Direction::ConvertToString(m_Pacman.GetCurrentDirection()) << ' ';
+
 	//ghosts
 	if (ghostsMoved)
 	{
-		currGameFrame += '|';
+		outputString << '|';
 		for (int i = 0; i < m_Ghosts.size(); i++)
 		{
-			currGameFrame += ("Ghost[%d] ", i) + ("%s,", m_Ghosts[i]->GetCurrentDirection()) + ' ';
+			outputString << " Ghost" << '[' << i << ']' << ' ' << Direction::ConvertToString(m_Ghosts[i]->GetCurrentDirection()) << ' ';
 		}
-		currGameFrame += '|';
+		outputString << '|';
 	}
+
 	//fruit
-	if (m_Fruit.IsActive() && m_Fruit.GetReactivated())//fruit is active and status was changed
-		currGameFrame += ("Fruit %d %d ", m_Fruit.GetXcoord(), m_Fruit.GetYcoord());
+	if (m_Fruit.IsActive() && m_Fruit.GetReactivated())
+	{
+		outputString << '|';
+		outputString << " Fruit " << m_Fruit.GetXcoord() << ' ' << m_Fruit.GetYcoord();
+		outputString << '|';
+
+	}
 
 	else if (!m_Fruit.IsActive() && m_Fruit.GetReactivated())
-		currGameFrame += "Fruit X ";
+	{
+		outputString << '|';
+		outputString << " Fruit X";
+		outputString << '|';
+	}
 
 	else if (fruitMoved)
-		currGameFrame += ("Fruit %s ", m_Fruit.GetCurrentDirection());
+	{
+		outputString << '|';
+		outputString << " Fruit " << Direction::ConvertToString(m_Fruit.GetCurrentDirection()) << ' ';
+		outputString << '|';
+	}
 
 	ghostsMoved = false;
 	fruitMoved = false;
-	m_Fruit.SetReactivated(false);
-	m_GameFiles.InsertStringToStepsFile(currGameFrame);
+
+	m_Fruit.SetReActivationFlag(false);
+	m_GameFiles.InsertStringToStepsFile(outputString);
+
 
 }
-
 void RecordingGame::UpdateResultFile(int& frameNumber)
 {
-	string Result;
+
+	stringstream result;
 	switch (m_gameStatus)
 	{
 	case eGameStatus::WON:
 	{
-		Result += ("%d Board_Finished", frameNumber);
+		result << "BOARD_FINISHED" << ' ' << frameNumber;
 		break;
 	}
 	case eGameStatus::LOST:
 	{
-		Result += ("%d LOST", frameNumber);
+
+		result <<  "LOST" << ' ' << frameNumber;
 		break;
 	}
 	case eGameStatus::NEXT_BOARD:
 	{
-		Result += ("%d Board_Finished", frameNumber);
+		result << "BOARD_FINISHED" << ' ' << frameNumber;
 		break;
 	}
 	case eGameStatus::RUNNING:
 	{
-		Result += ("%d Intersection", frameNumber);
+		result << "INTERSECTION" << ' ' << frameNumber;
 		break;
 	}
 	}
-	m_GameFiles.InsertStringToResultFile(Result);
+	m_GameFiles.InsertStringToResultFile(result);
 
 }
