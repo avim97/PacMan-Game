@@ -32,6 +32,7 @@ public:
 	void InsertStringToStepsFile(string& string) { m_StepsFile << string << endl; clearInputBuffer(); };
 	void InsertStringToResultFile(string& string) { m_ResultFile << string << endl; clearInputBuffer(); };
 	void CreateRecordingFiles(string& filename);
+	void CloseFiles() { m_StepsFile.close(); m_ResultFile.close(); };
 };
 
 

@@ -61,7 +61,7 @@ void RecordingGame::PlayGame()
 			currLives = m_Pacman.GetCurrentLives();
 			UpdateResultFile(pacmanMoves);
 		}
-	}
+	}m_GameFiles.CloseFiles();
 
 }
 void RecordingGame::RecordSteps(bool& ghostsMoved, bool& fruitMoved)
