@@ -5,7 +5,6 @@
 
 void Board::InitializeBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos)
 {
-
 	for (int i = 0; i < HEIGHT; i++)
 		for (int j = 0; j < WIDTH; j++)
 		{
@@ -25,7 +24,12 @@ void Board::InitializeBoard(Position& pacmanInitialPos, vector<Position>& ghostI
 				board[i][j] = static_cast<char>(BoardObjects::WALL);
 				break;
 
-			case '%' || 'L':
+			case '%':
+				board[i][j] = static_cast<char>(BoardObjects::SPACE);
+				break;
+
+			case 'L':
+				board[i][j] = static_cast<char>(BoardObjects::LEGEND);
 				break;
 
 			case '&':
@@ -35,6 +39,7 @@ void Board::InitializeBoard(Position& pacmanInitialPos, vector<Position>& ghostI
 			default:
 				board[i][j] = static_cast<char>(BoardObjects::FOOD);
 				this->totalBreadcrumbs++;
+				break;
 			}
 		}
 	CheckLegendSpace();
