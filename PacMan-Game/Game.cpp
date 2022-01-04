@@ -274,6 +274,7 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 		else
 		{
 			initView();
+
 		}
 	}
 
