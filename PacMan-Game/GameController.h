@@ -1,9 +1,8 @@
 #pragma once
 
 #include "Menu.h"
-#include "GameFiles.h"
-#include "BoardFiles.h" //?
-#include "GameType.h"
+//#include "GameFiles.h"
+#include "BoardFiles.h" 
 #include "GameFactory.h"
 #include "InteractiveGame.h"
 #include "RecordingGame.h"
@@ -18,9 +17,9 @@ private:
 	Menu m_Menu;
 	GameMode m_GameMode;
 	GameType::eType m_GameType;
-	GameFiles m_GameFilesService;
+	//GameFiles m_GameFilesService;
 	BoardFiles m_BoardFilesService;
-	Game* m_Game;
+	//Game* m_Game;
 	GameFactory m_Factory;
 
 private:
@@ -40,10 +39,17 @@ private:
 
 public:
 	// the three activate function below activates the different kinds of game
-	~GameController() { delete m_Game; };
+	GameController(GameType::eType type) :
+		m_Menu(),
+		m_GameMode(GameMode::UNDEFINED),
+		m_GameType(type),
+		//m_GameFilesService(),
+		m_BoardFilesService()
+	{};
+	//~GameController() { delete m_Game; };
 	void ActivateMachineDrivenGame();
 	void ActivateUserDrivenGame();
-	void Run(GameType::eType type);
+	void Run();
 };
 
 

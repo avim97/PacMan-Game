@@ -28,4 +28,6 @@ public:
 	int GetRandomScoreValue() { m_ScoreValue = 10 - (1 + (rand() % 5)); return m_ScoreValue; };
 	char GetFruitFigure(int value) const;
 	void Erase(const int yCoord, const int xCoord, Board& board) const override;
+	bool& GetReactivated() { return m_ReActivated; };
+	void SetReactivated(bool ReActivated) { m_ReActivated = ReActivated; };
 };

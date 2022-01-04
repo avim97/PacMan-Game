@@ -1,19 +1,19 @@
 ﻿#include "GameController.h"
 
-void GameController::Run(GameType::eType type)
+void GameController::Run()
 {
 	// do a switch case here that activates a specific game depends on the type (load/load silent/save/interactive)
 	// ---------------------------------------------------------
 
-	m_GameType = type;
-	if (type == GameType::eType::INTERACTIVE ||
-		type == GameType::eType::SAVE)
+
+	if (m_GameType == GameType::eType::INTERACTIVE ||
+		m_GameType == GameType::eType::SAVE)
 	{
 		ActivateUserDrivenGame();
 	}
 	else // LOAD or SILENT_LOAD mode
 	{
-
+		ActivateMachineDrivenGame();
 	}
 }
 void GameController::ActivateMachineDrivenGame()
