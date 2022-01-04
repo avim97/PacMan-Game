@@ -24,7 +24,7 @@ void GameController::ActivateMachineDrivenGame()
 	while (replay)
 	{
 		clearInputBuffer();
-		replay = false;
+		
 
 	}
 }
@@ -353,6 +353,29 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 			break;
 		}
 	}
+}
+bool GameController::CreateNewMachineDrivenGame()
+{
+	bool loadSucceded = true;
+	int lives = 3, score = 0;
+	bool color = false;
+	vector<string> stepsFilePaths;
+	vector<string> boardFilePaths;
+
+	if (!m_GameFilesService.GetDirectoryFilesNames(stepsFilePaths, m_BoardFilesService.GetFileSuffix()))
+	{
+		cout << "No '.steps' files were found, please load files and run the program again" << endl;
+		loadSucceded = false;
+	}
+
+	for (string& stepsFileName = stepsFilePaths[0]; !stepsFilePaths.empty() && 
+		loadSucceded &&
+		lives > 0;)
+	{
+
+	}
+	
+	return loadSucceded;
 }
 void GameController::PlayUserDrivenGame(string& fileName, Game* game, bool isSingleGame)
 {

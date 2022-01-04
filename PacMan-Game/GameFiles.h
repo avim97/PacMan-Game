@@ -14,13 +14,16 @@ class GameFiles :public FileService
 private:
 	ofstream m_StepsFile;
 	ofstream m_ResultFile;
-	string& m_FileName;
+	string m_FileName;
 	const char* m_StepsFileSuffix = ".steps";
 	const char* m_ResultFileSuffix = ".result";
 	const char* m_BoardFileName = ".screen";
 
 public:
-	GameFiles();
+	GameFiles():
+		m_StepsFile(),
+		m_ResultFile()
+	{};
 
 	void RemoveFileSuffix(){};
 	void CreateStepsFile() { m_StepsFile.open(m_FileName + ".steps", std::ofstream::trunc); };

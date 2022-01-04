@@ -17,7 +17,7 @@ private:
 	Menu m_Menu;
 	GameMode m_GameMode;
 	GameType::eType m_GameType;
-	//GameFiles m_GameFilesService;
+	GameFiles m_GameFilesService;
 	BoardFiles m_BoardFilesService;
 	//Game* m_Game;
 	GameFactory m_Factory;
@@ -36,14 +36,15 @@ private:
 	bool RequestColorMode(Game* game);
 	void PlayUserDrivenGame(string& fileName, Game* game, bool isSingleGame); // was "GameRun" before
 	void CreateNewUserDrivenGame(eUserChoice& userChoice);
-
+	bool CreateNewMachineDrivenGame();
 public:
+
 	// the three activate function below activates the different kinds of game
 	GameController(GameType::eType type) :
 		m_Menu(),
 		m_GameMode(GameMode::UNDEFINED),
 		m_GameType(type),
-		//m_GameFilesService(),
+		m_GameFilesService(),
 		m_BoardFilesService()
 	{};
 	//~GameController() { delete m_Game; };
