@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Menu.h"
-//#include "GameFiles.h"
+#include "GameFiles.h"
 #include "BoardFiles.h" 
 #include "GameFactory.h"
 #include "InteractiveGame.h"

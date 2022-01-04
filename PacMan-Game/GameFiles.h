@@ -22,7 +22,6 @@ private:
 public:
 	GameFiles();
 
-	static bool ArgumentValidator(int argc, char* argv[]); //this function validates the command line arguments
 	void RemoveFileSuffix(){};
 	void CreateStepsFile() { m_StepsFile.open(m_FileName + ".steps", std::ofstream::trunc); };
 	void CreateResultFile() { m_StepsFile.open(m_FileName + ".result", std::ofstream::trunc); };
