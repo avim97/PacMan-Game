@@ -676,6 +676,7 @@ void Game::SetDefaultColor() //this function sets the default color (white) to a
 	{
 		m_Ghosts[i]->SetColor(Color::eColor::DEFAULT);
 	}
+	m_IsColorful = false;
 
 }
 bool Game::CheckBoardEdge(int xCoord, int yCoord)

@@ -77,12 +77,11 @@ void RecordingGame::RecordSteps(bool& ghostsMoved, bool& fruitMoved)
 	string currGameFrame;
 	stringstream outputString;
 
-	outputString << "Pacman " << Direction::ConvertToString(m_Pacman.GetCurrentDirection()) << ' ';
+	outputString << "Pacman " << Direction::ConvertToString(m_Pacman.GetCurrentDirection()) << ' ' << '|';
 
 	//ghosts
 	if (ghostsMoved)
 	{
-		outputString << '|';
 		for (int i = 0; i < m_Ghosts.size(); i++)
 		{
 			outputString << " Ghost" << '[' << i << ']' << ' ' << Direction::ConvertToString(m_Ghosts[i]->GetCurrentDirection()) << ' ';
@@ -93,7 +92,6 @@ void RecordingGame::RecordSteps(bool& ghostsMoved, bool& fruitMoved)
 	//fruit
 	if (m_Fruit.IsActive() && m_Fruit.GetReactivated())
 	{
-		outputString << '|';
 		outputString << " Fruit " << m_Fruit.GetXcoord() << ' ' << m_Fruit.GetYcoord();
 		outputString << '|';
 
@@ -101,14 +99,12 @@ void RecordingGame::RecordSteps(bool& ghostsMoved, bool& fruitMoved)
 
 	else if (!m_Fruit.IsActive() && m_Fruit.GetReactivated())
 	{
-		outputString << '|';
 		outputString << " Fruit X";
 		outputString << '|';
 	}
 
 	else if (fruitMoved)
 	{
-		outputString << '|';
 		outputString << " Fruit " << Direction::ConvertToString(m_Fruit.GetCurrentDirection()) << ' ';
 		outputString << '|';
 	}

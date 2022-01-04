@@ -271,15 +271,14 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 		case SPECIFIC_FILE:
 		{
 			string fileName;
-			bool color = NULL;
+			bool color = true;
 
 			if (m_BoardFilesService.RequestBoardFile(filePaths, fileName))
 			{
 				m_GameFilesService.SetFileName(m_BoardFilesService.GetFileName());
 				Game* newGame = m_Factory.Create(fileName, m_GameMode, m_GameType, m_GameFilesService);
 
-				if (color == NULL)
-					color = RequestColorMode(newGame);
+				color = RequestColorMode(newGame);
 
 				if (!color)
 					newGame->SetDefaultColor();
@@ -306,7 +305,7 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 
 		case  ALL_FILES:
 			int lives = 3, score = 0;
-			bool color = false;
+			bool color = true;
 
 			for (string& fileName = filePaths[0]; !filePaths.empty() && lives > 0;)
 			{
@@ -314,12 +313,12 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 				m_GameFilesService.RemoveFileSuffix(fileName);
 				Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType, m_GameFilesService);
 				filePaths.erase(filePaths.begin());
+		
+				color = RequestColorMode(newGame);
 
-				if (color)
-					color = RequestColorMode(newGame);
-
-				else
+				if (!color)
 					newGame->SetDefaultColor();
+
 
 				PlayUserDrivenGame(fileName, newGame, false);
 
