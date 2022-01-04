@@ -9,6 +9,8 @@ void RecordingGame::PlayGame()
 	if (!GetColorStyle())
 		SetDefaultColor();
 
+	m_GameFiles.CreateRecordingFiles();
+
 	hideCursor();
 
 	while (m_gameStatus == eGameStatus::RUNNING)
@@ -55,7 +57,9 @@ void RecordingGame::PlayGame()
 		Sleep(300);
 
 		m_Board.GetLegend().printLegend(m_Pacman.GetCurrentLives(), GetTotalScore(), GetColorStyle());
+
 		RecordSteps(ghostsMoved, fruitMoved);
+
 		if (currLives != m_Pacman.GetCurrentLives())
 		{
 			currLives = m_Pacman.GetCurrentLives();
@@ -68,7 +72,7 @@ void RecordingGame::RecordSteps(bool& ghostsMoved, bool& fruitMoved)
 {
 	string currGameFrame;
 	//pacman
-	currGameFrame += "Pacman " + ("%s", m_Pacman.GetCurrentDirection()) + ' ';
+	currGameFrame = "Pacman " + ("%s", m_Pacman.GetCurrentDirection()) + ' ';
 	//ghosts
 	if (ghostsMoved)
 	{

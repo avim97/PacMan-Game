@@ -2,7 +2,7 @@
 #include "eBoardObjects.h"
 #include "Color.h"
 #include "Position.h"
-#include "FileActions.h"
+#include "BoardFiles.h"
 #include <vector>
 #include "Legend.h"
 
@@ -29,7 +29,7 @@ private:
 
 public:
 	Board(string& fileName) :m_wallColor(Color::eColor::DEFAULT), m_breadcrumbColor(Color::eColor::BOLD_GREEN) {
-		FileActions::updateBoardFromFile(fileName, board, HEIGHT, WIDTH);
+		BoardFiles::UpdateBoardFromFile(fileName, board, HEIGHT, WIDTH);
 		InitializeBoard(m_PacmanInitialPos, m_GhostInitialPos);
 	};
 

@@ -1,8 +1,7 @@
 #include "GameFiles.h"
 
-void GameFiles::CreateRecordingFiles(string& filename)
+void GameFiles::CreateRecordingFiles()
 {
-	RemoveFileSuffix();
 	CreateStepsFile();
 	CreateResultFile();
 }

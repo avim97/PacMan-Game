@@ -13,9 +13,14 @@ using std::sort;
 
 class FileService
 {
+protected:
+	string m_FileName;
+
 public:
 	bool GetDirectoryFilesNames(vector<string>& filesNames, const char* file_suffix) ;
 	void SortFilesNames(vector<string>& filesNames);
-	bool FindFile(vector<string>& totalFiles, string& fileName, const char* file_suffix) const ;
+	void RemoveFileSuffix(string& filename);
+	void SetFileName(string& filename) { m_FileName = filename; };
+	string& GetFileName() { return m_FileName; };
 };
 
