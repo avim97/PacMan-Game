@@ -1,0 +1,21 @@
+COLORFUL GAME
+Pacman STAY 
+Pacman STAY | Ghost[0] UP |
+Pacman STAY 
+Pacman STAY | Ghost[0] UP |
+Pacman LEFT | Fruit 52 6|
+Pacman LEFT | Ghost[0] LEFT |
+Pacman STAY 
+Pacman LEFT | Ghost[0] DOWN |
+Pacman LEFT 
+Pacman DOWN | Ghost[0] RIGHT || Fruit RIGHT |
+Pacman DOWN 
+Pacman LEFT | Ghost[0] UP |
+Pacman DOWN 
+Pacman LEFT | Ghost[0] RIGHT |
+Pacman LEFT | Fruit LEFT |
+Pacman LEFT | Ghost[0] RIGHT |
+Pacman DOWN 
+Pacman DOWN | Ghost[0] UP |
+Pacman DOWN 
+Pacman DOWN | Ghost[0] LEFT || Fruit DOWN |

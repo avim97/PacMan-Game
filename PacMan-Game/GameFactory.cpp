@@ -1,11 +1,11 @@
 #include "GameFactory.h"
 
-Game* GameFactory::Create(string& boardPath, GameMode mode, GameType::eType type)
+Game* GameFactory::Create(string& boardPath, GameMode mode, GameType::eType type, GameFiles& fileService)
 {
 	switch (type)
 	{
 	case GameType::eType::SAVE:
-			return new InteractiveGame(boardPath, mode);
+			return new RecordingGame(boardPath, mode, fileService);
 			break;
 
 	case GameType::eType::LOAD:
@@ -22,12 +22,12 @@ Game* GameFactory::Create(string& boardPath, GameMode mode, GameType::eType type
 	}
 }
 
-Game* GameFactory::Create(string& boardPath, GameMode mode, int lives, int score, GameType::eType type)
+Game* GameFactory::Create(string& boardPath, GameMode mode, int lives, int score, GameType::eType type, GameFiles& fileService)
 {
 	switch (type)
 	{
 	case GameType::eType::SAVE:
-		return new InteractiveGame(boardPath, mode, lives, score);
+		return new RecordingGame(boardPath, mode, lives, score, fileService);
 		break;
 
 	case GameType::eType::LOAD:

@@ -27,7 +27,7 @@ void clrscr()
 	system("CLS");
 }
 
-void clearInputBuffer()
+void ClearInputBuffer()
 {
 	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 }

@@ -37,6 +37,41 @@ Direction::eDirection Direction::Convert(char key)
 	}
 }
 
+string Direction::ConvertToString(char _direction)
+{
+	_direction = toupper(_direction);
+	string direction;
+
+	switch (_direction)
+	{
+	case 'W':
+		direction = "UP";
+		break;
+
+	case 'X':
+		direction = "DOWN";
+		break;
+
+	case 'A':
+		direction = "LEFT";
+		break;
+
+	case 'D':
+		direction = "RIGHT";
+		break;
+
+	case 'S':
+		direction = "STAY";
+		break;
+
+	default:
+		break;
+	}
+
+	return direction;
+}
+
+
 Direction::eDirection Direction::getRandDir()
 {
 	int dir = 1 + rand() % 4;

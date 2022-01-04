@@ -6,7 +6,7 @@
 class GameFactory
 {
 public:
-	Game* Create(string& boardPath, GameMode mode, GameType::eType type);
-	Game* Create(string& boardPath, GameMode mode, int lives, int score, GameType::eType type);
+	Game* Create(string& boardPath, GameMode mode, GameType::eType type, GameFiles& fileService);
+	Game* Create(string& boardPath, GameMode mode, int lives, int score, GameType::eType type, GameFiles& fileService);
 };
 

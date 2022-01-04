@@ -39,23 +39,8 @@ void FileService::SortFilesNames(vector<string>& filesNames)
 	sort(filesNames.begin(), filesNames.end());
 }
 
-bool FileService::FindFile(vector<string>& totalFiles, string& fileName, const char* file_suffix) const
+void FileService::RemoveFileSuffix(string& filename)
 {
-	bool fileFound = false;
-	clrscr();
-	cout << "Please type in a file name as follows (no spaces): filename" << file_suffix << endl;
-
-	getline(cin, fileName);
-
-	if (std::find(totalFiles.begin(), totalFiles.end(), fileName) != totalFiles.end())
-		fileFound = true;
-
-	else
-	{
-		cout << "file not found, press any key to get back to menu" << endl;
-		while (!_kbhit()) {};
-		clrscr();
-	}
-
-	return fileFound;
+	size_t pos = filename.find_first_of('.');
+	m_FileName = filename.substr(0, pos);
 }

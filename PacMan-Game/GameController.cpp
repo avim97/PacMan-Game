@@ -23,7 +23,7 @@ void GameController::ActivateMachineDrivenGame()
 
 	while (replay)
 	{
-		clearInputBuffer();
+		ClearInputBuffer();
 		
 
 	}
@@ -35,7 +35,7 @@ void GameController::ActivateUserDrivenGame()
 
 	while (userChoice != eUserChoice::Exit && replay)
 	{
-		clearInputBuffer();
+		ClearInputBuffer();
 
 		replay = false;
 
@@ -251,7 +251,7 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 		userChoice = eUserChoice::UNDEFINED;
 	}
 
-	else {
+	else { // IN SAVE MODE THE USER CAN RUN ONLY ALL EXITING FILES OPTIONS - ADJUST THIS 
 
 		clrscr();
 
@@ -271,14 +271,14 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 		case SPECIFIC_FILE:
 		{
 			string fileName;
-			bool color = NULL;
+			bool color = true;
 
-			if (FileActions::SpecificFileNameSearch(filePaths, fileName))
+			if (m_BoardFilesService.RequestBoardFile(filePaths, fileName))
 			{
-				Game* newGame = m_Factory.Create(fileName, m_GameMode, m_GameType);
+				m_GameFilesService.SetFileName(m_BoardFilesService.GetFileName());
+				Game* newGame = m_Factory.Create(fileName, m_GameMode, m_GameType, m_GameFilesService);
 
-				if (color == NULL)
-					color = RequestColorMode(newGame);
+				color = RequestColorMode(newGame);
 
 				if (!color)
 					newGame->SetDefaultColor();
@@ -305,18 +305,20 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 
 		case  ALL_FILES:
 			int lives = 3, score = 0;
-			bool color = false;
+			bool color = true;
 
 			for (string& fileName = filePaths[0]; !filePaths.empty() && lives > 0;)
 			{
-				Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType);
+				m_BoardFilesService.RemoveFileSuffix(fileName);
+				m_GameFilesService.RemoveFileSuffix(fileName);
+				Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType, m_GameFilesService);
 				filePaths.erase(filePaths.begin());
+		
+				color = RequestColorMode(newGame);
 
-				if (color)
-					color = RequestColorMode(newGame);
-
-				else
+				if (!color)
 					newGame->SetDefaultColor();
+
 
 				PlayUserDrivenGame(fileName, newGame, false);
 
