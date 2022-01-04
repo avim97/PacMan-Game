@@ -3,6 +3,7 @@
 void Pacman::UpdateLife()
 {
 	m_Lives--;
+
 }
 void Pacman::UpdateLife(int lives)
 {

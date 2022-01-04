@@ -28,6 +28,7 @@ protected:
 	GhostsVector m_Ghosts;
 	Pacman m_Pacman;
 	Fruit m_Fruit;
+	
 
 public:
 	Game(string& boardPath, GameMode mode) :

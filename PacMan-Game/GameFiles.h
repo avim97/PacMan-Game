@@ -27,7 +27,7 @@ public:
 	void CreateResultFile() { m_StepsFile.open(m_FileName + ".result", std::ofstream::trunc); };
 	void InsertGameColorTOFile(bool isColorful) { m_StepsFile << ("%b", isColorful) << endl; clearInputBuffer(); };
 	void InsertStringToStepsFile(string& string) { m_StepsFile << string << endl; clearInputBuffer(); };
-	void InsertResultToStepsFile(string& string) { m_ResultFile << string << endl; clearInputBuffer(); };
+	void InsertStringToResultFile(string& string) { m_ResultFile << string << endl; clearInputBuffer(); };
 	void CreateRecordingFiles(string& filename);
 };
 
