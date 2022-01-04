@@ -58,6 +58,7 @@ void FileActions::updateBoardFromFile(string& fileName, GameBoard& board, int& H
 		{
 			temp.push_back(readLine[i]);
 		}
+
 		if (temp.size() < WIDTH)
 			while (temp.size() < WIDTH)
 				temp.push_back(static_cast<char>(BoardObjects::FOOD));
