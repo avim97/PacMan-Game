@@ -5,11 +5,11 @@
 
 int main(int argc, char* argv[])
 {
-	GameController Game;
+
 	if (GameType::ArgumentsValidator(argc, argv))
 	{
-		GameType::eType gameType = GameType::GetGameType(argc, argv);
-		Game.Run(gameType); // runs game as EX3 the only becuase the only argument is the program name
+		GameController Game(GameType::GetGameType(argc, argv));
+		Game.Run(); // runs game as EX3 the only becuase the only argument is the program name
 	}
 
 	return 0;
