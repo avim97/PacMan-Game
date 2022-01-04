@@ -372,7 +372,9 @@ bool GameController::CreateNewMachineDrivenGame()
 		loadSucceded &&
 		lives > 0;)
 	{
-
+		//string& currentBoardFileName;
+		//Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType);
+		//filePaths.erase(filePaths.begin());
 	}
 	
 	return loadSucceded;
