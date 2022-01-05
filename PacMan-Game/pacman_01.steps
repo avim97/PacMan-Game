@@ -1,53 +1,8 @@
 COLORFUL GAME
 Pacman STAY |
-Pacman STAY | Ghost[0] RIGHT  Ghost[1] UP |
-Pacman STAY |
-Pacman UP | Ghost[0] LEFT  Ghost[1] RIGHT |
-Pacman UP |
-Pacman RIGHT | Ghost[0] DOWN  Ghost[1] RIGHT |
-Pacman RIGHT |
-Pacman RIGHT | Ghost[0] UP  Ghost[1] LEFT |
-Pacman RIGHT |
-Pacman UP | Ghost[0] RIGHT  Ghost[1] UP | Fruit 18 3|
-Pacman UP |
-Pacman UP | Ghost[0] UP  Ghost[1] RIGHT |
-Pacman RIGHT |
-Pacman RIGHT | Ghost[0] DOWN  Ghost[1] LEFT |
-Pacman RIGHT | Fruit RIGHT |
-Pacman UP | Ghost[0] DOWN  Ghost[1] UP |
-Pacman RIGHT |
-Pacman RIGHT | Ghost[0] LEFT  Ghost[1] LEFT |
-Pacman RIGHT | Fruit 35 3|
-Pacman RIGHT | Ghost[0] UP  Ghost[1] LEFT | Fruit DOWN |
-Pacman RIGHT |
-Pacman UP | Ghost[0] UP  Ghost[1] UP |
-Pacman UP |
+Pacman STAY | Ghost[0] DOWN  Ghost[1] LEFT |
+Pacman LEFT |
+Pacman LEFT | Ghost[0] DOWN  Ghost[1] LEFT |
+Pacman UP | Fruit 5 8|
 Pacman RIGHT | Ghost[0] UP  Ghost[1] DOWN |
-Pacman RIGHT | Fruit RIGHT |
-Pacman RIGHT | Ghost[0] LEFT  Ghost[1] RIGHT |
 Pacman RIGHT |
-Pacman RIGHT | Ghost[0] UP  Ghost[1] RIGHT |
-Pacman UP |
-Pacman RIGHT | Ghost[0] RIGHT  Ghost[1] LEFT | Fruit UP |
-Pacman UP |
-Pacman RIGHT | Ghost[0] RIGHT  Ghost[1] RIGHT |
-Pacman RIGHT |
-Pacman RIGHT | Ghost[0] RIGHT  Ghost[1] UP | Fruit 17 6|
-Pacman UP | Fruit DOWN |
-Pacman UP | Ghost[0] RIGHT  Ghost[1] RIGHT |
-Pacman RIGHT |
-Pacman RIGHT | Ghost[0] DOWN  Ghost[1] RIGHT |
-Pacman RIGHT |
-Pacman RIGHT | Ghost[0] DOWN  Ghost[1] UP | Fruit UP |
-Pacman RIGHT |
-Pacman RIGHT | Ghost[0] RIGHT  Ghost[1] LEFT |
-Pacman RIGHT |
-Pacman RIGHT | Ghost[0] RIGHT  Ghost[1] DOWN |
-Pacman RIGHT | Fruit DOWN |
-Pacman UP | Ghost[0] DOWN  Ghost[1] UP |
-Pacman UP |
-Pacman UP | Ghost[0] RIGHT  Ghost[1] UP |
-Pacman UP |
-Pacman RIGHT | Ghost[0] DOWN  Ghost[1] DOWN | Fruit DOWN |
-Pacman RIGHT |
-Pacman DOWN | Ghost[0] UP  Ghost[1] DOWN |

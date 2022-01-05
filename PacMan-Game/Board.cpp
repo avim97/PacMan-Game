@@ -5,19 +5,38 @@
 
 void Board::InitializeBoard(Position& pacmanInitialPos, vector<Position>& ghostInitialPos)
 {
+	
+	int pacmanCout = 0, ghostCount = 0;
+
 	for (int i = 0; i < HEIGHT; i++)
 		for (int j = 0; j < WIDTH; j++)
 		{
 			switch (board[i][j])
 			{
 			case '@':
-				pacmanInitialPos = { j,i };
-				board[i][j] = static_cast<char>(BoardObjects::SPACE);
+				if (pacmanCout == 0)
+				{
+					pacmanCout++;
+					pacmanInitialPos = { j,i };
+					board[i][j] = static_cast<char>(BoardObjects::SPACE);
+
+				}
+				else {
+					board[i][j] = static_cast<char>(BoardObjects::NOT_FOOD);//?
+				}
 				break;
 
 			case '$':
-				ghostInitialPos.push_back({ j,i });
-				board[i][j] = static_cast<char>(BoardObjects::FOOD);
+				if (ghostCount < 4)
+				{
+					ghostCount++;
+					ghostInitialPos.push_back({ j,i });
+					board[i][j] = static_cast<char>(BoardObjects::FOOD);
+				}
+				else {
+					board[i][j] = static_cast<char>(BoardObjects::NOT_FOOD);
+				}
+
 				break;
 
 			case '#':
@@ -42,8 +61,12 @@ void Board::InitializeBoard(Position& pacmanInitialPos, vector<Position>& ghostI
 				break;
 			}
 		}
+	//if pacman count=0 throw exception
+	//if ghost count=0 throw exception
 	CheckLegendSpace();
 	ChangeLegendCells();
+
+
 
 }
 
@@ -139,7 +162,7 @@ Position Board::GetRandomPosition()
 	return randomPosition;
 }
 
-bool Board::CheckWithinBoardRange(int& x, int& y)
+bool Board::CheckWithinBoardRange(const int& x, const int& y)
 {
 	bool inRange = false;
 
@@ -151,6 +174,8 @@ bool Board::CheckWithinBoardRange(int& x, int& y)
 
 	return inRange;
 }
+
+
 
 void Board::PrintBoard(bool wasPaused) {
 	for (int i = 0; i < HEIGHT; i++)
@@ -198,3 +223,4 @@ void Board::ResetColors()
 	m_Legend.SetLivesColor(Color::eColor::DEFAULT);
 	m_Legend.SetScoreColor(Color::eColor::DEFAULT);
 }
+

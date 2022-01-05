@@ -148,7 +148,6 @@
     <ClCompile Include="eGameMode.cpp" />
     <ClCompile Include="GameFactory.cpp" />
     <ClCompile Include="GameType.cpp" />
-    <ClCompile Include="FileActions.cpp" />
     <ClCompile Include="FileService.cpp" />
     <ClCompile Include="Fruit.cpp" />
     <ClCompile Include="GameFiles.cpp" />
@@ -182,7 +181,6 @@
     <ClInclude Include="eGameStatus.h" />
     <ClInclude Include="GameFactory.h" />
     <ClInclude Include="GameType.h" />
-    <ClInclude Include="FileActions.h" />
     <ClInclude Include="FileService.h" />
     <ClInclude Include="Fruit.h" />
     <ClInclude Include="GameFiles.h" />

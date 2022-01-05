@@ -135,12 +135,17 @@ void RecordingGame::UpdateResultFile(int& frameNumber)
 	}
 	case eGameStatus::NEXT_BOARD:
 	{
-		result << "BOARD_FINISHED" << ' ' << frameNumber;
+		result << "NEXT_BOARD" << ' ' << frameNumber;
 		break;
 	}
 	case eGameStatus::RUNNING:
 	{
 		result << "INTERSECTION" << ' ' << frameNumber;
+		break;
+	}
+	case eGameStatus::EXIT:
+	{
+		result << "EXIT" << ' ' << frameNumber;
 		break;
 	}
 	}

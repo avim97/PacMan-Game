@@ -13,6 +13,7 @@ typedef vector<vector<char>> GameBoard;
 class Board
 {
 private:
+	bool m_isValidBoard = true;
 	int HEIGHT;
 	int WIDTH;
 	unsigned int totalBreadcrumbs = 0;
@@ -23,6 +24,7 @@ private:
 	vector<Position> m_GhostInitialPos = {};
 	Legend m_Legend;
 	GameBoard board;
+
 	
 
 
@@ -54,7 +56,8 @@ public:
 	GameBoard GetBoard() { return board; };
 	Legend GetLegend() { return m_Legend; };
 	void CheckLegendSpace();
-	bool CheckWithinBoardRange(int& x, int& y);
+	bool CheckWithinBoardRange(const int& x,const int& y);
+	
 };
 
 

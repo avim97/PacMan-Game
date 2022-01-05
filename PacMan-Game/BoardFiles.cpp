@@ -49,6 +49,7 @@ bool BoardFiles::RequestBoardFile(vector<string>& totalFiles, string& fileName)
 
 	else
 	{
+		//throw expected file not found exception (wrong user input?)
 		cout << "file not found, press any key to get back to menu" << endl;
 		while (!_kbhit()) {};
 		clrscr();

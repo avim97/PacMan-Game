@@ -33,10 +33,13 @@ private:
 	void PrintInstructions();	//will not be used in load silent mode
 	void PrintGoodbyeMessage(); //will not be used in load silent mode
 	void PauseGame(Game* currentGame, bool issingleGame); //will not be used in load silent mode
-	bool RequestColorMode(Game* game);
+	bool RequestColorMode();
 	void PlayUserDrivenGame(string& fileName, Game* game, bool isSingleGame); // was "GameRun" before
 	void CreateNewUserDrivenGame(eUserChoice& userChoice);
 	bool CreateNewMachineDrivenGame();
+	void RequestBoardLoadingMode(char& choice);
+	void LoadSpecificBoardFile(vector<string>& filePaths);
+	void LoadAllBoardFiles(vector<string>& filePaths);
 public:
 
 	// the three activate function below activates the different kinds of game
