@@ -543,9 +543,9 @@ void LoadedGame::GetColorStatus()
 
 char LoadedGame::GetNextStep(stringstream& CurrentFrame)
 {
-	char nextStep;
+	char nextStep = 'a';
 	string gameCreature, nextStep, temp;
 	getline(CurrentFrame, temp, '|');
 
-	
+	return nextStep;
 }
