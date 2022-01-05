@@ -7,14 +7,17 @@
 #include <fstream>
 #include <stdlib.h>
 
-
+using std::fstream;
 using std::ofstream;
+using std::ifstream;
+using std::ios_base;
+
 
 class GameFiles :public FileService
 {
 private:
-	ofstream m_StepsFile;
-	ofstream m_ResultFile;
+	fstream m_StepsFile;
+	fstream m_ResultFile;
 	const char* m_StepsFileSuffix = ".steps";
 	const char* m_ResultFileSuffix = ".result";
 	const char* m_BoardFileName = ".screen";
@@ -25,12 +28,17 @@ public:
 		m_ResultFile()
 	{};
 
-	void CreateStepsFile() { m_StepsFile.open(m_FileName + ".steps", std::ofstream::trunc); };
-	void CreateResultFile() { m_ResultFile.open(m_FileName + ".result", std::ofstream::trunc); };
+	void CreateStepsFile() { m_StepsFile.open(m_FileName + m_StepsFileSuffix, ios_base::out|ios_base::trunc); };
+	void CreateResultFile() { m_ResultFile.open(m_FileName + m_ResultFileSuffix, ios_base::out | ios_base::trunc); };
 	void InsertGameColorToFile(bool isColorful); 
+	void OpenStepsFile() { m_StepsFile.open(m_FileName + m_StepsFileSuffix, ios_base::in); };
+	void OpenResultFile() { m_ResultFile.open(m_FileName + m_ResultFileSuffix, ios_base::in); };
 	void InsertStringToStepsFile(stringstream& string);
 	void InsertStringToResultFile(stringstream& string);
 	void CreateRecordingFiles();
+	void OpenRecordingFiles();
+	string GetStepsFileLine();
+	string GetResultFileLine();
 	void CloseFiles() { m_StepsFile.close(); m_ResultFile.close(); };
 };
 

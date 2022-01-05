@@ -2,10 +2,6 @@
 
 void GameController::Run()
 {
-	// do a switch case here that activates a specific game depends on the type (load/load silent/save/interactive)
-	// ---------------------------------------------------------
-
-
 	if (m_GameType == GameType::eType::INTERACTIVE ||
 		m_GameType == GameType::eType::SAVE)
 	{
@@ -18,15 +14,7 @@ void GameController::Run()
 }
 void GameController::ActivateMachineDrivenGame()
 {
-	Menu gameMenu;
-	bool replay = true;
-
-	while (replay)
-	{
-		ClearInputBuffer();
-		
-
-	}
+	CreateNewMachineDrivenGame();
 }
 void GameController::ActivateUserDrivenGame()
 {
@@ -174,6 +162,7 @@ void GameController::PauseGame(Game* currentGame, bool isSingleGame)
 
 
 }
+
 bool GameController::RequestColorMode(Game* game)
 {
 	char colorStyle = 0;
@@ -204,6 +193,7 @@ bool GameController::RequestColorMode(Game* game)
 	return isColorful;
 
 }
+
 GameMode GameController::RequestGameMode()
 {
 
@@ -241,7 +231,7 @@ GameMode GameController::RequestGameMode()
 
 	return mode;
 }
-void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add later user choice from the user as a reference to functions argument
+void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice)
 {
 
 	vector<string> filePaths;
@@ -251,7 +241,8 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 		userChoice = eUserChoice::UNDEFINED;
 	}
 
-	else { // IN SAVE MODE THE USER CAN RUN ONLY ALL EXITING FILES OPTIONS - ADJUST THIS 
+	else { 
+		char choice;
 
 		clrscr();
 
@@ -259,11 +250,20 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 
 		clrscr();
 
-		cout << "Please choose one of the following:" << endl;
-		cout << "(1) Load my own file by name" << endl;
-		cout << "(2) Load all existing files " << endl;
+		if (m_GameType == GameType::eType::SAVE)
+		{
+			choice = ALL_FILES;
+		}
 
-		char choice = _getch();
+		else
+		{
+
+			cout << "Please choose one of the following:" << endl;
+			cout << "(1) Load my own file by name" << endl;
+			cout << "(2) Load all existing files " << endl;
+
+			choice = _getch();
+		}    //MOVE TO A SEPERATE FUNCTION LATER
 
 		switch (choice)
 		{
@@ -313,7 +313,7 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice) // add lat
 				m_GameFilesService.RemoveFileSuffix(fileName);
 				Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType, m_GameFilesService);
 				filePaths.erase(filePaths.begin());
-		
+
 				color = RequestColorMode(newGame);
 
 				if (!color)
@@ -364,21 +364,22 @@ bool GameController::CreateNewMachineDrivenGame()
 	vector<string> stepsFilePaths;
 	vector<string> boardFilePaths;
 
-	if (!m_GameFilesService.GetDirectoryFilesNames(stepsFilePaths, m_BoardFilesService.GetFileSuffix()))
+	if (!m_BoardFilesService.GetDirectoryFilesNames(boardFilePaths, m_BoardFilesService.GetFileSuffix()))
 	{
-		cout << "No '.steps' files were found, please load files and run the program again" << endl;
 		loadSucceded = false;
 	}
 
-	for (string& stepsFileName = stepsFilePaths[0]; !stepsFilePaths.empty() && 
+	for (string& fileName = boardFilePaths[0]; !boardFilePaths.empty() &&
 		loadSucceded &&
 		lives > 0;)
 	{
-		//string& currentBoardFileName;
-		//Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType);
-		//filePaths.erase(filePaths.begin());
+		m_BoardFilesService.RemoveFileSuffix(fileName);
+		m_GameFilesService.RemoveFileSuffix(fileName);
+		Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType, m_GameFilesService);
+		newGame->PlayGame();
+		boardFilePaths.erase(boardFilePaths.begin());
 	}
-	
+
 	return loadSucceded;
 }
 void GameController::PlayUserDrivenGame(string& fileName, Game* game, bool isSingleGame)

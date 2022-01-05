@@ -79,7 +79,6 @@ void RecordingGame::RecordSteps(bool& ghostsMoved, bool& fruitMoved)
 
 	outputString << "Pacman " << Direction::ConvertToString(m_Pacman.GetCurrentDirection()) << ' ' << '|';
 
-	//ghosts
 	if (ghostsMoved)
 	{
 		for (int i = 0; i < m_Ghosts.size(); i++)

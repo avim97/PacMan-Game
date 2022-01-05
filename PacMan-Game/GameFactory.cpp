@@ -9,11 +9,11 @@ Game* GameFactory::Create(string& boardPath, GameMode mode, GameType::eType type
 			break;
 
 	case GameType::eType::LOAD:
-		return new LoadedGame(boardPath, mode, GameType::eType::LOAD);
+		return new LoadedGame(boardPath, mode, GameType::eType::LOAD, fileService);
 		break;
 
 	case GameType::eType::SILENT_LOAD:
-		return new LoadedGame(boardPath, mode, GameType::eType::SILENT_LOAD);
+		return new LoadedGame(boardPath, mode, GameType::eType::SILENT_LOAD, fileService);
 		break;
 
 	default:
@@ -31,11 +31,11 @@ Game* GameFactory::Create(string& boardPath, GameMode mode, int lives, int score
 		break;
 
 	case GameType::eType::LOAD:
-		return new LoadedGame(boardPath, mode, lives, score,GameType::eType::LOAD);
+		return new LoadedGame(boardPath, mode, lives, score,GameType::eType::LOAD, fileService);
 		break;
 
 	case GameType::eType::SILENT_LOAD:
-		return new LoadedGame(boardPath, mode, lives, score,GameType::eType::SILENT_LOAD);
+		return new LoadedGame(boardPath, mode, lives, score,GameType::eType::SILENT_LOAD, fileService);
 		break;
 
 	default:
