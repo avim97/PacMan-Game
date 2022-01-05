@@ -146,6 +146,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="eGameMode.cpp" />
+    <ClCompile Include="Exception.cpp" />
     <ClCompile Include="GameFactory.cpp" />
     <ClCompile Include="GameType.cpp" />
     <ClCompile Include="FileService.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Direction.h" />
     <ClInclude Include="eGameMode.h" />
     <ClInclude Include="eGameStatus.h" />
+    <ClInclude Include="Exception.h" />
     <ClInclude Include="GameFactory.h" />
     <ClInclude Include="GameType.h" />
     <ClInclude Include="FileService.h" />
