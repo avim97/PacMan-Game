@@ -163,7 +163,7 @@ void GameController::PauseGame(Game* currentGame, bool isSingleGame)
 
 }
 
-bool GameController::RequestColorMode(Game* game)
+bool GameController::RequestColorMode()
 {
 	char colorStyle = 0;
 	bool isColorful = true;
@@ -231,17 +231,56 @@ GameMode GameController::RequestGameMode()
 
 	return mode;
 }
+void GameController::RequestBoardLoadingMode(char& choice)
+{
+	cout << "Please choose one of the following:" << endl;
+	cout << "(1) Load my own file by name" << endl;
+	cout << "(2) Load all existing files " << endl;
+
+	choice = _getch();
+}
+void GameController::LoadSpecificBoardFile(vector<string>& filePaths)
+{
+	string fileName;
+	bool color = true;
+	color = RequestColorMode();
+
+	if (m_BoardFilesService.RequestBoardFile(filePaths, fileName))
+	{
+		m_GameFilesService.SetFileName(m_BoardFilesService.GetFileName());
+		Game* newGame = m_Factory.Create(fileName, m_GameMode, m_GameType, m_GameFilesService);
+
+
+		if (!color)
+			newGame->SetDefaultColor();
+
+		clrscr();
+
+		PlayUserDrivenGame(fileName, newGame, true);
+
+		if (newGame->getGameStatus() == eGameStatus::LOST)
+		{
+			Game::userLost(color);
+		}
+
+		else if (newGame->getGameStatus() == eGameStatus::WON)
+		{
+			Game::userWon(color);
+		}
+
+		delete newGame;
+	}
+
+
+}
 void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice)
 {
 
 	vector<string> filePaths;
 
 	if (!m_BoardFilesService.GetDirectoryFilesNames(filePaths, m_BoardFilesService.GetFileSuffix()))
-	{
 		userChoice = eUserChoice::UNDEFINED;
-	}
-
-	else { 
+	else {
 		char choice;
 
 		clrscr();
@@ -251,110 +290,77 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice)
 		clrscr();
 
 		if (m_GameType == GameType::eType::SAVE)
-		{
 			choice = ALL_FILES;
-		}
 
 		else
-		{
-
-			cout << "Please choose one of the following:" << endl;
-			cout << "(1) Load my own file by name" << endl;
-			cout << "(2) Load all existing files " << endl;
-
-			choice = _getch();
-		}    //MOVE TO A SEPERATE FUNCTION LATER
+			RequestBoardLoadingMode(choice);
 
 		switch (choice)
 		{
-
 		case SPECIFIC_FILE:
 		{
-			string fileName;
-			bool color = true;
-
-			if (m_BoardFilesService.RequestBoardFile(filePaths, fileName))
-			{
-				m_GameFilesService.SetFileName(m_BoardFilesService.GetFileName());
-				Game* newGame = m_Factory.Create(fileName, m_GameMode, m_GameType, m_GameFilesService);
-
-				color = RequestColorMode(newGame);
-
-				if (!color)
-					newGame->SetDefaultColor();
-
-				clrscr();
-
-				PlayUserDrivenGame(fileName, newGame, true);
-
-				if (newGame->getGameStatus() == eGameStatus::LOST)
-				{
-					Game::userLost(color);
-				}
-
-				else if (newGame->getGameStatus() == eGameStatus::WON)
-				{
-					Game::userWon(color);
-				}
-
-				delete newGame;
-			}
-
+			LoadSpecificBoardFile(filePaths);
 			break;
 		}
-
 		case  ALL_FILES:
-			int lives = 3, score = 0;
-			bool color = true;
-
-			for (string& fileName = filePaths[0]; !filePaths.empty() && lives > 0;)
-			{
-				m_BoardFilesService.RemoveFileSuffix(fileName);
-				m_GameFilesService.RemoveFileSuffix(fileName);
-				Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType, m_GameFilesService);
-				filePaths.erase(filePaths.begin());
-
-				color = RequestColorMode(newGame);
-
-				if (!color)
-					newGame->SetDefaultColor();
-
-
-				PlayUserDrivenGame(fileName, newGame, false);
-
-				if (newGame->getGameStatus() == eGameStatus::LOST)
-				{
-					Game::userLost(color);
-					delete newGame;
-					return;
-				}
-
-				if (newGame->getGameStatus() == eGameStatus::NEXT_BOARD)
-				{
-					if (filePaths.empty())
-					{
-						cout << "No other board found, press any key to exit " << endl;
-
-						while (!_kbhit()) {};
-
-						clrscr();
-					}
-				}
-
-				if (newGame->getGameStatus() == eGameStatus::EXIT)
-				{
-					delete newGame;
-					return;
-				}
-
-				lives = newGame->GetCurrentLives();
-				score = newGame->GetTotalScore();
-			}
-
-			Game::userWon(color);
+			LoadAllBoardFiles(filePaths);
 			break;
 		}
 	}
+}
+void GameController::LoadAllBoardFiles(vector<string>& filePaths)
+{
+	int lives = 3, score = 0;
+	bool color = true;
+	color = RequestColorMode();
+
+	for (string& fileName = filePaths[0]; !filePaths.empty() && lives > 0;)
+	{
+		m_BoardFilesService.RemoveFileSuffix(fileName);
+		m_GameFilesService.RemoveFileSuffix(fileName);
+		Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType, m_GameFilesService);
+		filePaths.erase(filePaths.begin());
+
+
+		if (!color)
+			newGame->SetDefaultColor();
+
+
+		PlayUserDrivenGame(fileName, newGame, false);
+
+		if (newGame->getGameStatus() == eGameStatus::LOST)
+		{
+			Game::userLost(color);
+			delete newGame;
+			return;
+		}
+
+		if (newGame->getGameStatus() == eGameStatus::NEXT_BOARD)
+		{
+			if (filePaths.empty())
+			{
+
+				//throw no more board exception
+				cout << "No other board found, press any key to exit " << endl;
+
+				while (!_kbhit()) {};
+
+				clrscr();
+			}
+		}
+
+		if (newGame->getGameStatus() == eGameStatus::EXIT)
+		{
+			delete newGame;
+			return;
+		}
+
+		lives = newGame->GetCurrentLives();
+		score = newGame->GetTotalScore();
+	}
+
+	Game::userWon(color);
+
 }
 bool GameController::CreateNewMachineDrivenGame()
 {

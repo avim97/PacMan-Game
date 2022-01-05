@@ -16,6 +16,8 @@ bool FileService::GetDirectoryFilesNames(vector<string>& filesNames, const char*
 
 	if (filesNames.empty())
 	{
+
+		//throw exception for no files found
 		clrscr();
 		cout << "No suitable files found. Please upload the required files to working directory and try again." << endl;
 		cout << "Press any key to go back to the main menu." << endl;

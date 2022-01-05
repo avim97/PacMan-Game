@@ -54,9 +54,6 @@
     <ClCompile Include="GameCreature.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileActions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Legend.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -171,9 +168,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileActions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Legend.h">

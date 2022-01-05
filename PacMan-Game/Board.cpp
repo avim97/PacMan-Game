@@ -61,6 +61,8 @@ void Board::InitializeBoard(Position& pacmanInitialPos, vector<Position>& ghostI
 				break;
 			}
 		}
+	//if pacman count=0 throw exception
+	//if ghost count=0 throw exception
 	CheckLegendSpace();
 	ChangeLegendCells();
 
