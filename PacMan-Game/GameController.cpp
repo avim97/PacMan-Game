@@ -162,7 +162,6 @@ void GameController::PauseGame(Game* currentGame, bool isSingleGame)
 
 
 }
-
 bool GameController::RequestColorMode()
 {
 	char colorStyle = 0;
@@ -193,7 +192,6 @@ bool GameController::RequestColorMode()
 	return isColorful;
 
 }
-
 GameMode GameController::RequestGameMode()
 {
 
