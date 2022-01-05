@@ -9,7 +9,7 @@ private:
 	GameFiles& m_GameFiles;
 
 public:
-	RecordingGame(string& boardPath, GameMode mode, GameFiles& GameFiles) :
+	RecordingGame(string& boardPath, GameMode mode, GameFiles& GameFiles):
 		Game(boardPath, mode),
 		m_GameFiles(GameFiles)
 		

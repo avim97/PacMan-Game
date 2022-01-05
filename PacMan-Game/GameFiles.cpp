@@ -6,6 +6,12 @@ void GameFiles::CreateRecordingFiles()
 	CreateResultFile();
 }
 
+void GameFiles::OpenRecordingFiles()
+{
+	OpenStepsFile();
+	OpenResultFile();
+}
+
 void GameFiles::InsertGameColorToFile(bool isColorful)
 {
 	stringstream outputString;
@@ -29,3 +35,18 @@ void GameFiles::InsertStringToResultFile(stringstream& string)
 {
 	m_ResultFile << string.rdbuf() << endl;
 };
+
+string GameFiles::GetStepsFileLine()
+{
+	string readLine;
+	getline(m_StepsFile, readLine);
+	return readLine;
+}
+
+string GameFiles::GetResultFileLine()
+{
+	string readLine;
+	getline(m_ResultFile, readLine);
+
+	return readLine;
+}

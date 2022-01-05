@@ -5,16 +5,23 @@ void LoadedGame::PlayGame()
 	char nextDirection = 'S';
 	int pacmanMoves = 0, fruitMoves = 0, ghostsMoves = 0;
 
+	m_GameFiles.OpenRecordingFiles();
+
 	if (m_GameType != GameType::eType::SILENT_LOAD)
 	{
+		GetColorStatus();
 		if (!GetColorStyle()) { SetDefaultColor(); }
 		hideCursor();
 	}
 
 
+
 	while (getGameStatus() == eGameStatus::RUNNING)
 	{
-		//nextDirection = GetPacmanNextDirection(); ----- MAKE THIS METHOD
+		stringstream currentGameFrame; 
+		currentGameFrame << m_GameFiles.GetStepsFileLine();
+
+		//nextDirection = GetPacmanNextDirection(currentGameFrame);
 			MovePacman(nextDirection);
 
 		pacmanMoves++;
@@ -46,6 +53,8 @@ void LoadedGame::PlayGame()
 		}
 
 	}
+
+	m_GameFiles.CloseFiles();
 }
 
 void LoadedGame::initialGhostPos()
@@ -520,4 +529,23 @@ bool LoadedGame::CheckFruitIntersection(Position nextPosition, BoardObjects game
 	}
 
 	return Intersected;
+}
+
+void LoadedGame::GetColorStatus()
+{
+
+	if (m_GameFiles.GetStepsFileLine().compare("COLORFUL GAME") == 0)
+		SetColorStyle(true);
+
+	else
+		SetColorStyle(false);
+}
+
+char LoadedGame::GetNextStep(stringstream& CurrentFrame)
+{
+	char tempOne = 'a';
+	string gameCreature, nextStep, temp;
+	getline(CurrentFrame, nextStep, '|');
+
+	return tempOne;
 }
