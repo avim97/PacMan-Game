@@ -6,6 +6,7 @@
 #include <sstream>
 #include "io_utils.h"
 #include "eBoardObjects.h"
+#include "Exception.h"
 
 using std::string; using std::vector; 
 using std::cout; using std::cin;

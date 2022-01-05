@@ -276,36 +276,42 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice)
 
 	vector<string> filePaths;
 
-	if (!m_BoardFilesService.GetDirectoryFilesNames(filePaths, m_BoardFilesService.GetFileSuffix()))
+	try { m_BoardFilesService.GetDirectoryFilesNames(filePaths, m_BoardFilesService.GetFileSuffix()); }
+	catch (Exception& exception) {
+		cout << exception.what() << endl;
 		userChoice = eUserChoice::UNDEFINED;
-	else {
-		char choice;
+	};
 
-		clrscr();
+	char choice;
 
-		m_GameMode = RequestGameMode();
+	clrscr();
 
-		clrscr();
+	m_GameMode = RequestGameMode();
 
-		if (m_GameType == GameType::eType::SAVE)
-			choice = ALL_FILES;
+	clrscr();
 
-		else
-			RequestBoardLoadingMode(choice);
+	if (m_GameType == GameType::eType::SAVE)
+		choice = ALL_FILES;
 
-		switch (choice)
-		{
-		case SPECIFIC_FILE:
-		{
-			LoadSpecificBoardFile(filePaths);
-			break;
-		}
-		case  ALL_FILES:
-			LoadAllBoardFiles(filePaths);
-			break;
-		}
+	else
+		RequestBoardLoadingMode(choice);
+
+	switch (choice)
+	{
+
+	case SPECIFIC_FILE:
+	{
+		LoadSpecificBoardFile(filePaths);
+		break;
+	}
+	case  ALL_FILES:
+	{
+		LoadAllBoardFiles(filePaths);
+		break;
+	}
 	}
 }
+
 void GameController::LoadAllBoardFiles(vector<string>& filePaths)
 {
 	int lives = 3, score = 0;
@@ -337,13 +343,10 @@ void GameController::LoadAllBoardFiles(vector<string>& filePaths)
 		{
 			if (filePaths.empty())
 			{
-
-				//throw no more board exception
 				cout << "No other board found, press any key to exit " << endl;
-
+				newGame->SetGameStatus(eGameStatus::EXIT);
 				while (!_kbhit()) {};
 
-				clrscr();
 			}
 		}
 
@@ -368,10 +371,17 @@ bool GameController::CreateNewMachineDrivenGame()
 	vector<string> stepsFilePaths;
 	vector<string> boardFilePaths;
 
-	if (!m_BoardFilesService.GetDirectoryFilesNames(boardFilePaths, m_BoardFilesService.GetFileSuffix()))
+	try { m_BoardFilesService.GetDirectoryFilesNames(boardFilePaths, m_BoardFilesService.GetFileSuffix()); }
+	catch (Exception& exception) {
+		cout << exception.what() << endl;
+		loadSucceded = false;
+	};
+
+
+	/*if (!m_BoardFilesService.GetDirectoryFilesNames(boardFilePaths, m_BoardFilesService.GetFileSuffix()))
 	{
 		loadSucceded = false;
-	}
+	}*/
 
 	for (string& fileName = boardFilePaths[0]; !boardFilePaths.empty() &&
 		loadSucceded &&
