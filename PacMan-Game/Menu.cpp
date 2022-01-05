@@ -30,7 +30,6 @@ void Menu::RequestInput()
 void Menu::CheckInput(const char choice)
 {
 
-
 	switch (choice)
 	{
 	case static_cast<char>(eUserChoice::NewGame):
