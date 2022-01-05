@@ -34,6 +34,6 @@ public:
 	virtual bool FruitStepCheck(const int yCoord, const int xCoord);
 	virtual bool CheckFruitIntersection(Position nextPosition, BoardObjects gameObject);
 	void GetColorStatus();
-	char GetNextStep(stringstream& currentFrame);
+	char ApplyGameFrame(stringstream& currentFrame);
 };
 
