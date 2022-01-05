@@ -10,7 +10,9 @@ void GameController::Run()
 	else // LOAD or SILENT_LOAD mode
 	{
 		ActivateMachineDrivenGame();
-	}
+	} 
+
+	//COMESTICS - transfer to SWITCH CASE
 }
 void GameController::ActivateMachineDrivenGame()
 {
@@ -162,7 +164,6 @@ void GameController::PauseGame(Game* currentGame, bool isSingleGame)
 
 
 }
-
 bool GameController::RequestColorMode(Game* game)
 {
 	char colorStyle = 0;
@@ -193,7 +194,6 @@ bool GameController::RequestColorMode(Game* game)
 	return isColorful;
 
 }
-
 GameMode GameController::RequestGameMode()
 {
 

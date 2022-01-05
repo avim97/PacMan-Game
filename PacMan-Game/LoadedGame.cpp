@@ -12,15 +12,15 @@ void LoadedGame::PlayGame()
 		GetColorStatus();
 		if (!GetColorStyle()) { SetDefaultColor(); }
 		hideCursor();
-	}
+	} //COSMETICS - MAKE ONE FUNCTION FOR THIS
 
 
-
+	
 	while (getGameStatus() == eGameStatus::RUNNING)
 	{
 		stringstream currentGameFrame; 
 		currentGameFrame << m_GameFiles.GetStepsFileLine();
-
+		
 		//nextDirection = GetPacmanNextDirection(currentGameFrame);
 			MovePacman(nextDirection);
 
@@ -541,7 +541,7 @@ void LoadedGame::GetColorStatus()
 		SetColorStyle(false);
 }
 
-char LoadedGame::GetNextStep(stringstream& CurrentFrame)
+char LoadedGame::ApplyGameFrame(stringstream& CurrentFrame)
 {
 	char tempOne = 'a';
 	string gameCreature, nextStep, temp;
