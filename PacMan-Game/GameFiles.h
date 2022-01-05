@@ -39,6 +39,8 @@ public:
 	string GetStepsFileLine();
 	string GetResultFileLine();
 	void CloseFiles() { m_StepsFile.close(); m_ResultFile.close(); };
+	bool IsStepsFileGood() { return m_StepsFile.good(); };
+	bool IsResultFileGood() { return m_ResultFile.good(); };
 };
 
 

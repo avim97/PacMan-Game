@@ -2,6 +2,7 @@
 
 void LoadedGame::PlayGame()
 {
+	bool loadSucceded = true;
 	char nextDirection = 'S';
 	int pacmanMoves = 0, fruitMoves = 0, ghostsMoves = 0;
 
@@ -15,36 +16,17 @@ void LoadedGame::PlayGame()
 	} //COSMETICS - MAKE ONE FUNCTION FOR THIS
 
 
-	
-	while (getGameStatus() == eGameStatus::RUNNING)
+
+	while (getGameStatus() == eGameStatus::RUNNING &&
+		loadSucceded && m_GameFiles.IsStepsFileGood())
 	{
-		stringstream currentGameFrame; 
+		stringstream currentGameFrame;
 		currentGameFrame << m_GameFiles.GetStepsFileLine();
-		
-		//nextDirection = GetPacmanNextDirection(currentGameFrame);
-			MovePacman(nextDirection);
 
-		pacmanMoves++;
+		ApplyGameFrame(currentGameFrame, loadSucceded);
 
-		if (pacmanMoves % 2 == 0)
-		{
-			for (int i = 0; i < m_Ghosts.size(); i++)
-			{
-				MoveGhost(i, ghostsMoves);
-			}
-			ghostsMoves++;
-		}
-
-		else if (pacmanMoves % 5 == 0)
-		{
-			MoveFruit();
-			fruitMoves++;
-		}
-
-		else if (fruitMoves % 10 == 0)
-		{
-			m_Fruit.DeActivateFruit(m_Board);
-		}
+		if (!loadSucceded)
+			this->m_GameLoadSucceded = false;
 
 		if (m_GameType != GameType::eType::SILENT_LOAD)
 		{
@@ -52,8 +34,32 @@ void LoadedGame::PlayGame()
 			m_Board.GetLegend().printLegend(m_Pacman.GetCurrentLives(), GetTotalScore(), GetColorStyle());
 		}
 
-	}
 
+		//MovePacman(nextDirection);
+
+		//pacmanMoves++;
+
+		//if (pacmanMoves % 2 == 0)
+		//{
+		//	for (int i = 0; i < m_Ghosts.size(); i++)
+		//	{
+		//		MoveGhost(i, ghostsMoves);
+		//	}
+		//	ghostsMoves++;
+		//}
+
+		//else if (pacmanMoves % 5 == 0)
+		//{
+		//	MoveFruit();
+		//	fruitMoves++;
+		//}
+
+		//else if (fruitMoves % 10 == 0)
+		//{
+		//	m_Fruit.DeActivateFruit(m_Board);
+		//}
+	}
+	//if(CheckGameResult(loadSucceded, )
 	m_GameFiles.CloseFiles();
 }
 
@@ -541,7 +547,7 @@ void LoadedGame::GetColorStatus()
 		SetColorStyle(false);
 }
 
-char LoadedGame::ApplyGameFrame(stringstream& CurrentFrame)
+char LoadedGame::ApplyGameFrame(stringstream& CurrentFrame, bool& loadSucceded)
 {
 	char tempOne = 'a';
 	string gameCreature, nextStep, temp;
