@@ -285,37 +285,42 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice)
 
 	vector<string> filePaths;
 
-	if (!m_BoardFilesService.GetDirectoryFilesNames(filePaths, m_BoardFilesService.GetFileSuffix()))
+	try { m_BoardFilesService.GetDirectoryFilesNames(filePaths, m_BoardFilesService.GetFileSuffix()); }
+	catch (Exception& exception) {
+		cout << exception.what() << endl;
 		userChoice = eUserChoice::UNDEFINED;
+	};
 
-	else {
-		char choice;
+	char choice;
 
-		clrscr();
+	clrscr();
 
-		m_GameMode = RequestGameMode();
+	m_GameMode = RequestGameMode();
 
-		clrscr();
+	clrscr();
 
-		if (m_GameType == GameType::eType::SAVE)
-			choice = ALL_FILES;
+	if (m_GameType == GameType::eType::SAVE)
+		choice = ALL_FILES;
 
-		else
-			RequestBoardLoadingMode(choice);
+	else
+		RequestBoardLoadingMode(choice);
 
-		switch (choice)
-		{
-		case SPECIFIC_FILE:
-		{
-			LoadSpecificBoardFile(filePaths);
-			break;
-		}
-		case  ALL_FILES:
-			LoadAllBoardFiles(filePaths);
-			break;
-		}
+	switch (choice)
+	{
+
+	case SPECIFIC_FILE:
+	{
+		LoadSpecificBoardFile(filePaths);
+		break;
+	}
+	case  ALL_FILES:
+	{
+		LoadAllBoardFiles(filePaths);
+		break;
+	}
 	}
 }
+
 void GameController::LoadAllBoardFiles(vector<string>& filePaths)
 {
 	int lives = 3, score = 0;
@@ -357,11 +362,10 @@ void GameController::LoadAllBoardFiles(vector<string>& filePaths)
 
 			if (filePaths.empty())
 			{
-				//throw no more board exception
 				cout << "No other board found, press any key to exit " << endl;
+				newGame->SetGameStatus(eGameStatus::EXIT);
 				while (!_kbhit()) {};
 
-				clrscr();
 			}
 
 			lives = newGame->GetCurrentLives();
@@ -391,10 +395,17 @@ bool GameController::CreateNewMachineDrivenGame()
 	vector<string> boardFilePaths;
 	eGameStatus game_status = eGameStatus::RUNNING;
 
-	if (!m_BoardFilesService.GetDirectoryFilesNames(boardFilePaths, m_BoardFilesService.GetFileSuffix()))
+	try { m_BoardFilesService.GetDirectoryFilesNames(boardFilePaths, m_BoardFilesService.GetFileSuffix()); }
+	catch (Exception& exception) {
+		cout << exception.what() << endl;
+		loadSucceded = false;
+	};
+
+
+	/*if (!m_BoardFilesService.GetDirectoryFilesNames(boardFilePaths, m_BoardFilesService.GetFileSuffix()))
 	{
 		loadSucceded = false;
-	}
+	}*/
 
 
 	do
