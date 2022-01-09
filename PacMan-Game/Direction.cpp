@@ -3,39 +3,69 @@
 
 Direction::eDirection Direction::Convert(char key)
 {
+	key = toupper(key);
+	Direction::eDirection value = Direction::eDirection::UNDEFINED;
+
+	switch (key)
 	{
-		key = toupper(key);
-		Direction::eDirection value = Direction::eDirection::UNDEFINED;
+	case 'W':
+		value = Direction::eDirection::UP;
+		break;
 
-		switch (key)
-		{
-		case 'W':
-			value = Direction::eDirection::UP;
-			break;
+	case 'X':
+		value = Direction::eDirection::DOWN;
+		break;
 
-		case 'X':
-			value = Direction::eDirection::DOWN;
-			break;
+	case 'A':
+		value = Direction::eDirection::LEFT;
+		break;
 
-		case 'A':
-			value = Direction::eDirection::LEFT;
-			break;
+	case 'D':
+		value = Direction::eDirection::RIGHT;
+		break;
 
-		case 'D':
-			value = Direction::eDirection::RIGHT;
-			break;
+	case 'S':
+		value = Direction::eDirection::STAY;
+		break;
 
-		case 'S':
-			value = Direction::eDirection::STAY;
-			break;
-
-		default:
-			break;
-		}
-
-		return value;
+	default:
+		break;
 	}
+
+	return value;
+
 }
+
+Direction::eDirection Direction::Convert(string& _direction)
+{
+	using file_consts::move_down;
+	using file_consts::move_left;
+	using file_consts::move_right;
+	using file_consts::move_stay;
+	using file_consts::move_up;
+
+	Direction::eDirection value = Direction::eDirection::UNDEFINED;
+
+	if (_direction == move_up)
+		value = Direction::eDirection::UP;
+
+	else if (_direction == move_down)
+		value = Direction::eDirection::DOWN;
+
+	else if (_direction == move_left)
+		value = Direction::eDirection::LEFT;
+
+	else if (_direction == move_right)
+		value = Direction::eDirection::RIGHT;
+
+
+	else if (_direction == move_stay)
+		value = Direction::eDirection::STAY;
+
+	return value;
+}
+
+
 
 string Direction::ConvertToString(char _direction)
 {
@@ -71,6 +101,38 @@ string Direction::ConvertToString(char _direction)
 	return direction;
 }
 
+char Direction::ConvertToChar(string& _direction)
+{
+	// FIX THIS FUNCTION MAYBE RETURN EDIRECTION INSTEAD ? COMESTICS
+
+	char direction = static_cast<char>(eDirection::UNDEFINED);
+	using file_consts::move_down;
+	using file_consts::move_left;
+	using file_consts::move_right;
+	using file_consts::move_stay;
+	using file_consts::move_up;
+
+	if (_direction == move_up)
+		direction = static_cast<char>(eDirection::UP);
+
+	else if (_direction == move_down)
+		direction = static_cast<char>(eDirection::DOWN);
+
+	else if (_direction == move_left)
+		direction = static_cast<char>(eDirection::LEFT);
+
+	else if (_direction == move_right)
+		direction = static_cast<char>(eDirection::RIGHT);
+
+	else if (_direction == move_stay)
+		direction = static_cast<char>(eDirection::STAY);
+
+	else
+		direction = static_cast<char>(eDirection::UNDEFINED);
+
+	return direction;
+
+}
 
 Direction::eDirection Direction::getRandDir()
 {

@@ -40,13 +40,16 @@ string GameFiles::GetStepsFileLine()
 {
 	string readLine;
 	getline(m_StepsFile, readLine);
+	readLine += endline;
 	return readLine;
 }
 
 string GameFiles::GetResultFileLine()
 {
+
 	string readLine;
 	getline(m_ResultFile, readLine);
-
+	readLine += endline;
 	return readLine;
 }
+

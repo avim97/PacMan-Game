@@ -4,10 +4,6 @@ Game* GameFactory::Create(string& boardPath, GameMode mode, GameType::eType type
 {
 	switch (type)
 	{
-	case GameType::eType::SAVE:
-			return new RecordingGame(boardPath, mode, fileService);
-			break;
-
 	case GameType::eType::LOAD:
 		return new LoadedGame(boardPath, mode, GameType::eType::LOAD, fileService);
 		break;

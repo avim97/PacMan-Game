@@ -1,25 +1,28 @@
 #pragma once
 #include "GameType.h"
 #include "FileService.h"
+#include "FileConstants.h"
 #include "io_utils.h"
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
 
+
 using std::fstream;
 using std::ofstream;
 using std::ifstream;
 using std::ios_base;
-
+using std::stringstream;
+using namespace file_consts;
 
 class GameFiles :public FileService
 {
 private:
 	fstream m_StepsFile;
 	fstream m_ResultFile;
-	const char* m_StepsFileSuffix = ".steps";
-	const char* m_ResultFileSuffix = ".result";
-	const char* m_BoardFileName = ".screen";
+
+private:
+	enum { MIN_INDEX = 0, MAX_INDEX = 3 };
 
 public:
 	GameFiles():
@@ -27,11 +30,11 @@ public:
 		m_ResultFile()
 	{};
 
-	void CreateStepsFile() { m_StepsFile.open(m_FileName + m_StepsFileSuffix, ios_base::out|ios_base::trunc); };
-	void CreateResultFile() { m_ResultFile.open(m_FileName + m_ResultFileSuffix, ios_base::out | ios_base::trunc); };
+	void CreateStepsFile() { m_StepsFile.open(m_FileName + steps_file_suffix, ios_base::out|ios_base::trunc); };
+	void CreateResultFile() { m_ResultFile.open(m_FileName + result_file_suffix, ios_base::out | ios_base::trunc); };
 	void InsertGameColorToFile(bool isColorful); 
-	void OpenStepsFile() { m_StepsFile.open(m_FileName + m_StepsFileSuffix, ios_base::in); };
-	void OpenResultFile() { m_ResultFile.open(m_FileName + m_ResultFileSuffix, ios_base::in); };
+	void OpenStepsFile() { m_StepsFile.open(m_FileName + steps_file_suffix, ios_base::in); };
+	void OpenResultFile() { m_ResultFile.open(m_FileName + result_file_suffix, ios_base::in); };
 	void InsertStringToStepsFile(stringstream& string);
 	void InsertStringToResultFile(stringstream& string);
 	void CreateRecordingFiles();

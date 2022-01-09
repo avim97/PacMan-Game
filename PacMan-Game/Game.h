@@ -22,6 +22,9 @@ private:
 	int m_TotalScore;
 
 protected:
+	enum { ESC = 27 };
+
+protected:
 	GameMode m_GameMode;
 	eGameStatus m_gameStatus;
 	Board m_Board;
@@ -39,7 +42,10 @@ public:
 		m_IsColorful(true),
 		m_TotalScore(0),
 		m_GameMode(mode)
-	{};
+	{
+		InitializeGhostsVector(m_Board.getGhostInitPos());
+		srand((unsigned int)time(nullptr));
+	};
 
 	Game(string& boardPath, GameMode mode, int lives, int score) :
 		m_Board(boardPath),
@@ -49,47 +55,52 @@ public:
 		m_IsColorful(true),
 		m_TotalScore(score),
 		m_GameMode(mode)
-	{};
+	{
+		m_Pacman.UpdateLife(lives);
+		InitializeGhostsVector(m_Board.getGhostInitPos());
+		srand((unsigned int)time(nullptr));
+	};
 
 
 	virtual ~Game();
-	void PrintBoard() { m_Board.PrintBoard(); } //DONE
-	void PrintBoard(bool wasPaused) { m_Board.PrintBoard(wasPaused); gotoxy(m_Pacman.GetXcoord(), m_Pacman.GetYcoord()); m_Pacman.Draw(); } //DONE
+	void PrintBoard() { m_Board.PrintBoard(); } 
+	void PrintBoard(bool wasPaused);
 
 
-	void initView(); //DONE
-	virtual void initialGhostPos(); //DONE
-	virtual void initialPacmanPos(); //DONE
-	eGameStatus getGameStatus() { return m_gameStatus; }; //DONE
-	bool CheckBoardEdge(int xCoord, int yCoord); //DONE
+	void initView(); 
+	virtual void initialGhostPos(); 
+	virtual void initialPacmanPos(); 
+	eGameStatus getGameStatus() { return m_gameStatus; }; 
+	bool CheckBoardEdge(int xCoord, int yCoord)const; 
 
 	//------------- COLORS -------------
-	void SetColorStyle(bool isColorful); //DONE
-	void SetDefaultColor(); //DONE
+	void SetColorStyle(bool isColorful); 
+	void SetDefaultColor(); 
 	bool GetColorStyle() { return m_IsColorful; }; //DONE
 
 	// ----------- PACMAN---------
+	virtual void MovePacman(char nextDir); //DONE
 	bool CheckTunnel(const int yCoord, const int xCoord); //DONE
 	bool PacmanStepCheck(const int yCoord, const int xCoord); //DONE
 	void CrossTunnel(const int yCoord, const int xCoord); //DONE
-	virtual void MovePacman(char nextDir); //DONE
 	void EraseFood(const int yCoord, const int xCoord); //DONE
 	bool CheckPacmanIntersection(const int yCoord, const int xCoord); //DONE
 
 
 	// -------------- GHOST ----------
-	virtual void InitializeFruitPosition(); //DONE
-	void InitializeGhostsVector(const vector<Position>& ghostsMoves); //DONE
 	virtual void MoveGhost(int ghost, int& ghostsMoves); //DONE
 	virtual bool GhostStepCheck(const int yCoord, const int xCoord, int ghost); //DONE
 	bool CheckGhostIntersection(int ghostInd, int yCoord, int xCoord, BoardObjects gameObject); //DONE
 	void LoadGhostsPositions(PositionsVector& positions, GhostsVector ghosts, int currentGhost); //DONE
 	bool DirectionValidator(Direction::eDirection& lastDirection, int ghost, int& ghostMoves); //MOVE TO SAVE AND INTERACTIVE MODE !!
+	void InitializeGhostsVector(const vector<Position>& ghostsMoves); //DONE
 
 	//------------FRUIT--------------
+	virtual void InitializeFruitPosition();
 	virtual void MoveFruit(); //DONE
 	virtual bool FruitStepCheck(const int yCoord, const int xCoord); //DONE
 	virtual bool CheckFruitIntersection(Position nextPosition, BoardObjects gameObject); //DONE
+
 
 	//---------- Playing the game ---------
 	virtual void PlayGame(); //DONE

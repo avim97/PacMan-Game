@@ -182,6 +182,7 @@
     <ClInclude Include="eGameStatus.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="GameFactory.h" />
+    <ClInclude Include="FileConstants.h" />
     <ClInclude Include="GameType.h" />
     <ClInclude Include="FileService.h" />
     <ClInclude Include="Fruit.h" />

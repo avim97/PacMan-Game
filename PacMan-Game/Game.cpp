@@ -56,8 +56,10 @@ void Game::initialPacmanPos()
 }
 void Game::InitializeFruitPosition()
 {
-	m_Fruit.DeActivateFruit(m_Board);
-	m_Fruit.ActivateFruit(m_Board.GetRandomPosition());
+	Position currentPosition = m_Fruit.GetPosition();
+	m_Fruit.Erase(currentPosition.getYcoord(), currentPosition.getXcoord(), m_Board);
+	m_Fruit.SetActivationMode(false);
+	m_Fruit.SetActivationChangeFlag(false);
 }
 void Game::InitializeGhostsVector(const vector<Position>& ghostsMoves)
 {
@@ -193,72 +195,83 @@ void Game::MoveGhost(int ghost, int& ghostsMoves)
 }
 void Game::MoveFruit()
 {
-
 	char Moved = false;
+
 	Direction::eDirection fruitDirection;
 	int yCoord;
 	int xCoord;
-	bool activateFruit = rand() % 2;
+	bool moveFruit = rand() % 2;
 
-	if (activateFruit && !m_Fruit.IsActive())
+	if (moveFruit)
 	{
-		m_Fruit.ActivateFruit(m_Board.GetRandomPosition());
-
-	}
-
-	yCoord = m_Fruit.GetYcoord();
-	xCoord = m_Fruit.GetXcoord();
-
-	while (!Moved && m_Fruit.IsActive())
-	{
-		fruitDirection = Direction::getRandDir();
-		switch (fruitDirection)
+		if (!m_Fruit.IsActive())
 		{
-		case Direction::eDirection::UP:
-			if (FruitStepCheck(yCoord - 1, xCoord))
-			{
-				m_Fruit.SetDirection(static_cast<char>(fruitDirection));
-				m_Fruit.Erase(yCoord, xCoord, m_Board);
-				m_Fruit.Move();
-				Moved = true;
-			}
-			break;
-
-		case Direction::eDirection::DOWN:
-			if (FruitStepCheck(yCoord + 1, xCoord))
-			{
-				m_Fruit.SetDirection(static_cast<char>(fruitDirection));
-				m_Fruit.Erase(yCoord, xCoord, m_Board);
-				m_Fruit.Move();
-				Moved = true;
-			}
-			break;
-
-		case Direction::eDirection::LEFT:
-			if (FruitStepCheck(yCoord, xCoord - 1))
-			{
-				m_Fruit.SetDirection(static_cast<char>(fruitDirection));
-				m_Fruit.Erase(yCoord, xCoord, m_Board);
-				m_Fruit.Move();
-				Moved = true;
-			}
-			break;
-
-		case Direction::eDirection::RIGHT:
-			if (FruitStepCheck(yCoord, xCoord + 1))
-			{
-				m_Fruit.SetDirection(static_cast<char>(fruitDirection));
-				m_Fruit.Erase(yCoord, xCoord, m_Board);
-				m_Fruit.Move();
-				Moved = true;
-			}
-			break;
-
-		default:
-			break;
+			m_Fruit.ActivateFruit(m_Board.GetRandomPosition());
+			m_Fruit.Move();
 		}
 
+
+		else
+		{
+
+			yCoord = m_Fruit.GetYcoord();
+			xCoord = m_Fruit.GetXcoord();
+
+			while (!Moved && m_Fruit.IsActive())
+			{
+				fruitDirection = Direction::getRandDir();
+
+				switch (fruitDirection)
+				{
+				case Direction::eDirection::UP:
+					if (FruitStepCheck(yCoord - 1, xCoord))
+					{
+						m_Fruit.SetDirection(static_cast<char>(fruitDirection));
+						m_Fruit.Erase(yCoord, xCoord, m_Board);
+						m_Fruit.Move();
+						Moved = true;
+					}
+					break;
+
+				case Direction::eDirection::DOWN:
+					if (FruitStepCheck(yCoord + 1, xCoord))
+					{
+						m_Fruit.SetDirection(static_cast<char>(fruitDirection));
+						m_Fruit.Erase(yCoord, xCoord, m_Board);
+						m_Fruit.Move();
+						Moved = true;
+					}
+					break;
+
+				case Direction::eDirection::LEFT:
+					if (FruitStepCheck(yCoord, xCoord - 1))
+					{
+						m_Fruit.SetDirection(static_cast<char>(fruitDirection));
+						m_Fruit.Erase(yCoord, xCoord, m_Board);
+						m_Fruit.Move();
+						Moved = true;
+					}
+					break;
+
+				case Direction::eDirection::RIGHT:
+					if (FruitStepCheck(yCoord, xCoord + 1))
+					{
+						m_Fruit.SetDirection(static_cast<char>(fruitDirection));
+						m_Fruit.Erase(yCoord, xCoord, m_Board);
+						m_Fruit.Move();
+						Moved = true;
+					}
+					break;
+
+				default:
+					break;
+				}
+
+			}
+		}
 	}
+
+
 
 }
 
@@ -276,22 +289,21 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 		{
 			m_gameStatus = eGameStatus::LOST;
 		}
+
 		else
 		{
 			initView();
-
 		}
 	}
 
 	else
-
-
 	{
 		if (CheckTunnel(yCoord, xCoord))
 		{
 			CrossTunnel(yCoord, xCoord);
 			Moved = true;
 		}
+
 		else if (CheckBoardEdge(xCoord, yCoord))
 		{
 			char nextPos = m_Board.getCellValue(xCoord, yCoord);
@@ -321,7 +333,9 @@ bool Game::PacmanStepCheck(const int yCoord, const int xCoord)
 					EraseFood(yCoord, xCoord);
 				}
 				else
+				{
 					m_gameStatus = eGameStatus::WON;
+				}
 
 				break;
 
@@ -354,7 +368,7 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 			m_gameStatus = eGameStatus::LOST;
 		}
 
-	
+
 	}
 
 
@@ -366,7 +380,7 @@ bool Game::GhostStepCheck(const int yCoord, const int xCoord, int ghost)
 
 
 
-	else 
+	else
 	{
 		if (CheckBoardEdge(xCoord, yCoord)) {
 			int CurrentXCoord = m_Ghosts[ghost]->GetXcoord();
@@ -418,8 +432,6 @@ bool Game::FruitStepCheck(const int yCoord, const int xCoord)
 	bool isValidStep = true;
 	if (CheckBoardEdge(xCoord, yCoord))
 	{
-
-
 		char cellValue = m_Board.getCellValue(xCoord, yCoord);
 
 		if (!CheckFruitIntersection({ yCoord, xCoord }, BoardObjects::PACMAN) &&
@@ -429,8 +441,8 @@ bool Game::FruitStepCheck(const int yCoord, const int xCoord)
 				isValidStep = false;
 
 			else if (cellValue == static_cast<char>(BoardObjects::FOOD) ||
-					cellValue == static_cast<char>(BoardObjects::SPACE) ||
-					cellValue == static_cast<char>(BoardObjects::LEGEND))
+				cellValue == static_cast<char>(BoardObjects::SPACE) ||
+				cellValue == static_cast<char>(BoardObjects::LEGEND))
 			{
 				if (!CheckTunnel(yCoord, xCoord))
 				{
@@ -581,12 +593,12 @@ void Game::PlayGame()
 		if (_kbhit())
 		{
 			key = _getch();
-			if (key == 27)
+
+			if (key == ESC)
 			{
 				m_gameStatus = eGameStatus::ESC_PRESSED;
-
 			}
-
+			
 			MovePacman(key);
 		}
 		else
@@ -600,9 +612,10 @@ void Game::PlayGame()
 			{
 				MoveGhost(i, ghostsMoves);
 			}
+
 			ghostsMoves++;
 		}
-		
+
 
 		if (pacmanMoves % 5 == 0)
 		{
@@ -618,7 +631,6 @@ void Game::PlayGame()
 		Sleep(300);
 		m_TotalScore = GetTotalScore();
 		m_Board.GetLegend().printLegend(m_Pacman.GetCurrentLives(), m_TotalScore, m_IsColorful);
-
 	}
 }
 void Game::userWon(bool color)
@@ -679,7 +691,7 @@ void Game::SetDefaultColor() //this function sets the default color (white) to a
 	m_IsColorful = false;
 
 }
-bool Game::CheckBoardEdge(int xCoord, int yCoord)
+bool Game::CheckBoardEdge(int xCoord, int yCoord) const
 {
 	if (yCoord >= m_Board.getHeight() || yCoord < 0)
 		return false;
@@ -725,4 +737,18 @@ int Game::GetTotalScore()
 {
 	m_TotalScore = m_Pacman.GetFruitScore() + m_Pacman.GetBreadcrumbScore();
 	return m_TotalScore;
+}
+void Game::PrintBoard(bool wasPaused)
+{
+	m_Board.PrintBoard(wasPaused); 
+	gotoxy(m_Pacman.GetXcoord(), m_Pacman.GetYcoord()); 
+	m_Pacman.Move();
+	for (int i = 0; i < m_Ghosts.size(); i++)
+	{
+		m_Ghosts[i]->Move();
+	}
+
+	if (m_Fruit.IsActive())
+		m_Fruit.Move();
+
 }

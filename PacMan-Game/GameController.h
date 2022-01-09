@@ -19,11 +19,10 @@ private:
 	GameType::eType m_GameType;
 	GameFiles m_GameFilesService;
 	BoardFiles m_BoardFilesService;
-	//Game* m_Game;
 	GameFactory m_Factory;
 
 private:
-	enum { GAME_LOGO = 1, WINNING_LOGO = 2, GOODBYE_LOGO = 3 };
+	enum { GAME_LOGO = 1, WINNING_LOGO = 2, GOODBYE_LOGO = 3 , ESC = 27};
 	enum { ALL_FILES = '2', SPECIFIC_FILE = '1' };
 
 	//User-Driven game functions (save/interactive)
@@ -40,9 +39,8 @@ private:
 	void RequestBoardLoadingMode(char& choice);
 	void LoadSpecificBoardFile(vector<string>& filePaths);
 	void LoadAllBoardFiles(vector<string>& filePaths);
-public:
 
-	// the three activate function below activates the different kinds of game
+public:
 	GameController(GameType::eType type) :
 		m_Menu(),
 		m_GameMode(GameMode::UNDEFINED),

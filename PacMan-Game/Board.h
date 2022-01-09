@@ -39,11 +39,11 @@ public:
 	void PrintBoard();
 	void PrintBoard(bool wasPaused);
 	void ChangeLegendCells();
-	int getWidth() { return WIDTH; };
-	int getHeight() { return HEIGHT; };
-	int getMaxScore() { return totalBreadcrumbs; };
-	Color  getWallColor() { return m_wallColor; };
-	Color  getBreadcrumbColor() { return m_breadcrumbColor; };
+	int getWidth() const { return WIDTH; };
+	int getHeight()const { return HEIGHT; };
+	int getMaxScore() const { return totalBreadcrumbs; };
+	Color getWallColor() const { return m_wallColor; };
+	Color getBreadcrumbColor()const { return m_breadcrumbColor; };
 	char getCellValue(const int x, const int y) const { return board[y][x]; };
 	char getCellValue(const Position& position) const { return board[position.getYcoord()][position.getXcoord()]; }; //check
 	void setChar(const int xCoord, const int yCoord, char ch) { board[yCoord][xCoord] = ch; };
@@ -53,10 +53,10 @@ public:
 	Position GetRandomPosition();
 	const Position& getPacmanInitPos() const { return m_PacmanInitialPos; }
 	const vector<Position>& getGhostInitPos() const { return m_GhostInitialPos; };
-	GameBoard GetBoard() { return board; };
-	Legend GetLegend() { return m_Legend; };
+	GameBoard GetBoard() const { return board; };
+	Legend GetLegend() const { return m_Legend; };
 	void CheckLegendSpace();
-	bool CheckWithinBoardRange(const int& x,const int& y);
+	bool CheckWithinBoardRange(const int& x,const int& y)const;
 	
 };
 

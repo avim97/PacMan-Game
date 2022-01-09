@@ -6,30 +6,44 @@ void BoardFiles::UpdateBoardFromFile(string& fileName, GameBoard& board, int& HE
 	string readLine;
 	std::ifstream readFile(fileName);
 
-	while (!readFile.eof())
+	if (readFile.is_open())
 	{
-		getline(readFile, readLine);
-		if (firstRow)
+		while (readFile.good())
 		{
-			WIDTH = readLine.length();
-			firstRow = false;
+			getline(readFile, readLine);
+
+			if (firstRow)
+			{
+				WIDTH = readLine.length();
+				firstRow = false;
+			}
+
+			vector<char> currentRow;
+
+			for (int i = 0; i < WIDTH && i < readLine.length(); i++)
+			{
+				currentRow.push_back(readLine[i]);
+			}
+
+			if (currentRow.size() < WIDTH)
+			{
+				while (currentRow.size() < WIDTH)
+				{
+					currentRow.push_back(static_cast<char>(BoardObjects::FOOD));
+				}
+			}
+
+			board.push_back(currentRow);
 		}
 
-		vector<char> temp;
-		for (int i = 0; i < WIDTH && i < readLine.length(); i++)
-		{
-			temp.push_back(readLine[i]);
-		}
-
-		if (temp.size() < WIDTH)
-			while (temp.size() < WIDTH)
-				temp.push_back(static_cast<char>(BoardObjects::FOOD));
-
-		board.push_back(temp);
+		HEIGHT = board.size();
+		readFile.close();
 	}
 
-	HEIGHT = board.size();
-	readFile.close();
+	else
+	{
+		cout << "File opening error." << endl;
+	}
 }
 
 

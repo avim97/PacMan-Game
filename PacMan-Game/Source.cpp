@@ -12,5 +12,11 @@ int main(int argc, char* argv[])
 		Game.Run(); 
 	}
 
+	else
+	{
+		cout << "Incorrect program arguments" << endl << endl;
+		cout << "Usage: " << argv[0] << "[-save] OR [-load | -load silent]" << endl;
+	}
+
 	return 0;
 }

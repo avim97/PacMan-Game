@@ -10,7 +10,7 @@ void GameController::Run()
 	else // LOAD or SILENT_LOAD mode
 	{
 		ActivateMachineDrivenGame();
-	} 
+	}
 
 	//COMESTICS - transfer to SWITCH CASE
 }
@@ -117,46 +117,53 @@ void GameController::PrintGoodbyeMessage()
 }
 void GameController::PauseGame(Game* currentGame, bool isSingleGame)
 {
+	bool isValidChoice = false;
+	char inputChoice;
 
 	clrscr();
+
 	PrintLogo(GAME_LOGO);
 
 	cout << "Game paused, please choose:" << endl;
-	cout << "(1)   Back to main menu " << endl;
+
 	if (!isSingleGame)
 	{
-		cout << "(2)   Move to the next board " << endl;
+		cout << "(1)   Move to the next board " << endl;
 	}
-	;
+
+	cout << "(2)   Back to main menu " << endl;
 	cout << "(Esc) Continue Playing " << endl;
 
-
-	bool choice = false;
-	while (!choice)
+	while (!isValidChoice)
 	{
-		char userchoice = _getch();
-		switch (userchoice) {
+		inputChoice = _getch();
+
+		switch (inputChoice) {
 
 		case '1':
 			currentGame->SetGameStatus(eGameStatus::EXIT);
 			clrscr();
-			choice = true;
+			isValidChoice = true;
 			break;
 
 		case '2':
+
 			currentGame->SetGameStatus(eGameStatus::NEXT_BOARD);
 			clrscr();
-			choice = true;
+			isValidChoice = true;
 			break;
 
-		case 27:
+		case ESC: //Create ENUM for ESC KEY!!
+			currentGame->SetGameStatus(eGameStatus::RUNNING);
+
 			clrscr();
 			currentGame->PrintBoard(true);
-			choice = true;
+			isValidChoice = true;
 			break;
 
 		default:
 			cout << "Wrong choice, press any key and try again." << endl;
+			isValidChoice = false;
 			break;
 		}
 	}
@@ -280,6 +287,7 @@ void GameController::CreateNewUserDrivenGame(eUserChoice& userChoice)
 
 	if (!m_BoardFilesService.GetDirectoryFilesNames(filePaths, m_BoardFilesService.GetFileSuffix()))
 		userChoice = eUserChoice::UNDEFINED;
+
 	else {
 		char choice;
 
@@ -314,52 +322,64 @@ void GameController::LoadAllBoardFiles(vector<string>& filePaths)
 	bool color = true;
 	color = RequestColorMode();
 
-	for (string& fileName = filePaths[0]; !filePaths.empty() && lives > 0;)
-	{
-		m_BoardFilesService.RemoveFileSuffix(fileName);
-		m_GameFilesService.RemoveFileSuffix(fileName);
-		Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType, m_GameFilesService);
-		filePaths.erase(filePaths.begin());
+	eGameStatus game_status = eGameStatus::RUNNING;
 
+	do
+	{
+		string& file_name = filePaths[0];
+		m_BoardFilesService.RemoveFileSuffix(file_name);
+		m_GameFilesService.RemoveFileSuffix(file_name);
+		Game* newGame = m_Factory.Create(file_name, m_GameMode, lives, score, m_GameType, m_GameFilesService);
+
+		filePaths.erase(filePaths.begin());
 
 		if (!color)
 			newGame->SetDefaultColor();
 
+		PlayUserDrivenGame(file_name, newGame, false);
+		game_status = newGame->getGameStatus();
 
-		PlayUserDrivenGame(fileName, newGame, false);
-
-		if (newGame->getGameStatus() == eGameStatus::LOST)
+		switch (game_status)
 		{
+		case eGameStatus::LOST:
 			Game::userLost(color);
+			game_status = eGameStatus::EXIT;
 			delete newGame;
-			return;
-		}
+			break;
 
-		if (newGame->getGameStatus() == eGameStatus::NEXT_BOARD)
-		{
+		case eGameStatus::WON:
+			lives = newGame->GetCurrentLives();
+			score = newGame->GetTotalScore();
+			delete newGame;
+			break;
+
+		case eGameStatus::NEXT_BOARD:
+
 			if (filePaths.empty())
 			{
-
 				//throw no more board exception
 				cout << "No other board found, press any key to exit " << endl;
-
 				while (!_kbhit()) {};
 
 				clrscr();
 			}
-		}
 
-		if (newGame->getGameStatus() == eGameStatus::EXIT)
-		{
+			lives = newGame->GetCurrentLives();
+			score = newGame->GetTotalScore();
+			break;
+
+		default: // User chose to go back to the main menu
 			delete newGame;
-			return;
+			break;
 		}
 
-		lives = newGame->GetCurrentLives();
-		score = newGame->GetTotalScore();
+	} while (!filePaths.empty() && lives > 0 && game_status != eGameStatus::EXIT);
+
+	if (game_status == eGameStatus::WON)
+	{
+		Game::userWon(color);
 	}
 
-	Game::userWon(color);
 
 }
 bool GameController::CreateNewMachineDrivenGame()
@@ -369,22 +389,32 @@ bool GameController::CreateNewMachineDrivenGame()
 	bool color = false;
 	vector<string> stepsFilePaths;
 	vector<string> boardFilePaths;
+	eGameStatus game_status = eGameStatus::RUNNING;
 
 	if (!m_BoardFilesService.GetDirectoryFilesNames(boardFilePaths, m_BoardFilesService.GetFileSuffix()))
 	{
 		loadSucceded = false;
 	}
 
-	for (string& fileName = boardFilePaths[0]; !boardFilePaths.empty() &&
-		loadSucceded &&
-		lives > 0;)
+
+	do
 	{
-		m_BoardFilesService.RemoveFileSuffix(fileName);
-		m_GameFilesService.RemoveFileSuffix(fileName);
-		Game* newGame = m_Factory.Create(fileName, m_GameMode, lives, score, m_GameType, m_GameFilesService);
-		newGame->PlayGame();
+		string& file_name = boardFilePaths[0];
+		m_BoardFilesService.RemoveFileSuffix(file_name);
+		m_GameFilesService.RemoveFileSuffix(file_name);
+		Game* newGame = m_Factory.Create(file_name, m_GameMode, lives, score, m_GameType, m_GameFilesService);
+
 		boardFilePaths.erase(boardFilePaths.begin());
-	}
+
+		if (m_GameType != GameType::eType::SILENT_LOAD)
+		{
+			newGame->PrintBoard();
+			newGame->initView();
+		}
+
+		newGame->PlayGame();
+
+	} while (!boardFilePaths.empty() && lives > 0);
 
 	return loadSucceded;
 }
@@ -400,11 +430,11 @@ void GameController::PlayUserDrivenGame(string& fileName, Game* game, bool isSin
 	while (game->getGameStatus() == eGameStatus::RUNNING)
 	{
 		game->PlayGame();
+
 		KeyPressed = game->getGameStatus();
 
 		if (KeyPressed == eGameStatus::ESC_PRESSED)
 		{
-			game->SetGameStatus(eGameStatus::RUNNING);
 			PauseGame(game, isSingleGame);
 		}
 	}
